@@ -29,6 +29,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.biker.Urls.signin_url;
+import static com.example.biker.Urls.signup_url;
+import static com.example.biker.Urls.signupid_url;
+
 public class signup extends AppCompatActivity {
     TextInputEditText username,email,number;
     TextInputEditText password,copassword;
@@ -117,57 +121,35 @@ public class signup extends AppCompatActivity {
             jsonBody.put("email", Email);
             jsonBody.put("password", pas);
             jsonBody.put("mobile", Number);
+            jsonBody.put("is_servicer", false);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         final String requestBody = jsonBody.toString();
 
-        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, signup_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 //                progressBar.setVisibility(View.GONE);
+                Toast.makeText(signup.this, ".. "+response, Toast.LENGTH_SHORT).show();
 
-//                    if (response.equalsIgnoreCase("Registered Successfully!")) {
-//                        fullname.setText("");
-//                        email.setText("");
-//                        password.setText("");
-//                        number.setText("");
-//                        city.setText("");
-//                        zipcode.setText("");
-//                        Toast.makeText(user_register.this, response, Toast.LENGTH_SHORT).show();
-//
-//                    }
-//                    /*else if (response.equalsIgnoreCase("A User Already Exist with this Email ID!")) {
-//                        password.setText("");
-//                        number.setText("");
-//                        city.setText("");
-//                        zipcode.setText("");
-//                        Toast.makeText(user_register.this, response, Toast.LENGTH_SHORT).show();
-//                    }*/
-//                    else {
-//                        password.setText("");
-//                        number.setText("");
-//                        city.setText("");
-//                        zipcode.setText("");
-//                        Toast.makeText(user_register.this, response.toString(), Toast.LENGTH_SHORT).show();
-//                    }
 
-//
                 try {
                     JSONObject jsonObj = new JSONObject(response.toString());
                     Log.e("Responce", jsonObj.toString());
 
                     String user_id = jsonObj.getJSONObject("user").getString("_id");
-                    Log.e("Responce22", user_id.toString());
+                    Log.e("Responce22", user_id);
+                    signupidmethod(user_id);
 
-                    Intent i = new Intent(getApplicationContext(), OTP.class);
-                    i.putExtra("User_Id", user_id);
-                    startActivity(i);
-
-                    //Toast.makeText(getApplicationContext(), user_Array.toString(), Toast.LENGTH_LONG).show();
-
-                    // looping through All Contacts
+//                    Intent i = new Intent(getApplicationContext(), OTP.class);
+//                    i.putExtra("User_Id", user_id);
+//                    startActivity(i);
+//
+//                    //Toast.makeText(getApplicationContext(), user_Array.toString(), Toast.LENGTH_LONG).show();
+//
+//                    // looping through All Contacts
 //                        for (int i = 0; i < user_Array.length(); i++) {
 //                            JSONObject c = user_Array.getJSONObject(i);
 //                            String id = c.getString("_id");
@@ -184,7 +166,8 @@ public class signup extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
+//                Toast.makeText(signup.this, "/ ERROR: "+error.getMessage(), Toast.LENGTH_SHORT).show();
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -199,17 +182,6 @@ public class signup extends AppCompatActivity {
             }
         }
         ) {
-//                @Override
-//                protected Map<String, String> getParams() throws AuthFailureError {
-//                    Map<String, String> params = new HashMap<String, String>();
-//                    params.put("username", str_fullname);
-//                    params.put("email", str_email);
-//                    params.put("password", str_password);
-//                    params.put("mobile", str_number);
-//                    params.put("city", str_city);
-//                    params.put("zip", str_zipcode);
-//                    return params;
-//                }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -217,11 +189,6 @@ public class signup extends AppCompatActivity {
                 params.put("Content-Type", "application/json");
                 return params;
             }
-
-//                @Override
-//                public String getBodyContentType() {
-//                    return "application/json; charset=utf-8";
-//                }
 
             @Override
             public byte[] getBody() throws AuthFailureError {
@@ -256,5 +223,114 @@ public class signup extends AppCompatActivity {
 
     }
 
-}
+    private void signupidmethod(String user_id) {
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("user", user_id);
+//            jsonBody.put("address_fl", first);
+//            jsonBody.put("address_sl", second);
+//            jsonBody.put("city", City);
+//            jsonBody.put("zip", Zip);
+            jsonBody.put("mobile", Number);
+            jsonBody.put("is_servicer", true);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final String requestBody = jsonBody.toString();
+
+        StringRequest request = new StringRequest(Request.Method.POST, signupid_url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(signup.this, "..... "+response, Toast.LENGTH_SHORT).show();
+//                progressBar.setVisibility(View.GONE);
+                //startActivity(new Intent(getApplicationContext(),signup_password.class));
+
+//                try {
+//                    JSONObject jsonObj = new JSONObject(response.toString());
+//                    Log.e("Responce", jsonObj.toString());
+//
+//                    String user_id = jsonObj.getJSONObject("user").getString("id");
+//                    Log.e("Responce22", user_id);
+//                    Toast.makeText(signup_address.this, ""+user_id, Toast.LENGTH_SHORT).show();
+
+//                    Intent i = new Intent(getApplicationContext(), OTP.class);
+//                    i.putExtra("User_Id", user_id);
+//                    startActivity(i);
+
+                //Toast.makeText(getApplicationContext(), user_Array.toString(), Toast.LENGTH_LONG).show();
+
+                // looping through All Contacts
+//                        for (int i = 0; i < user_Array.length(); i++) {
+//                            JSONObject c = user_Array.getJSONObject(i);
+//                            String id = c.getString("_id");
+//                            Toast.makeText(getApplicationContext(), id, Toast.LENGTH_LONG).show();
+//                        }
+
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                progressBar.setVisibility(View.GONE);
+                if(error.networkResponse.data!=null) {
+                    try {
+                        String errorMessage = new String(error.networkResponse.data,"UTF-8");
+                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "..ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        ) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 60000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 5;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(request);
+    }
+
 }
