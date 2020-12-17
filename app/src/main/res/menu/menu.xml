@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/menu_top">
+
+        <item
+            android:id="@+id/nav_sign_out"
+            android:icon="@drawable/ic_baseline_card_travel_24"
+            android:title="Sign Out"
+
+            />
+
+    </group>
+
+    <group android:checkableBehavior="none"
+        android:id="@+id/menu_bottom">
+
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_baseline_search_24"
+            android:title="Settings"/>
+
+
+    </group>
+
+
+</menu>
