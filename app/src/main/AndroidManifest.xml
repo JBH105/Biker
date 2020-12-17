@@ -15,13 +15,14 @@
         <activity android:name=".signup" />
         <activity android:name=".login" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".select_login_signup">
+        <activity android:name=".splash_screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".select_login_signup"/>
     </application>
 
 </manifest>

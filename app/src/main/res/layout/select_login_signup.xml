@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".select_login_signup"
     android:fillViewport="true"
-    android:background="#833ac7">
+    android:background="@color/colorViolet">
 <!--    android:background="#3047C5">-->
 
 <RelativeLayout

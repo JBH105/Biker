@@ -17,7 +17,8 @@
     android:layout_height="match_parent"
     tools:context=".home"
     android:orientation="vertical"
-    android:background="@color/colorBack">
+    android:background="@color/colorViolet">
+<!--    android:background="@color/colorBack">-->
 
     <LinearLayout
         android:layout_width="match_parent"

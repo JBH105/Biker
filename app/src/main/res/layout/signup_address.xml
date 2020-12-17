@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".signup_address"
-    android:background="#3047C5">
+    android:background="@color/colorViolet">
 
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#3047C5">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/signupLinear"
