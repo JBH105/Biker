@@ -3,6 +3,7 @@ package com.example.biker;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,19 +36,21 @@ public class Urls {
             editor.putString("zip", jsonObjectAccount.getString("zip"));
             editor.putString("mobile", jsonObjectAccount.getString("mobile"));
             editor.putBoolean("is_servicer", jsonObjectAccount.getBoolean("is_servicer"));
-            editor.apply();
+            editor.commit();
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
     public static void storeIsLoggedIn(Context context, Boolean value) {
+        Toast.makeText(context, "11 "+value, Toast.LENGTH_SHORT).show();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("ISLOGGEDIN", value);
-        editor.apply();
+        editor.commit();
     }
     public static boolean getIsLoggedIn(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Toast.makeText(context, "1 "+preferences.getBoolean("ISLOGGEDIN", false), Toast.LENGTH_SHORT).show();
         return preferences.getBoolean("ISLOGGEDIN", false);
     }
     public static boolean getIsServicer(Context context) {

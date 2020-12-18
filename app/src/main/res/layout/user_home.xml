@@ -4,25 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".user.user_home"
+    tools:context=".user_home"
     android:orientation="vertical"
     android:fillViewport="true"
-    android:background="@color/Black">
+    android:background="@color/shade2">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
+        <Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorViolet"/>
+            android:background="#310D2F4D"
+            tools:ignore="NewApi" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_person_24"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BIKER"
+                android:textColor="#ffff"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="25dp"
+                android:layout_marginRight="20dp"/>
+
+        </Toolbar>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_below="@+id/toolbar">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/bikeCardView"
@@ -31,7 +51,7 @@
             android:foregroundGravity="center"
             app:cardCornerRadius="10dp"
             android:layout_margin="15dp"
-            android:backgroundTint="@color/colorViolet">
+            android:backgroundTint="@color/shade7">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -45,7 +65,7 @@
                 android:layout_height="150dp"
                 android:foregroundGravity="center"
                 app:cardCornerRadius="10dp"
-                android:backgroundTint="@color/colorViolet">
+                android:backgroundTint="@color/shade7">
 
                 <ImageView
                     android:layout_width="wrap_content"

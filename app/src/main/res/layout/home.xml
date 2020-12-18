@@ -15,9 +15,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".garageuser.home"
+    tools:context=".home"
     android:orientation="vertical"
-    android:background="@color/colorViolet">
+    android:background="@color/shade2">
 <!--    android:background="@color/colorBack">-->
 
     <LinearLayout
@@ -29,7 +29,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FD6279"
+            android:background="#36728F"
             tools:ignore="NewApi" >
 
             <ImageView
@@ -44,6 +44,7 @@
                 android:textColor="#ffff"
                 android:gravity="center"
                 android:textStyle="bold"
+                android:textSize="25dp"
                 android:layout_marginRight="20dp"/>
 
         </Toolbar>
@@ -56,7 +57,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="50dp"
-            android:backgroundTint="#FD6279">
+            android:backgroundTint="@color/shade6">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -69,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Find Service"
-                android:textSize="20dp"
+                android:textSize="22dp"
                 android:layout_marginRight="10dp"
                 android:textColor="#ffff"
                 android:layout_gravity="end|center"/>
@@ -82,7 +83,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="30dp"
-            android:backgroundTint="#FD6279">
+            android:backgroundTint="@color/shade6">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -96,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Service"
-                android:textSize="20dp"
+                android:textSize="22dp"
                 android:layout_marginRight="10dp"
                 android:textColor="#ffff"
                 android:layout_gravity="end|center"/>
@@ -111,7 +112,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="30dp"
-            android:backgroundTint="#FD6279">
+            android:backgroundTint="@color/shade6">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -124,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vehicles"
-                android:textSize="20dp"
+                android:textSize="22dp"
                 android:layout_marginRight="10dp"
                 android:textColor="#ffff"
                 android:layout_gravity="end|center"/>

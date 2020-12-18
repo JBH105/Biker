@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".user.user_home"></activity>
+        <activity android:name=".bike_service_location"></activity>
+        <activity android:name=".bike_service" />
+        <activity android:name=".user.user_home" />
         <activity android:name=".garageuser.home" />
         <activity android:name=".signup_password" />
         <activity android:name=".signup_address" />
@@ -27,6 +29,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".select_login_signup" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

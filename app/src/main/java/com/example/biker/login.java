@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.biker.garageuser.home;
 import com.example.biker.user.user_home;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -89,15 +90,20 @@ String name, pass;
         StringRequest request = new StringRequest(Request.Method.POST, signin_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
                     storeUserInfoInSharedPref(login.this, new JSONObject(response));
-                    if(getIsServicer(login.this));
+                    storeIsLoggedIn(login.this, true);
+                    if(getIsServicer(login.this))
+//                    if(new JSONObject(response).getJSONObject("account").getBoolean("is_servicer"))
+                        startActivity(new Intent(getApplicationContext(), home.class));
+                    else
+                        startActivity(new Intent(getApplicationContext(), user_home.class));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                startActivity(new Intent(getApplicationContext(), user_home.class));
+//                startActivity(new Intent(getApplicationContext(), user_home.class));
 
 //                try {
 //                    JSONObject jsonObj = new JSONObject(response.toString());
