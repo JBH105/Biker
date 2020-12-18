@@ -18,6 +18,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.biker.garageuser.home;
+import com.example.biker.user.user_home;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -29,6 +31,8 @@ import java.util.Map;
 
 import static com.example.biker.Urls.signup_url;
 import static com.example.biker.Urls.signupid_url;
+import static com.example.biker.Urls.storeIsLoggedIn;
+import static com.example.biker.Urls.storeUserInfoInSharedPref;
 
 public class signup_address extends AppCompatActivity {
 
@@ -211,7 +215,13 @@ public class signup_address extends AppCompatActivity {
             public void onResponse(String response) {
                 Toast.makeText(signup_address.this, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
-                //startActivity(new Intent(getApplicationContext(),signup_password.class));
+                try {
+                    storeUserInfoInSharedPref(signup_address.this, new JSONObject(response));
+                    storeIsLoggedIn(signup_address.this, true);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                startActivity(new Intent(getApplicationContext(), home.class));
 
 //                try {
 //                    JSONObject jsonObj = new JSONObject(response.toString());

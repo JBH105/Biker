@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.biker.R;
+import com.example.biker.garageuser.home;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class signup_password extends AppCompatActivity {
@@ -43,7 +43,7 @@ public class signup_password extends AppCompatActivity {
                     copassword.setError("Password is Requird");
                     return;
                 }
-                startActivity(new Intent(getApplicationContext(),home.class));
+                startActivity(new Intent(getApplicationContext(), home.class));
             }
         });
     }

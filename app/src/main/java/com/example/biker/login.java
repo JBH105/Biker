@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.biker.user.user_home;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -26,7 +27,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.biker.Urls.getIsServicer;
 import static com.example.biker.Urls.signin_url;
+import static com.example.biker.Urls.storeIsLoggedIn;
+import static com.example.biker.Urls.storeUserInfoInSharedPref;
 
 public class login extends AppCompatActivity {
 TextInputEditText username,password;
@@ -87,7 +91,13 @@ String name, pass;
             public void onResponse(String response) {
                 Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
-                //startActivity(new Intent(getApplicationContext(),signup_password.class));
+                try {
+                    storeUserInfoInSharedPref(login.this, new JSONObject(response));
+                    if(getIsServicer(login.this));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                startActivity(new Intent(getApplicationContext(), user_home.class));
 
 //                try {
 //                    JSONObject jsonObj = new JSONObject(response.toString());

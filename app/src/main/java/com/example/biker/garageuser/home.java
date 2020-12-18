@@ -1,15 +1,12 @@
-package com.example.biker;
+package com.example.biker.garageuser;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.biker.R;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
@@ -34,7 +32,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.biker.Urls.brand_url;
-import static com.example.biker.Urls.signup_url;
 
 public class home extends AppCompatActivity {
 

@@ -20,6 +20,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.biker.garageuser.home;
+import com.example.biker.user.user_home;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -29,9 +31,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.biker.Urls.signin_url;
 import static com.example.biker.Urls.signup_url;
 import static com.example.biker.Urls.signupid_url;
+import static com.example.biker.Urls.storeIsLoggedIn;
+import static com.example.biker.Urls.storeUserInfoInSharedPref;
 
 public class signup extends AppCompatActivity {
     TextInputEditText username,email,number;
@@ -245,32 +248,40 @@ public class signup extends AppCompatActivity {
             public void onResponse(String response) {
                 Toast.makeText(signup.this, "..... "+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
-                //startActivity(new Intent(getApplicationContext(),signup_password.class));
+                try {
+                    storeUserInfoInSharedPref(signup.this, new JSONObject(response));
+                    storeIsLoggedIn(signup.this, true);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                startActivity(new Intent(getApplicationContext(), user_home.class));
 
-//                try {
-//                    JSONObject jsonObj = new JSONObject(response.toString());
-//                    Log.e("Responce", jsonObj.toString());
-//
-//                    String user_id = jsonObj.getJSONObject("user").getString("id");
-//                    Log.e("Responce22", user_id);
-//                    Toast.makeText(signup_address.this, ""+user_id, Toast.LENGTH_SHORT).show();
+/*
+                try {
+                    JSONObject jsonObj = new JSONObject(response.toString());
+                    Log.e("Responce", jsonObj.toString());
 
-//                    Intent i = new Intent(getApplicationContext(), OTP.class);
-//                    i.putExtra("User_Id", user_id);
-//                    startActivity(i);
+                    String user_id = jsonObj.getJSONObject("user").getString("id");
+                    Log.e("Responce22", user_id);
+                    Toast.makeText(signup_address.this, ""+user_id, Toast.LENGTH_SHORT).show();
 
-                //Toast.makeText(getApplicationContext(), user_Array.toString(), Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(getApplicationContext(), OTP.class);
+                    i.putExtra("User_Id", user_id);
+                    startActivity(i);
 
-                // looping through All Contacts
-//                        for (int i = 0; i < user_Array.length(); i++) {
-//                            JSONObject c = user_Array.getJSONObject(i);
-//                            String id = c.getString("_id");
-//                            Toast.makeText(getApplicationContext(), id, Toast.LENGTH_LONG).show();
-//                        }
+                Toast.makeText(getApplicationContext(), user_Array.toString(), Toast.LENGTH_LONG).show();
 
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                 looping through All Contacts
+                        for (int i = 0; i < user_Array.length(); i++) {
+                            JSONObject c = user_Array.getJSONObject(i);
+                            String id = c.getString("_id");
+                            Toast.makeText(getApplicationContext(), id, Toast.LENGTH_LONG).show();
+                        }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+*/
 
 
             }

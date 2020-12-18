@@ -9,6 +9,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.biker.garageuser.home;
+import com.example.biker.user.user_home;
+
+import static com.example.biker.Urls.getIsLoggedIn;
+import static com.example.biker.Urls.getIsServicer;
+
 
 public class splash_screen extends AppCompatActivity {
     @Override
@@ -18,7 +24,13 @@ public class splash_screen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(getApplicationContext(),select_login_signup.class));
+                if (getIsLoggedIn(splash_screen.this)) {
+                    if (getIsServicer(splash_screen.this))
+                        startActivity(new Intent(getApplicationContext(), home.class));
+                    else
+                        startActivity(new Intent(getApplicationContext(), user_home.class));
+                } else
+                    startActivity(new Intent(getApplicationContext(),select_login_signup.class));
                 finish();
             }
         },4000);
