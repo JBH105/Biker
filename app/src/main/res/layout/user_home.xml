@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".user_home"
+    android:orientation="vertical"
+    android:fillViewport="true"
+    android:background="@color/Black">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorViolet"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bikeCardView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:foregroundGravity="center"
+            app:cardCornerRadius="10dp"
+            android:layout_margin="15dp"
+            android:backgroundTint="@color/colorViolet">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bikeo"/>
+        </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/carCardView"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:foregroundGravity="center"
+                app:cardCornerRadius="10dp"
+                android:backgroundTint="@color/colorViolet">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/car"/>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

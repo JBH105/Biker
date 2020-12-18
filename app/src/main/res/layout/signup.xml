@@ -144,8 +144,9 @@
                     android:textColor="#ffff"
                     android:background="@drawable/button"
                     android:padding="17dp"
-                    android:backgroundTint="#3F51B5"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"/>
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:backgroundTint="#623BCF"/>
+<!--                    android:backgroundTint="#3F51B5"/>-->
 
         <Button
             android:id="@+id/next"

@@ -132,14 +132,14 @@ public class signup extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 //                progressBar.setVisibility(View.GONE);
-                Toast.makeText(signup.this, ".. "+response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(signup.this, ".. "+response, Toast.LENGTH_SHORT).show();
 
 
                 try {
                     JSONObject jsonObj = new JSONObject(response.toString());
                     Log.e("Responce", jsonObj.toString());
 
-                    String user_id = jsonObj.getJSONObject("user").getString("_id");
+                    String user_id = jsonObj.getJSONObject("user").getString("id");
                     Log.e("Responce22", user_id);
                     signupidmethod(user_id);
 
@@ -233,7 +233,7 @@ public class signup extends AppCompatActivity {
 //            jsonBody.put("city", City);
 //            jsonBody.put("zip", Zip);
             jsonBody.put("mobile", Number);
-            jsonBody.put("is_servicer", true);
+            jsonBody.put("is_servicer", false);
 
         } catch (JSONException e) {
             e.printStackTrace();
