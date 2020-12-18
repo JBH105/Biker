@@ -1,5 +1,6 @@
 package com.example.biker.garageuser;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -7,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -47,55 +49,27 @@ public class home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
-//        drawerlayout=findViewById(R.id.drawerlayout);
-//        navi=findViewById(R.id.navi);
-//        toolbar=findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        actionBarDrawerToggle=new ActionBarDrawerToggle(this,drawerlayout,toolbar,R.string.app_name,R.string.app_name);
-//        drawerlayout.addDrawerListener(actionBarDrawerToggle);
-//        actionBarDrawerToggle.syncState();
-//        navi.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//                //switch (menuItem.getItemId()) {
-//////                    case R.id.nav_sign_out:
-//////                        FirebaseAuth.getInstance().signOut();
-//////                        startActivity(new Intent(getApplicationContext(), login.class));
-//////                        finish();
-////
-////                //}
-//                return true;
-//            }
-//        });
+        drawerlayout=findViewById(R.id.drawerlayout);
+        navi=findViewById(R.id.navi);
+        toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-//        setUpToolbar();
-//
-//        //navigation
-//        navi = findViewById(R.id.navi);
-//        navi.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-////                switch (menuItem.getItemId()) {
+        actionBarDrawerToggle=new ActionBarDrawerToggle(this,drawerlayout,toolbar,R.string.app_name,R.string.app_name);
+        drawerlayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        navi.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                //switch (menuItem.getItemId()) {
 ////                    case R.id.nav_sign_out:
 ////                        FirebaseAuth.getInstance().signOut();
 ////                        startActivity(new Intent(getApplicationContext(), login.class));
 ////                        finish();
 //
 //                //}
-//                return false;
-//            }
-//        });
-//
-//    }
-//    private  void  setUpToolbar(){
-//        drawerlayout = findViewById(R.id.drawerlayout);
-//        toolbar=findViewById(R.id.toolbar);
-//        actionBarDrawerToggle=new ActionBarDrawerToggle(this,drawerlayout,toolbar,R.string.app_name,R.string.app_name);
-//        drawerlayout.addDrawerListener(actionBarDrawerToggle);
-//        actionBarDrawerToggle.syncState();
-
-
+                return true;
+            }
+        });
 
         vehiclesCardViewHome = findViewById(R.id.vehiclesCardViewHome);
         vehiclesCardViewHome.setOnClickListener(new View.OnClickListener() {

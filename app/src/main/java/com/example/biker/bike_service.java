@@ -38,7 +38,7 @@ public class bike_service extends AppCompatActivity {
                 String Remark = remark.getText().toString().trim();
                 String Spinner = spinner.getSelectedItem().toString().trim();
 
-                if (Spinner.equals("1")){
+                if (Spinner.equals("Selecte Model")){
                     Toast.makeText(bike_service.this, "select model", Toast.LENGTH_SHORT).show();
                     return;
                 }

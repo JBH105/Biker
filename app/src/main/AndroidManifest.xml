@@ -16,7 +16,6 @@
         <activity android:name=".bike_service" />
         <activity android:name=".user.user_home" />
         <activity android:name=".garageuser.home" />
-        <activity android:name=".signup_password" />
         <activity android:name=".signup_address" />
         <activity android:name=".signup" />
         <activity android:name=".login" />

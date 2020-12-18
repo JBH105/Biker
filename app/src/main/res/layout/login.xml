@@ -78,7 +78,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:background="@drawable/button"
-            android:backgroundTint="@color/shade6"
+            android:backgroundTint="@color/shade7"
             android:textColor="#ffff"
             android:textSize="22dp"/>
             </LinearLayout>

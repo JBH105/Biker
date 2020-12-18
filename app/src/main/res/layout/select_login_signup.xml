@@ -5,14 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".select_login_signup"
-    android:fillViewport="true"
-    android:background="@color/colorViolet">
+    android:fillViewport="true">
+<!--    android:background="@color/colorViolet">-->
 <!--    android:background="#3047C5">-->
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/shade7">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/loginsignupLinear"
@@ -25,9 +24,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="80dp"
-                android:text="BIKER"
+                android:text="Biker"
+                android:fontFamily="@font/amiko_bold"
                 android:textColor="@color/shade5"
-                android:textSize="35dp"
+                android:textSize="54dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -48,8 +48,8 @@
                 android:background="@drawable/button"
                 android:text="Login"
                 android:textSize="22dp"
-                android:textColor="@color/shade5"
-                android:backgroundTint="@color/shade6" />
+                android:textColor="#ffffff"
+                android:backgroundTint="@color/shade7" />
 <!--                android:backgroundTint="#E1FB3142" />-->
 
             <TextView

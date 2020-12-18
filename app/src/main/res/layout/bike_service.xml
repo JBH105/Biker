@@ -18,24 +18,42 @@
             android:orientation="vertical"
             android:gravity="center">
 
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:clickable="true"
-                android:drawSelectorOnTop="true"
-                android:entries="@array/bike"
-                android:padding="6dp"
-                android:background="@color/colorViolet"/>
+                android:layout_gravity="center"
+                android:layout_marginBottom="50dp"
+                android:fontFamily="@font/amiko_bold"
+                android:text="Service book"
+                android:textColor="@color/shade5"
+                android:textSize="54dp"
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
-                android:textColorHint="#ffff"
+                android:layout_marginTop="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/bike"
+                android:padding="6dp"
+                android:background="#EBF0F3"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
 
@@ -53,7 +71,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
-                android:textColorHint="#ffff"
                 android:layout_marginTop="15dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
 
@@ -62,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="problem*"
-                    android:paddingBottom="80dp"/>
+                    android:paddingBottom="90dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -72,7 +89,10 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="next"
+                android:textColor="#ffffff"
                 android:layout_marginTop="30dp"
+                android:textSize="22dp"
+                android:backgroundTint="@color/shade7"
                 android:background="@drawable/button"/>
 
         </LinearLayout>
