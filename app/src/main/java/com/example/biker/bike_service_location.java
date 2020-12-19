@@ -100,7 +100,9 @@ public class bike_service_location extends AppCompatActivity {
                                 findServicersMethod();
 
                     }
-                } catch (Exception e) {e.printStackTrace();}
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
