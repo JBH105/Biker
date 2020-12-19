@@ -23,7 +23,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.biker.garageuser.home;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,9 +39,11 @@ import static com.example.biker.Urls.brand_url;
 import static com.example.biker.Urls.model_url;
 
 public class bike_service extends AppCompatActivity {
-    Spinner spinner;
+    Spinner spinner, spinner1;
+    TextInputLayout remarkInputLayout;
     TextInputEditText plate_number,remark;
     Button next;
+    Map<String, List<String>> modelmap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +52,31 @@ public class bike_service extends AppCompatActivity {
 
         spinner=findViewById(R.id.spinner);
         plate_number=findViewById(R.id.plate_number);
+        spinner1=findViewById(R.id.spinner1);
+        remarkInputLayout=findViewById(R.id.remarkInputLayout);
         remark=findViewById(R.id.remark);
         next=findViewById(R.id.next);
 
         getModelList();
+
+        final ArrayAdapter<CharSequence> Adapter=ArrayAdapter.createFromResource(getApplicationContext(),R.array.bike_problems,android.R.layout.select_dialog_item);
+        spinner1.setAdapter(Adapter);
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(bike_service.this, ""+position, Toast.LENGTH_SHORT).show();
+                if (Adapter.getItem(position).equals("Others")) {
+                    remarkInputLayout.setVisibility(View.VISIBLE);
+//                    Toast.makeText(bike_service.this, "Others...", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         //spinner
 //        ArrayAdapter<CharSequence> Adapter=ArrayAdapter.createFromResource(getApplicationContext(),R.array.bike,R.layout.support_simple_spinner_dropdown_item);
 //        spinner.setAdapter(Adapter);
@@ -62,24 +87,29 @@ public class bike_service extends AppCompatActivity {
                 String number = plate_number.getText().toString().trim();
                 String Remark = remark.getText().toString().trim();
                 String Spinner = spinner.getSelectedItem().toString().trim();
+                String Spinner1 = spinner1.getSelectedItem().toString().trim();
 
-                if (Spinner.equals("Selecte Model")){
-                    Toast.makeText(bike_service.this, "select model", Toast.LENGTH_SHORT).show();
+                if (Spinner.equals("Select Model")){
+                    Toast.makeText(bike_service.this, "Select Model", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (number.isEmpty()){
                     plate_number.setError("Enter plate number");
                     return;
                 }
-                if (Remark.isEmpty()){
-                    remark.setError("Enter Remark");
+                if (Spinner1.equals("Select Problem")){
+                    Toast.makeText(bike_service.this, "Select Problem", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (Spinner1.equals("Others"))
+                    if (Remark.isEmpty()){
+                        remark.setError("Enter Remark");
+                        return;
+                    }
                 // get Brand from brand_id in model_url response
                 getBrandItem();
-                Toast.makeText(bike_service.this, "Selected Item"+spinner.getSelectedItem(), Toast.LENGTH_SHORT).show();
-
-//                startActivity(new Intent(getApplicationContext(), bike_service_location.class));
+//                Toast.makeText(bike_service.this, "Selected Item: "+spinner1.getSelectedItem(), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), bike_service_location.class));
             }
         });
 
@@ -92,41 +122,53 @@ public class bike_service extends AppCompatActivity {
 //                progressBar.setVisibility(View.GONE);
                 Toast.makeText(bike_service.this, ".. "+response, Toast.LENGTH_SHORT).show();
 
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            Log.e("Responce", jsonArray.toString());
 
-                    Runnable runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
+                            for (int i=0;i<jsonArray.length();i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                List<String> list = new ArrayList<String>();
+                                list.add(jsonObject.getString("id"));
+                                list.add(jsonObject.getString("brand"));
+                                modelmap.put(jsonObject.getString("model_name"),list);
+                            }
+                            Log.e("kk", modelmap.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
 
-                            JSONObject jsonObj = new JSONObject(response);
-                            Log.e("Responce", jsonObj.toString());
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            Log.e("Responce", jsonArray.toString());
 
                             List<String> modellist = new ArrayList<String>();
-                            for(int i=0;i<jsonObj.length();i++) {
-                                modellist.add(jsonObj.getString("model_name"));
+                            modellist.add("Select Model");
+                            for (int i=0;i<jsonArray.length();i++) {
+                                modellist.add(jsonArray.getJSONObject(i).getString("model_name"));
                             }
 
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(bike_service.this, android.R.layout.select_dialog_item, modellist);
                             adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
                             spinner.setAdapter(adapter);
-/*                            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                                }
-                            });*/
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    };
 
+                        }
+                };
+                runOnUiThread(runnable);
+//                new Thread(runnable).start();
 
 //                    Intent i = new Intent(getApplicationContext(), OTP.class);
 //                    i.putExtra("User_Id", user_id);

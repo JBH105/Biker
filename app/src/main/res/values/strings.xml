@@ -2,10 +2,21 @@
     <string name="app_name">Biker</string>
 
     <string-array name="bike">
-        <item>Selecte Model</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
+        <item>Select Model</item>
+    </string-array>
+
+    <string-array name="bike1">
+        <item>Select Model</item>
+        <item>Hero Splendor Plus</item>
+        <item>Royal Enfield Classic</item>
+        <item>Yamaha YZF R15 V3</item>
+        <item>KTM 125 Duke</item>
+        <item>Honda Activa 6G</item>
+        <item>Suzuki V-Strom 650XT</item>
+        <item>Hero HF Deluxe</item>
+        <item>Bajaj CT 100</item>
+        <item>TVS XL100</item>
+        <item>Hero Electric Optima LA</item>
     </string-array>
 
     <string-array name="bike_problems">
@@ -16,5 +27,6 @@
         <item>Electrical problems.</item>
         <item>Strong vibrations or jerking at top speed.</item>
         <item>High fuel consumption.</item>
+        <item>Others</item>
     </string-array>
 </resources>

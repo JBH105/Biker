@@ -12,9 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/item_findservice" />
 
         <activity android:name=".bike_service_location" />
         <activity android:name=".bike_service" />

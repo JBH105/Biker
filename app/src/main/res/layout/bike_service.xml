@@ -79,11 +79,13 @@
                 android:background="#EBF0F3"/>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/remarkInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
+                android:visibility="gone"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
 
                 <com.google.android.material.textfield.TextInputEditText

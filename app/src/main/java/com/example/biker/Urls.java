@@ -16,6 +16,7 @@ public class Urls {
     public static final String brand_url = Root_Url + "brand/";
     public static final String model_url = Root_Url + "model/";
     public static final String vehicle_api_url = Root_Url + "vehicle_api/";
+    public static final String find_servicer_url = Root_Url + "service/findservice/vehicle/20/zip/336656";
 
 
 

@@ -15,8 +15,12 @@ import androidx.appcompat.widget.Toolbar;
 
 
 import com.example.biker.R;
+import com.example.biker.Urls;
 import com.example.biker.bike_service;
+import com.example.biker.select_login_signup;
 import com.google.android.material.navigation.NavigationView;
+
+import static com.example.biker.Urls.storeIsLoggedIn;
 
 public class user_home extends AppCompatActivity {
 
@@ -45,10 +49,11 @@ public class user_home extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-//                    case R.id.nav_sign_out:
-//                        FirebaseAuth.getInstance().signOut();
-//                        startActivity(new Intent(getApplicationContext(), login.class));
-//                        finish();
+                    case R.id.nav_settings_logout:
+                        storeIsLoggedIn(user_home.this, false);
+                        startActivity(new Intent(getApplicationContext(), select_login_signup.class));
+                        finish();
+                        break;
 
                 }
                 return true;
