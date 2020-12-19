@@ -86,11 +86,11 @@ public class bike_service_location extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
-//do here checking if number entered is zip code or not
             @Override
             public void afterTextChanged(Editable s) {
                 try {
                     if (!locationEditText.getText().toString().isEmpty()) {
+                //do here checking if number entered is zip code or not
                         String zipExpression = "[0-9]{6}";
                         Pattern zipPattern = Pattern.compile(zipExpression);
                         Matcher zipMatcher = zipPattern.matcher(locationEditText.getText().toString());
