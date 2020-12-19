@@ -3,6 +3,7 @@ package com.example.biker;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -10,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -52,10 +54,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.example.biker.Urls.find_servicer_url;
+import static com.example.biker.Urls.getAccountId;
 import static com.example.biker.Urls.getIsServicer;
 import static com.example.biker.Urls.signin_url;
 import static com.example.biker.Urls.storeIsLoggedIn;
 import static com.example.biker.Urls.storeUserInfoInSharedPref;
+import static com.example.biker.Urls.vehicle_api_url;
+import static com.example.biker.user.user_service_data.getModel_id;
+import static com.example.biker.user.user_service_data.getVehicle_number;
+import static com.example.biker.user.user_service_data.getVehicleapi_id;
+import static com.example.biker.user.user_service_data.storeVehicleApiId;
 
 public class bike_service_location extends AppCompatActivity {
     TextInputEditText locationEditText;
@@ -72,6 +80,9 @@ public class bike_service_location extends AppCompatActivity {
         locationEditText = findViewById(R.id.location);
         current_location = findViewById(R.id.current_location);
         submit = findViewById(R.id.submit);
+
+        // POST vehicle_api to get vehicle_api id
+        getVehicleApiIdMethod();
 
         current_location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,24 +122,118 @@ public class bike_service_location extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                // Service will be booked from Book Button in RecyclerView NOT FROM THIS BUTTON
                 String Location = locationEditText.getText().toString().trim();
-                String current = current_location.toString().trim();
-
-                if (Location.isEmpty()||current.isEmpty()){
-                    Toast.makeText(bike_service_location.this, "Enter details", Toast.LENGTH_SHORT).show();
+                if (Location.isEmpty()){
+                    Toast.makeText(bike_service_location.this, "Specify Your Location!!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Toast.makeText(bike_service_location.this, "Service book", Toast.LENGTH_SHORT).show();
 
-//                findServicersMethod();
             }
         });
 
     }
 
-    private void findServicersMethod() {
+    private void getVehicleApiIdMethod() {
 
-        StringRequest request = new StringRequest(Request.Method.GET, find_servicer_url, new Response.Listener<String>() {
+        JSONObject jsonBody = new JSONObject();
+        try {
+            if (getVehicle_number() == null || getModel_id() == null)
+                wait(100);
+            jsonBody.put("vehicle_number", getVehicle_number());
+            jsonBody.put("model_fk", getModel_id());
+            jsonBody.put("user",getAccountId(this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        final String requestBody = jsonBody.toString();
+
+        StringRequest request = new StringRequest(Request.Method.POST, vehicle_api_url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
+//                progressBar.setVisibility(View.GONE);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    final String vehicle_api_id = jsonObject.getString("id");
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            storeVehicleApiId(vehicle_api_id);
+                        }
+                    }.start();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                progressBar.setVisibility(View.GONE);
+                if(error.networkResponse.data!=null) {
+                    try {
+                        String errorMessage = new String(error.networkResponse.data,"UTF-8");
+                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        ) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 60000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 5;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(request);
+
+    }
+
+    private void findServicersMethod() throws InterruptedException {
+        if (getVehicleapi_id() == null)
+            wait(100);
+        String zipCode = locationEditText.getText().toString().trim();
+        String findservicerurl = find_servicer_url+"vehicle/"+getVehicleapi_id()+"/zip/"+zipCode;
+        StringRequest request = new StringRequest(Request.Method.GET, findservicerurl, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
                 Toast.makeText(bike_service_location.this, "" + response, Toast.LENGTH_SHORT).show();

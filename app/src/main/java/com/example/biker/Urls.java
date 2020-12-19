@@ -16,7 +16,8 @@ public class Urls {
     public static final String brand_url = Root_Url + "brand/";
     public static final String model_url = Root_Url + "model/";
     public static final String vehicle_api_url = Root_Url + "vehicle_api/";
-    public static final String find_servicer_url = Root_Url + "service/findservice/vehicle/20/zip/336656";
+//    public static final String find_servicer_url = Root_Url + "service/findservice/vehicle/20/zip/336656";
+    public static final String find_servicer_url = Root_Url + "service/findservice/";
 
 
 
@@ -57,5 +58,13 @@ public class Urls {
     public static boolean getIsServicer(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getBoolean("is_servicer", false);
+    }
+    public static int getUserId(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getInt("user_id", 0);
+    }
+    public static int getAccountId(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getInt("account_id", 0);
     }
 }

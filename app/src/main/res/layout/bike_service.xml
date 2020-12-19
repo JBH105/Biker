@@ -44,7 +44,6 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:drawSelectorOnTop="true"
-                    android:entries="@array/bike"
                     android:background="#EBF0F3"/>
             </com.google.android.material.textfield.TextInputLayout>
 
