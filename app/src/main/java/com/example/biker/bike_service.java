@@ -68,6 +68,8 @@ public class bike_service extends AppCompatActivity {
                 if (Adapter.getItem(position).equals("Others")) {
                     remarkInputLayout.setVisibility(View.VISIBLE);
 //                    Toast.makeText(bike_service.this, "Others...", Toast.LENGTH_SHORT).show();
+                } else {
+                    remarkInputLayout.setVisibility(View.GONE);
                 }
             }
 

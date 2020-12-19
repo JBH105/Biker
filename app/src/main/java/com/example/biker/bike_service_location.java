@@ -1,7 +1,14 @@
 package com.example.biker;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,7 +18,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,6 +46,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.example.biker.Urls.find_servicer_url;
@@ -45,9 +56,10 @@ import static com.example.biker.Urls.storeIsLoggedIn;
 import static com.example.biker.Urls.storeUserInfoInSharedPref;
 
 public class bike_service_location extends AppCompatActivity {
-    TextInputEditText location;
+    TextInputEditText locationEditText;
     TextView current_location;
     Button submit;
+    LocationManager locationManager;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -55,17 +67,25 @@ public class bike_service_location extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bike_service_location);
 
-        location=findViewById(R.id.location);
-        current_location=findViewById(R.id.current_location);
-        submit=findViewById(R.id.submit);
+        locationEditText = findViewById(R.id.location);
+        current_location = findViewById(R.id.current_location);
+        submit = findViewById(R.id.submit);
 
-        current_location.addTextChangedListener(new TextWatcher() {
+        current_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getLocationZipCodeMethod();
+            }
+        });
+        locationEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
+//do here checking if number entered is zip code or not
             @Override
             public void afterTextChanged(Editable s) {
                 findServicersMethod();
@@ -76,8 +96,8 @@ public class bike_service_location extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*
-                String Location =location.getText().toString().trim();
+
+                String Location = locationEditText.getText().toString().trim();
                 String current = current_location.toString().trim();
 
                 if (Location.isEmpty()||current.isEmpty()){
@@ -85,8 +105,8 @@ public class bike_service_location extends AppCompatActivity {
                     return;
                 }
                 Toast.makeText(bike_service_location.this, "Service book", Toast.LENGTH_SHORT).show();
-*/
-            findServicersMethod();
+
+//                findServicersMethod();
             }
         });
 
@@ -97,7 +117,7 @@ public class bike_service_location extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.GET, find_servicer_url, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-                Toast.makeText(bike_service_location.this, ""+response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(bike_service_location.this, "" + response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
 
                 Runnable runnable = new Runnable() {
@@ -110,9 +130,9 @@ public class bike_service_location extends AppCompatActivity {
                             JSONArray jsonArray = new JSONArray(response);
                             Log.e("Responce", jsonArray.toString());
 
-                            for (int i=0;i<jsonArray.length();i++) {
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                myListData.add(new MyListFindServiceData(jsonObject.getString("mobile"), jsonObject.getString("address_fl")+"  "+jsonObject.getString("address_sl")+"  "+jsonObject.getString("city")+"  "+jsonObject.getString("zip")));
+                                myListData.add(new MyListFindServiceData(jsonObject.getString("mobile"), jsonObject.getString("address_fl") + "  " + jsonObject.getString("address_sl") + "  " + jsonObject.getString("city") + "  " + jsonObject.getString("zip")));
                             }
 
 
@@ -162,16 +182,15 @@ public class bike_service_location extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 //                progressBar.setVisibility(View.GONE);
-                if(error.networkResponse.data!=null) {
+                if (error.networkResponse.data != null) {
                     try {
-                        String errorMessage = new String(error.networkResponse.data,"UTF-8");
+                        String errorMessage = new String(error.networkResponse.data, "UTF-8");
                         Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "ERROR: " + error.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -204,6 +223,63 @@ public class bike_service_location extends AppCompatActivity {
             }
         });
         requestQueue.add(request);
+
+    }
+
+    private void getLocationZipCodeMethod() {
+        //Runtime permissions
+        if (ContextCompat.checkSelfPermission(bike_service_location.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(bike_service_location.this, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            }, 100);
+        }
+        getLocation();
+    }
+
+    private void getLocation() {
+
+        try {
+            locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,5,bike_service_location.this);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5,
+                    new LocationListener() {
+                        @Override
+                        public void onLocationChanged(@NonNull Location location) {
+                            Log.i("kkkk", location.getLatitude() + "," + location.getLongitude());
+                            try {
+                                Geocoder geocoder = new Geocoder(bike_service_location.this, Locale.getDefault());
+                                List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+
+                                if (addresses.size() > 0) {
+                                    Address address1 = addresses.get(0);
+                                    String fullAdd = address1.getAddressLine(0); // full address
+                                    String locality = address1.getLocality();
+                                    String zip = address1.getPostalCode();
+                                    String country = address1.getCountryName();
+                                    Log.i("kkkk", "Zip: " + zip);
+                                    locationEditText.setText(zip);
+                                }
+                                // To get Location only once and then removeUpdates() use following line
+                                locationManager.removeUpdates(this);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
