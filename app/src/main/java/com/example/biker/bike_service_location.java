@@ -48,6 +48,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.example.biker.Urls.find_servicer_url;
 import static com.example.biker.Urls.getIsServicer;
@@ -81,14 +83,22 @@ public class bike_service_location extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
 //do here checking if number entered is zip code or not
             @Override
             public void afterTextChanged(Editable s) {
-                findServicersMethod();
+                try {
+                    if (!locationEditText.getText().toString().isEmpty()) {
+                        String zipExpression = "[0-9]{6}";
+                        Pattern zipPattern = Pattern.compile(zipExpression);
+                        Matcher zipMatcher = zipPattern.matcher(locationEditText.getText().toString());
+                        if (zipMatcher.matches())
+                            if (locationEditText.getText().toString().trim().length() == 6)
+                                findServicersMethod();
+                    }
+                } catch (Exception e) {e.printStackTrace();}
             }
         });
 
