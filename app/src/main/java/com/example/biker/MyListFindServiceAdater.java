@@ -12,19 +12,18 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyListFindServiceAdater extends RecyclerView.Adapter<MyListFindServiceAdater.ViewHolder> {
-    private ArrayList<MyListFindServiceData> listdata;
+    private List<MyListFindServiceData> listdata;
 
     // RecyclerView recyclerView;
-    public MyListFindServiceAdater(ArrayList<MyListFindServiceData> listdata) {
-        Log.e("kk", listdata.toString());
+    public MyListFindServiceAdater(List<MyListFindServiceData> listdata) {
         this.listdata = listdata;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.e("kk","create");
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem = layoutInflater.inflate(R.layout.item_findservice, parent, false);
         ViewHolder viewHolder = new ViewHolder(listItem);
@@ -33,7 +32,6 @@ public class MyListFindServiceAdater extends RecyclerView.Adapter<MyListFindServ
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.e("kk", "uu");
         final MyListFindServiceData myListData = listdata.get(position);
         holder.itemName.setText(listdata.get(position).getName());
         holder.itemAddress.setText(listdata.get(position).getAddress());

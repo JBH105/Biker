@@ -105,7 +105,7 @@ public class bike_service_location extends AppCompatActivity {
                     public void run() {
 
                         try {
-                            ArrayList<MyListFindServiceData> myListData = new ArrayList<>();
+                            List<MyListFindServiceData> myListData = new ArrayList<>();
 
                             JSONArray jsonArray = new JSONArray(response);
                             Log.e("Responce", jsonArray.toString());
@@ -116,7 +116,7 @@ public class bike_service_location extends AppCompatActivity {
                             }
 
 
-                            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerfindservice);
+                            RecyclerView recyclerView = findViewById(R.id.recyclerfindservice);
                             MyListFindServiceAdater adapter = new MyListFindServiceAdater(myListData);
                             recyclerView.setLayoutManager(new LinearLayoutManager(bike_service_location.this));
                             recyclerView.setAdapter(adapter);
