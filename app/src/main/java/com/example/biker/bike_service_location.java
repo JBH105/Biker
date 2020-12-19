@@ -90,13 +90,15 @@ public class bike_service_location extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 try {
                     if (!locationEditText.getText().toString().isEmpty()) {
-                //do here checking if number entered is zip code or not
+
+                        //do here checking if number entered is zip code or not
                         String zipExpression = "[0-9]{6}";
                         Pattern zipPattern = Pattern.compile(zipExpression);
                         Matcher zipMatcher = zipPattern.matcher(locationEditText.getText().toString());
                         if (zipMatcher.matches())
                             if (locationEditText.getText().toString().trim().length() == 6)
                                 findServicersMethod();
+
                     }
                 } catch (Exception e) {e.printStackTrace();}
             }
