@@ -125,6 +125,7 @@ public class bike_service_location extends AppCompatActivity {
         });
 
 
+/*
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,6 +140,7 @@ public class bike_service_location extends AppCompatActivity {
 
             }
         });
+*/
 
     }
 
@@ -353,6 +355,7 @@ public class bike_service_location extends AppCompatActivity {
         requestQueue.add(request);
 
     }
+
     private void getServicerUserDetails(final JSONObject jsonObject) throws JSONException {
         String serviceuserdetailsrurl = servicer_userdetails_url+jsonObject.getString("user");
         StringRequest request = new StringRequest(Request.Method.GET, serviceuserdetailsrurl, new Response.Listener<String>() {

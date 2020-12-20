@@ -11,9 +11,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_centerVertical="true">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -42,16 +43,14 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:drawSelectorOnTop="true"
-                    android:padding="6dp"
-                    android:entries="@array/bike_problems"
                     android:layout_marginTop="15dp"
                     android:background="#EBF0F3"/>
 
                 <Button
-                    android:id="@+id/loginbtn"
+                    android:id="@+id/addbtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Submit"
+                    android:text="Add"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
@@ -61,6 +60,46 @@
                     android:textSize="22dp"/>
             </LinearLayout>
         </ScrollView>
-    </LinearLayout>
 
+        <ScrollView
+            android:id="@+id/addVehicleListScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            android:background="#EBF0F3"
+            android:visibility="gone">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Vehicles List:"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/noVehiclesTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No Vehicles Added!!"
+                    android:padding="20dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:visibility="gone"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleraddedvehicles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
 </RelativeLayout>

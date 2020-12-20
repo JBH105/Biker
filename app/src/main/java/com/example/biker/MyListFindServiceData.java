@@ -18,6 +18,14 @@ public class MyListFindServiceData {
         this.is_servicer = is_servicer;
     }
 
+    public void setAccount_id(String account_id) {
+        this.account_id = account_id;
+    }
+
+    public String getAccount_id() {
+        return account_id;
+    }
+
     public String getId() {
         return id;
     }

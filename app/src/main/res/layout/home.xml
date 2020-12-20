@@ -75,7 +75,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/service"
+                android:id="@+id/serviceCardViewHome"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 app:cardCornerRadius="10dp"
@@ -104,7 +104,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/profile"
+                android:id="@+id/profileCardViewHome"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 app:cardCornerRadius="10dp"

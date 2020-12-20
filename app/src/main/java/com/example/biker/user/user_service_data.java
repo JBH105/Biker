@@ -23,6 +23,12 @@ public class user_service_data {
         vehicleapi_id = vehicle_api_id;
     }
 
+    public static String getBrand_id() {
+        return brand_id;
+    }
+    public static String getProblem() {
+        return problem;
+    }
     public static String getVehicleapi_id() {
         return vehicleapi_id;
     }

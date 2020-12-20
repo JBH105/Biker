@@ -4,9 +4,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="5dp"
+        android:layout_above="@+id/linearlayout"/>
+
     <LinearLayout
         android:id="@+id/linearlayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -33,6 +40,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Book"
-        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/linearlayout"/>
+
 </RelativeLayout>
