@@ -44,24 +44,6 @@
                     android:inputType="textPersonName"
                     android:hint="Enter your location" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="20dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/zip"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="6"
-                    android:hint="Zip code" />
-            </com.google.android.material.textfield.TextInputLayout>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,6 +55,38 @@
                 android:textColor="#898A8A"
                 android:text="Select current location"
                 android:padding="20dp"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                style="@style/CardView.Dark">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="gfgfgfgfgfgfgfgfgfgfgfgfsduiget8iuogdifyp
+eklklklklklklklklklklklklklklklklklgui;wdrtl/"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="gfgfgfgfgfgfgfgfgfgfgfgfsduiget8iuogdifyp
+eklklklklklklklklklklklklklklklklklgui;wdrtl/"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="gfgfgfgfgfgfgfgfgfgfgfgfsduiget8iuogdifyp
+eklklklklklklklklklklklklklklklklklgui;wdrtl/"/>
+                </RelativeLayout>
+
+            </ScrollView>
 
             <Button
                 android:layout_width="match_parent"
