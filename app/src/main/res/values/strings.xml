@@ -7,4 +7,14 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+
+    <string-array name="bike_problems">
+        <item>Select Problem</item>
+        <item>Engine halting at the middle of the road or not starting at all.</item>
+        <item>Not getting a good throttle response.</item>
+        <item>Braking Problems.</item>
+        <item>Electrical problems.</item>
+        <item>Strong vibrations or jerking at top speed.</item>
+        <item>High fuel consumption.</item>
+    </string-array>
 </resources>

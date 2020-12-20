@@ -65,6 +65,19 @@
                     android:maxLength="10"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+
+            <Spinner
+                android:id="@+id/spinner1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/bike_problems"
+                android:layout_marginTop="15dp"
+                android:background="#EBF0F3"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
