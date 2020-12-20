@@ -58,34 +58,23 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="170dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:background="#EBF0F3">
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="10dp">
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="gfgfgfgfgfgfgfgfgfgfgfgfsduiget8iuogdifyp
-eklklklklklklklklklklklklklklklklklgui;wdrtl/"/>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerfindservice"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="gfgfgfgfgfgfgfgfgfgfgfgfsduiget8iuogdifyp
-eklklklklklklklklklklklklklklklklklgui;wdrtl/"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="gfgfgfgfgfgfgfgfgfgfgfgfsduiget8iuogdifyp
-eklklklklklklklklklklklklklklklklklgui;wdrtl/"/>
-                </RelativeLayout>
+                </LinearLayout>
 
             </ScrollView>
 
