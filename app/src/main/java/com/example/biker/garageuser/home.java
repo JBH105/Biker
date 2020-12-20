@@ -50,7 +50,7 @@ public class home extends AppCompatActivity {
         setContentView(R.layout.home);
 
         drawerlayout=findViewById(R.id.drawerlayout);
-        navi=findViewById(R.id.navi);
+        navi=findViewById(R.id.navigation);
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
