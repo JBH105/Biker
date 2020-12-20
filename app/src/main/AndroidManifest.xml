@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".add_vehicles"></activity>
         <activity android:name=".bike_service_location" />
         <activity android:name=".bike_service" />
         <activity android:name=".user.user_home" />
@@ -34,7 +34,6 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />

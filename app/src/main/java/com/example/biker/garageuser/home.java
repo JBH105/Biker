@@ -28,6 +28,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.biker.R;
+import com.example.biker.add_vehicles;
 import com.example.biker.select_login_signup;
 import com.example.biker.user.user_home;
 import com.google.android.material.navigation.NavigationView;
@@ -119,6 +120,7 @@ public class home extends AppCompatActivity {
         vehiclesCardViewHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), add_vehicles.class));
                 vehiclesHomeMethod();
             }
         });
