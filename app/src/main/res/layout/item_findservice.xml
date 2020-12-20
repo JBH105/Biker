@@ -4,12 +4,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+<!--
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
         android:layout_marginBottom="5dp"
         android:layout_above="@+id/linearlayout"/>
+-->
 
     <LinearLayout
         android:id="@+id/linearlayout"

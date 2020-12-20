@@ -76,6 +76,12 @@
                         android:text="Select Servicer:"
                         android:layout_marginBottom="10dp"/>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_marginBottom="5dp"/>
+
                     <TextView
                         android:id="@+id/noServicerTextView"
                         android:layout_width="match_parent"

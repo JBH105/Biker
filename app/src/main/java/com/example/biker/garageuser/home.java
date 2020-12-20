@@ -29,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.biker.R;
 import com.example.biker.add_vehicles;
+import com.example.biker.list_user_service;
 import com.example.biker.select_login_signup;
 import com.example.biker.user.user_home;
 import com.google.android.material.navigation.NavigationView;
@@ -49,8 +50,7 @@ public class home extends AppCompatActivity {
     //ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navi;
     Toolbar toolbar;
-    CardView vehiclesCardViewHome,service,profile;
-    String brandName;
+    CardView vehiclesCardViewHome,serviceCardViewHome,profileCardViewHome;
     ImageView logout;
 
     @Override
@@ -61,9 +61,12 @@ public class home extends AppCompatActivity {
         drawerlayout=findViewById(R.id.drawerlayout);
         navi=findViewById(R.id.navigation);
         toolbar=findViewById(R.id.toolbar);
+        vehiclesCardViewHome = findViewById(R.id.vehiclesCardViewHome);
+        serviceCardViewHome = findViewById(R.id.serviceCardViewHome);
+        profileCardViewHome = findViewById(R.id.profileCardViewHome);
+        logout=findViewById(R.id.logout);
 
         //logout
-        logout=findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,11 +119,22 @@ public class home extends AppCompatActivity {
 //            }
 //        });
 
-        vehiclesCardViewHome = findViewById(R.id.vehiclesCardViewHome);
         vehiclesCardViewHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), add_vehicles.class));
+            }
+        });
+        serviceCardViewHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), list_user_service.class));
+            }
+        });
+        profileCardViewHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
