@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -27,7 +28,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.example.biker.Urls.brand_url;
@@ -74,6 +77,8 @@ public class bike_service extends AppCompatActivity {
                 }
                 // get Brand from brand_id in model_url response
                 getBrandItem();
+                Toast.makeText(bike_service.this, "Selected Item"+spinner.getSelectedItem(), Toast.LENGTH_SHORT).show();
+
 //                startActivity(new Intent(getApplicationContext(), bike_service_location.class));
             }
         });
@@ -83,17 +88,44 @@ public class bike_service extends AppCompatActivity {
     private void getModelList() {
         StringRequest request = new StringRequest(Request.Method.GET, model_url, new Response.Listener<String>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(final String response) {
 //                progressBar.setVisibility(View.GONE);
                 Toast.makeText(bike_service.this, ".. "+response, Toast.LENGTH_SHORT).show();
 
 
-                try {
-                    JSONObject jsonObj = new JSONObject(response);
-                    Log.e("Responce", jsonObj.toString());
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
 
-                    ArrayAdapter<CharSequence> Adapter=ArrayAdapter.createFromResource(getApplicationContext(), R.array.bike, R.layout.support_simple_spinner_dropdown_item);
-                    spinner.setAdapter(Adapter);
+                            JSONObject jsonObj = new JSONObject(response);
+                            Log.e("Responce", jsonObj.toString());
+
+                            List<String> modellist = new ArrayList<String>();
+                            for(int i=0;i<jsonObj.length();i++) {
+                                modellist.add(jsonObj.getString("model_name"));
+                            }
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(bike_service.this, android.R.layout.select_dialog_item, modellist);
+                            adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+                            spinner.setAdapter(adapter);
+/*                            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                }
+                            });*/
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
 
 
 //                    Intent i = new Intent(getApplicationContext(), OTP.class);
@@ -109,9 +141,6 @@ public class bike_service extends AppCompatActivity {
 //                            Toast.makeText(getApplicationContext(), id, Toast.LENGTH_LONG).show();
 //                        }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
 
             }

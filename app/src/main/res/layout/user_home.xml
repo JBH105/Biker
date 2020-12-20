@@ -24,14 +24,14 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/shade7"
-            tools:ignore="NewApi" >
+            android:background="@android:color/transparent"
+            tools:ignore="NewApi">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="BIKER"
-                android:textColor="#ffff"
+                android:textColor="@color/shade7"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textSize="25dp"
