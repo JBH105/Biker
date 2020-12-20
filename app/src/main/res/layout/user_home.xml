@@ -32,10 +32,9 @@
                 android:layout_height="wrap_content"
                 android:text="BIKER"
                 android:textColor="@color/shade7"
-                android:gravity="center"
                 android:textStyle="bold"
-                android:textSize="25dp"
-                android:layout_marginRight="20dp"/>
+                android:gravity="center_horizontal"
+                android:textSize="25dp"/>
 
         </androidx.appcompat.widget.Toolbar>
 

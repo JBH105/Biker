@@ -38,14 +38,14 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
 
 
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:drawSelectorOnTop="true"
-                android:entries="@array/bike"
-                android:background="#EBF0F3"/>
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:drawSelectorOnTop="true"
+                    android:entries="@array/bike"
+                    android:background="#EBF0F3"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

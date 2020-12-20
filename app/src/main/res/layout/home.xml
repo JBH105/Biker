@@ -28,7 +28,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/shade7"
+            android:background="@android:color/transparent"
             tools:ignore="NewApi" >
 
             <TextView
@@ -129,10 +129,11 @@
     </LinearLayout>
 </RelativeLayout>
     <com.google.android.material.navigation.NavigationView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/navi"
-        android:layout_gravity="start"
-        app:menu="@menu/menu"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/navigation"
+    android:layout_gravity="start"
+    app:menu="@menu/menu"
+    app:headerLayout="@layout/nav_header"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
