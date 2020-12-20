@@ -1,5 +1,7 @@
 package com.example.biker;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.biker.user.user_book_service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +37,32 @@ public class MyListFindServiceAdater extends RecyclerView.Adapter<MyListFindServ
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final MyListFindServiceData myListData = listdata.get(position);
-        holder.itemName.setText(listdata.get(position).getName());
-        holder.itemAddress.setText(listdata.get(position).getAddress());
+        holder.itemName.setText(myListData.getUser_username()+"\n"+myListData.getMobile()+"\n"+myListData.getUser_email());
+        holder.itemAddress.setText("  "+myListData.getAddress_fl()+" "+myListData.getAddress_sl()+"\n"+myListData.getCity()+"-"+myListData.getZip());
         holder.itemBook.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(), "click on item: " + myListData.getName(), Toast.LENGTH_LONG).show();
+            public void onClick(final View view) {
+                Toast.makeText(view.getContext(), "click on item: " + myListData.getUser_id(), Toast.LENGTH_LONG).show();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
+                        .setCancelable(true)
+                        .setTitle("Confirm")
+                        .setMessage("Book Service of "+myListData.getUser_username()+" ??")
+                        .setPositiveButton("Confirm Book", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // pass selected servicer data to class which will send request to book it
+                                new user_book_service().Book_Service(view.getContext(), myListData);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
             }
         });
     }
@@ -47,6 +71,11 @@ public class MyListFindServiceAdater extends RecyclerView.Adapter<MyListFindServ
     @Override
     public int getItemCount() {
         return listdata.size();
+    }
+
+    public void add(MyListFindServiceData addData) {
+        listdata.add(addData);
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

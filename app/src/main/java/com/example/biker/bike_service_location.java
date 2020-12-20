@@ -56,6 +56,7 @@ import java.util.regex.Pattern;
 import static com.example.biker.Urls.find_servicer_url;
 import static com.example.biker.Urls.getAccountId;
 import static com.example.biker.Urls.getIsServicer;
+import static com.example.biker.Urls.servicer_userdetails_url;
 import static com.example.biker.Urls.signin_url;
 import static com.example.biker.Urls.storeIsLoggedIn;
 import static com.example.biker.Urls.storeUserInfoInSharedPref;
@@ -67,9 +68,13 @@ import static com.example.biker.user.user_service_data.storeVehicleApiId;
 
 public class bike_service_location extends AppCompatActivity {
     TextInputEditText locationEditText;
-    TextView current_location;
+    TextView current_location, noServicerTextView;
     Button submit;
     LocationManager locationManager;
+    //
+    List<MyListFindServiceData> myListData = new ArrayList<>();
+    RecyclerView recyclerView;
+    MyListFindServiceAdater adapter;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -79,6 +84,8 @@ public class bike_service_location extends AppCompatActivity {
 
         locationEditText = findViewById(R.id.location);
         current_location = findViewById(R.id.current_location);
+        noServicerTextView = findViewById(R.id.noServicerTextView);
+        recyclerView = findViewById(R.id.recyclerfindservice);
         submit = findViewById(R.id.submit);
 
         // POST vehicle_api to get vehicle_api id
@@ -238,20 +245,30 @@ public class bike_service_location extends AppCompatActivity {
             public void onResponse(final String response) {
                 Toast.makeText(bike_service_location.this, "" + response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
+                try {
+                    if (response.trim().equals("[]")) {
+                        noServicerTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        noServicerTextView.setVisibility(View.GONE);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
 
                         try {
-                            List<MyListFindServiceData> myListData = new ArrayList<>();
+//                            List<MyListFindServiceData> myListData = new ArrayList<>();
 
-                            JSONArray jsonArray = new JSONArray(response);
+                            final JSONArray jsonArray = new JSONArray(response);
                             Log.e("Responce", jsonArray.toString());
 
+/*
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                myListData.add(new MyListFindServiceData(jsonObject.getString("mobile"), jsonObject.getString("address_fl") + "  " + jsonObject.getString("address_sl") + "  " + jsonObject.getString("city") + "  " + jsonObject.getString("zip")));
+                                myListData.add(new MyListFindServiceData(jsonObject.getString("id"),jsonObject.getString("user"), jsonObject.getString("address_fl"), jsonObject.getString("address_sl"), jsonObject.getString("city"), jsonObject.getString("zip"), jsonObject.getString("mobile"), jsonObject.getString("is_servicer")));
                             }
 
 
@@ -259,6 +276,25 @@ public class bike_service_location extends AppCompatActivity {
                             MyListFindServiceAdater adapter = new MyListFindServiceAdater(myListData);
                             recyclerView.setLayoutManager(new LinearLayoutManager(bike_service_location.this));
                             recyclerView.setAdapter(adapter);
+*/
+                            myListData.clear();
+                            adapter = new MyListFindServiceAdater(myListData);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(bike_service_location.this));
+                            recyclerView.setAdapter(adapter);
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                final int finalI = i;
+                                new Thread() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            getServicerUserDetails(jsonArray.getJSONObject(finalI));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }.start();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -268,32 +304,86 @@ public class bike_service_location extends AppCompatActivity {
                 };
                 runOnUiThread(runnable);
 
+            }
+        }, new Response.ErrorListener() {
 
-//                try {
-//                    JSONObject jsonObj = new JSONObject(response.toString());
-//                    Log.e("Responce", jsonObj.toString());
-//
-//                    String user_id = jsonObj.getJSONObject("user").getString("id");
-//                    Log.e("Responce22", user_id);
-//                    Toast.makeText(signup_address.this, ""+user_id, Toast.LENGTH_SHORT).show();
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                progressBar.setVisibility(View.GONE);
+                if (error.networkResponse.data != null) {
+                    try {
+                        String errorMessage = new String(error.networkResponse.data, "UTF-8");
+                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "ERROR: " + error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        ) {
 
-//                    Intent i = new Intent(getApplicationContext(), OTP.class);
-//                    i.putExtra("User_Id", user_id);
-//                    startActivity(i);
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                return params;
+            }
+        };
 
-                //Toast.makeText(getApplicationContext(), user_Array.toString(), Toast.LENGTH_LONG).show();
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-                // looping through All Contacts
-//                        for (int i = 0; i < user_Array.length(); i++) {
-//                            JSONObject c = user_Array.getJSONObject(i);
-//                            String id = c.getString("_id");
-//                            Toast.makeText(getApplicationContext(), id, Toast.LENGTH_LONG).show();
-//                        }
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 60000;
+            }
 
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+            @Override
+            public int getCurrentRetryCount() {
+                return 5;
+            }
 
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(request);
+
+    }
+    private void getServicerUserDetails(final JSONObject jsonObject) throws JSONException {
+        String serviceuserdetailsrurl = servicer_userdetails_url+jsonObject.getString("user");
+        StringRequest request = new StringRequest(Request.Method.GET, serviceuserdetailsrurl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(final String response) {
+                Toast.makeText(bike_service_location.this, "" + response, Toast.LENGTH_SHORT).show();
+//                progressBar.setVisibility(View.GONE);
+
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        try {
+
+                            JSONObject jsonObjectUserDetails = new JSONObject(response);
+                            if (jsonObjectUserDetails.toString().isEmpty())
+                                return;
+                            MyListFindServiceData md = new MyListFindServiceData(jsonObject.getString("id"), jsonObject.getString("user"), jsonObjectUserDetails.getString("email"), jsonObjectUserDetails.getString("username"), jsonObject.getString("address_fl"), jsonObject.getString("address_sl"), jsonObject.getString("city"), jsonObject.getString("zip"), jsonObject.getString("mobile"), jsonObject.getString("is_servicer"));
+                            myListData.add(md);
+
+                            //adapter.add(md);
+                            adapter.notifyDataSetChanged();
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                };
+                runOnUiThread(runnable);
 
             }
         }, new Response.ErrorListener() {
