@@ -61,7 +61,7 @@
         </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/carCardView"
+                android:id="@+id/serviceCardView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:foregroundGravity="center"
@@ -71,7 +71,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/car"/>
+                    android:src="@drawable/app"/>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </RelativeLayout>
