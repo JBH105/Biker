@@ -29,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.biker.R;
 import com.example.biker.add_vehicles;
+import com.example.biker.list_user_service;
 import com.example.biker.select_login_signup;
 import com.example.biker.user.user_home;
 import com.google.android.material.navigation.NavigationView;
@@ -49,8 +50,7 @@ public class home extends AppCompatActivity {
     //ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navi;
     Toolbar toolbar;
-    CardView vehiclesCardViewHome,service,profile;
-    String brandName;
+    CardView vehiclesCardViewHome,serviceCardViewHome,profileCardViewHome;
     ImageView logout;
 
     @Override
@@ -61,9 +61,12 @@ public class home extends AppCompatActivity {
         drawerlayout=findViewById(R.id.drawerlayout);
         navi=findViewById(R.id.navigation);
         toolbar=findViewById(R.id.toolbar);
+        vehiclesCardViewHome = findViewById(R.id.vehiclesCardViewHome);
+        serviceCardViewHome = findViewById(R.id.serviceCardViewHome);
+        profileCardViewHome = findViewById(R.id.profileCardViewHome);
+        logout=findViewById(R.id.logout);
 
         //logout
-        logout=findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,121 +119,25 @@ public class home extends AppCompatActivity {
 //            }
 //        });
 
-        vehiclesCardViewHome = findViewById(R.id.vehiclesCardViewHome);
         vehiclesCardViewHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), add_vehicles.class));
-                vehiclesHomeMethod();
+            }
+        });
+        serviceCardViewHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), list_user_service.class));
+            }
+        });
+        profileCardViewHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
     }
 
-    private void vehiclesHomeMethod() {
-        JSONObject jsonBody = new JSONObject();
-        try {
-            jsonBody.put("brand", brandName);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        final String requestBody = jsonBody.toString();
-
-        StringRequest request = new StringRequest(Request.Method.POST, brand_url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-//                progressBar.setVisibility(View.GONE);
-                Toast.makeText(home.this, ".. "+response, Toast.LENGTH_SHORT).show();
-
-
-                try {
-                    JSONObject jsonObj = new JSONObject(response.toString());
-                    Log.e("Responce", jsonObj.toString());
-
-                    String user_id = jsonObj.getString("id");
-                    Log.e("Responce22", user_id);
-                    modelMethod(user_id);
-
-//                    Intent i = new Intent(getApplicationContext(), OTP.class);
-//                    i.putExtra("User_Id", user_id);
-//                    startActivity(i);
-//
-//                    //Toast.makeText(getApplicationContext(), user_Array.toString(), Toast.LENGTH_LONG).show();
-//
-//                    // looping through All Contacts
-//                        for (int i = 0; i < user_Array.length(); i++) {
-//                            JSONObject c = user_Array.getJSONObject(i);
-//                            String id = c.getString("_id");
-//                            Toast.makeText(getApplicationContext(), id, Toast.LENGTH_LONG).show();
-//                        }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
-//                Toast.makeText(signup.this, "/ ERROR: "+error.getMessage(), Toast.LENGTH_SHORT).show();
-                if(error.networkResponse.data!=null) {
-                    try {
-                        String errorMessage = new String(error.networkResponse.data,"UTF-8");
-                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-        ) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/json");
-                return params;
-            }
-
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                try {
-                    return requestBody == null ? null : requestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
-                    return null;
-                }
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
-        request.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 60000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 5;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
-        requestQueue.add(request);
-    }
-
-    private void modelMethod(String user_id) {
-    }
-   }
+}

@@ -49,7 +49,7 @@ public class bike_service extends AppCompatActivity {
     Button next;
     ArrayAdapter<String> modelAdapter;
     Map<String, List<String>> modelmap = new HashMap<>();
-    static Map<String, String> brandmap = new HashMap<>();
+    Map<String, String> brandmap = new HashMap<>();
 
     @SuppressLint("ResourceType")
     @Override
@@ -149,7 +149,7 @@ public class bike_service extends AppCompatActivity {
                 }
 
                 startActivity(new Intent(getApplicationContext(), bike_service_location.class));
-            }
+        }
         });
 
     }
@@ -280,7 +280,7 @@ public class bike_service extends AppCompatActivity {
     }
 
 
-    public static void getBrandItem(Context context) {
+    public void getBrandItem(Context context) {
         StringRequest request = new StringRequest(Request.Method.GET, brand_url, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
@@ -363,4 +363,5 @@ public class bike_service extends AppCompatActivity {
         requestQueue.add(request);
 
     }
+
 }

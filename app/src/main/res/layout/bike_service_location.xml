@@ -60,7 +60,7 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
@@ -76,6 +76,12 @@
                         android:layout_height="wrap_content"
                         android:text="Select Servicer:"
                         android:layout_marginBottom="10dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_marginBottom="5dp"/>
 
                     <TextView
                         android:id="@+id/noServicerTextView"
@@ -108,7 +114,8 @@
                 android:backgroundTint="@color/shade7"
                 android:textSize="22dp"
                 android:layout_marginTop="30dp"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                android:visibility="gone"/>
 
         </LinearLayout>
     </RelativeLayout>

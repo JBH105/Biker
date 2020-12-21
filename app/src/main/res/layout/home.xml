@@ -40,10 +40,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="BIKER"
-                    android:gravity="center"
+                    android:gravity="center_horizontal"
                     android:textStyle="bold"
                     android:textSize="25dp"
-                    android:layout_marginRight="20dp"/>
+                    android:layout_marginRight="?android:attr/actionBarSize" />
             </Toolbar>
 
 
@@ -75,7 +75,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/service"
+                android:id="@+id/serviceCardViewHome"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 app:cardCornerRadius="10dp"
@@ -104,7 +104,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/profile"
+                android:id="@+id/profileCardViewHome"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 app:cardCornerRadius="10dp"
