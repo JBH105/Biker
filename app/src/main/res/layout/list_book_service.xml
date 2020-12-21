@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginBottom="5dp"
+            android:layout_above="@+id/linearlayout"/>
+    -->
+
+    <LinearLayout
+        android:id="@+id/linearlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/listserviceid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Service Id"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/listdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"/>
+
+
+
+        <TextView
+            android:id="@+id/listservicer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Servicer"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/listmodel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Model"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/listbrand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Brand"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/listvehicle_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vehicle Number"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/listaccepted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accepted"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/listsolved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Solved"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/listsee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="See"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/linearlayout"/>
+
+</RelativeLayout>
