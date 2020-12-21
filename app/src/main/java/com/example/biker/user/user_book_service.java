@@ -16,6 +16,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.biker.MyListFindServiceData;
 import com.example.biker.garageuser.home;
+import com.example.biker.list_user_service;
 import com.example.biker.login;
 
 import org.json.JSONArray;
@@ -138,7 +139,7 @@ public class user_book_service {
             jsonBody.put("review", "");
             jsonBody.put("cancel_user", false);
             jsonBody.put("cancel_servicer", false);
-            jsonBody.put("problem_image", "");
+//            jsonBody.put("problem_image", "");
             jsonBody.put("problem", getProblem());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -148,7 +149,8 @@ public class user_book_service {
         StringRequest request = new StringRequest(Request.Method.POST, book_service_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(context, ""+response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, ""+response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Service Booked Successfully!!", Toast.LENGTH_SHORT).show();
                 Log.i("kk","Book Service:  "+response);
 //                progressBar.setVisibility(View.GONE);
                 try {
@@ -156,7 +158,7 @@ public class user_book_service {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-//                startActivity(new Intent(getApplicationContext(), user_home.class));
+                context.startActivity(new Intent(context, list_user_service.class));
 
             }
         }, new Response.ErrorListener() {
