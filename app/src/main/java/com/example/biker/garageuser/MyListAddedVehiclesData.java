@@ -49,6 +49,9 @@ public class MyListAddedVehiclesData {
     public String getBrand_name() {
         return brand_name;
     }
+
+    // delete added vehicles of servicer, method is written in add_vehicles.java file.
+/*
     public void deletevehicleAddedMethod(final Context context, MyListAddedVehiclesData addedvehicletodelete) {
 
         JSONObject jsonBody = new JSONObject();
@@ -134,4 +137,6 @@ public class MyListAddedVehiclesData {
         requestQueue.add(request);
 
     }
+*/
+
 }

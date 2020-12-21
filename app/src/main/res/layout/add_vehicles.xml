@@ -82,6 +82,14 @@
                     android:text="Vehicles List:"
                     android:layout_marginBottom="10dp"/>
 
+
+
+
+                <include layout="@layout/item_vehiclesadded_columnname"/>
+
+
+
+
                 <TextView
                     android:id="@+id/noVehiclesTextView"
                     android:layout_width="match_parent"
@@ -92,16 +100,6 @@
                     android:gravity="center"
                     android:layout_gravity="center_vertical"
                     android:visibility="gone"/>
-
-
-
-
-
-                <include layout="@layout/item_vehiclesadded"/>
-
-
-
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycleraddedvehicles"

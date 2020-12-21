@@ -18,6 +18,8 @@ import com.example.biker.user.user_book_service;
 
 import java.util.List;
 
+import static com.example.biker.add_vehicles.deletevehicleAddedMethod;
+
 public class MyListAddedVehiclesAdapter extends RecyclerView.Adapter<MyListAddedVehiclesAdapter.ViewHolder> {
 
     private List<MyListAddedVehiclesData> listdata;
@@ -54,7 +56,7 @@ public class MyListAddedVehiclesAdapter extends RecyclerView.Adapter<MyListAdded
                         .setPositiveButton("Confirm Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                myListData.deletevehicleAddedMethod(view.getContext(), myListData);
+                                deletevehicleAddedMethod(view.getContext(), myListData);
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

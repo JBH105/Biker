@@ -502,7 +502,7 @@ public class add_vehicles extends AppCompatActivity {
             StringRequest request = new StringRequest(Request.Method.GET, branddataurl, new Response.Listener<String>() {
                 @Override
                 public void onResponse(final String response) {
-                    Toast.makeText(add_vehicles.this, ""+response, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(add_vehicles.this, ""+response, Toast.LENGTH_SHORT).show();
 //                    progressBar.setVisibility(View.GONE);
 
                     try {
@@ -574,5 +574,95 @@ public class add_vehicles extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+
+
+    public static void deletevehicleAddedMethod(final Context context, MyListAddedVehiclesData addedvehicletodelete) {
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("user", getAccountId(context));
+            jsonBody.put("model_fk", addedvehicletodelete.getModelId());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final String requestBody = jsonBody.toString();
+
+        String deleteaddedvehicleurl = servicer_add_vehicle_url + addedvehicletodelete.getId() + "/";
+        StringRequest request = new StringRequest(Request.Method.DELETE, deleteaddedvehicleurl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
+//                progressBar.setVisibility(View.GONE);
+                try {
+                    Toast.makeText(context, "Vehicle Deleted Successfully!!", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+//                startActivity(new Intent(getApplicationContext(), user_home.class));
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                progressBar.setVisibility(View.GONE);
+                if(error.networkResponse.data!=null) {
+                    try {
+                        String errorMessage = new String(error.networkResponse.data,"UTF-8");
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Toast.makeText(context, "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        ) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 60000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 5;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(request);
+
+    }
+
 
 }
