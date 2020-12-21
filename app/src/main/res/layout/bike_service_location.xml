@@ -29,25 +29,42 @@
                 android:textSize="54dp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/current_location"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
+                app:cardCornerRadius="5dp"
+                android:backgroundTint="@color/spinner">
+            <TextView
+                android:id="@+id/current_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:background="#EBF0F3"
                 android:textSize="18dp"
                 android:textColor="#898A8A"
+                android:layout_marginLeft="30dp"
                 android:text="Select current location"
                 android:padding="20dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:src="@drawable/ic_baseline_location_on_24"/>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="OR"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
 
                 <com.google.android.material.textfield.TextInputEditText
