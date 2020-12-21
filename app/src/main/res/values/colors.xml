@@ -17,4 +17,6 @@
 
     <color name="shade6">#2E6482</color>
     <color name="shade7">#36779C</color>
+    <color name="spinner">#EBF0F3</color>
+
 </resources>
