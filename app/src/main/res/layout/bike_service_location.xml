@@ -29,21 +29,6 @@
                 android:textSize="54dp"
                 android:textStyle="bold" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_margin="20dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="Enter your location" />
-            </com.google.android.material.textfield.TextInputLayout>
             <TextView
                 android:id="@+id/current_location"
                 android:layout_width="match_parent"
@@ -56,6 +41,22 @@
                 android:textColor="#898A8A"
                 android:text="Select current location"
                 android:padding="20dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:hint="Enter your location" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ScrollView
                 android:layout_width="match_parent"
