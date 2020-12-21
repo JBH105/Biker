@@ -55,16 +55,16 @@ import static com.example.biker.user.user_service_data.storeModelBrandData;
 import static com.example.biker.user.user_service_data.storeVehicleData;
 
 public class add_vehicles extends AppCompatActivity {
-    Spinner spinner;
-    Button addbtn;
-    ArrayAdapter<String> modelAdapter;
-    Map<String, List<String>> modelmap = new HashMap<>();
-    ScrollView addVehicleListScrollView;
-    TextView noVehiclesTextView;
+    private Spinner spinner;
+    private Button addbtn;
+    private ArrayAdapter<String> modelAdapter;
+    private Map<String, List<String>> modelmap = new HashMap<>();
+    private static ScrollView addVehicleListScrollView;
+    private static TextView noVehiclesTextView;
     //
     RecyclerView recyclerView;
-    MyListAddedVehiclesAdapter adapter;
-    List<MyListAddedVehiclesData> myList = new ArrayList<>();
+    private static MyListAddedVehiclesAdapter adapter;
+    private static List<MyListAddedVehiclesData> myList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +87,7 @@ public class add_vehicles extends AppCompatActivity {
         new Thread() {
             @Override
             public void run() {
-                getVehicleListMethod();
+                getVehicleListMethod(add_vehicles.this);
             }
         }.start();
 
@@ -253,7 +253,7 @@ public class add_vehicles extends AppCompatActivity {
                     new Thread() {
                         @Override
                         public void run() {
-                            getVehicleListMethod();
+                            getVehicleListMethod(add_vehicles.this);
                         }
                     }.start();
                 } catch (Exception e) {
@@ -322,13 +322,16 @@ public class add_vehicles extends AppCompatActivity {
 
     }
 
-    private void getVehicleListMethod() {
+    private static void getVehicleListMethod(final Context context) {
 
-        String servicer_vehiclelist_url = servicer_vehicles_list_url + getAccountId(add_vehicles.this);
+        // Clear List before getting Added Vehicle List
+        myList.clear();
+
+        String servicer_vehiclelist_url = servicer_vehicles_list_url + getAccountId(context);
         StringRequest request = new StringRequest(Request.Method.GET, servicer_vehiclelist_url, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-                Toast.makeText(add_vehicles.this, ""+response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
                     if (new JSONArray(response).toString().trim().isEmpty() || response.trim().equals("[]")) {
@@ -355,7 +358,7 @@ public class add_vehicles extends AppCompatActivity {
 
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                        getModeldataMethod(jsonObject);
+                                        getModeldataMethod(context, jsonObject);
                                     }
 
                                 } catch (Exception e) {
@@ -379,13 +382,13 @@ public class add_vehicles extends AppCompatActivity {
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
-                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -400,7 +403,7 @@ public class add_vehicles extends AppCompatActivity {
 
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         request.setRetryPolicy(new RetryPolicy() {
             @Override
@@ -422,7 +425,7 @@ public class add_vehicles extends AppCompatActivity {
 
     }
 
-    private void getModeldataMethod(final JSONObject jsonObject) throws JSONException {
+    private static void getModeldataMethod(final Context context, final JSONObject jsonObject) throws JSONException {
 
         String modeldataurl = model_url + jsonObject.getString("model_fk") +"/";
         StringRequest request = new StringRequest(Request.Method.GET, modeldataurl, new Response.Listener<String>() {
@@ -436,7 +439,7 @@ public class add_vehicles extends AppCompatActivity {
                     final JSONObject jsonObjectmodel = new JSONObject(response);
                     Log.e("Responce", jsonObjectmodel.toString());
 
-                    getBranddataMethod(jsonObject, jsonObjectmodel);
+                    getBranddataMethod(context, jsonObject, jsonObjectmodel);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -452,13 +455,13 @@ public class add_vehicles extends AppCompatActivity {
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
-                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -473,7 +476,7 @@ public class add_vehicles extends AppCompatActivity {
 
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         request.setRetryPolicy(new RetryPolicy() {
             @Override
@@ -495,7 +498,7 @@ public class add_vehicles extends AppCompatActivity {
 
     }
 
-    private void getBranddataMethod(final JSONObject jsonObjectav, final JSONObject jsonObjectmodel) {
+    private static void getBranddataMethod(final Context context, final JSONObject jsonObjectav, final JSONObject jsonObjectmodel) {
 
         try {
             String branddataurl = brand_url + jsonObjectmodel.getString("brand") + "/";
@@ -529,13 +532,13 @@ public class add_vehicles extends AppCompatActivity {
                     if(error.networkResponse.data!=null) {
                         try {
                             String errorMessage = new String(error.networkResponse.data,"UTF-8");
-                            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
                     }
                     else {
-                        Toast.makeText(getApplicationContext(), "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -550,7 +553,7 @@ public class add_vehicles extends AppCompatActivity {
 
             };
 
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
 
             request.setRetryPolicy(new RetryPolicy() {
                 @Override
@@ -598,6 +601,12 @@ public class add_vehicles extends AppCompatActivity {
 //                progressBar.setVisibility(View.GONE);
                 try {
                     Toast.makeText(context, "Vehicle Deleted Successfully!!", Toast.LENGTH_SHORT).show();
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            getVehicleListMethod(context);
+                        }
+                    }.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

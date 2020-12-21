@@ -3,9 +3,11 @@ package com.example.biker;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -75,72 +77,55 @@ public class profile extends AppCompatActivity {
     }
 
     private void getDataOfLoggedInMethod() {
-        String username, email, mobile, address = new String(), zip;
-/*
-        if (getUsername(profile.this)!=null && !getUsername(profile.this).equals("null")) {
-            username = getUsername(profile.this);
-        } else {
-            username = "err";
-        }
-        if (getEmail(profile.this)!=null && !getEmail(profile.this).equals("null")) {
-            email = getEmail(profile.this);
-        }
-        if (getMobile(profile.this)!=null && !getMobile(profile.this).equals("null")) {
-            mobile = getMobile(profile.this);
-        }
-        if (getUsername(profile.this)!=null && !getUsername(profile.this).equals("null")) {
-            username = getUsername(profile.this);
-        }
-*/
 
+        try {
 
-        if (getUsername(profile.this)!=null && !getUsername(profile.this).equals("null")) {
-            profile_name.setText("Username: \t"+getUsername(profile.this));
-            profile_name.setVisibility(View.VISIBLE);
-        } else {
-            Toast.makeText(this, "username", Toast.LENGTH_SHORT).show();
-//            profile_name.setVisibility(View.GONE);
-        }
+            String address = "";
+            if (getUsername(profile.this) != null && !getUsername(profile.this).equals("null")) {
+                profile_name.setText("Username: \t" + getUsername(profile.this));
+                profile_name.setVisibility(View.VISIBLE);
+            } else {
+                profile_name.setVisibility(View.GONE);
+            }
 
-        if (getEmail(profile.this)!=null && !getEmail(profile.this).equals("null")) {
-            profile_email.setText("Email: \t"+getEmail(profile.this));
-            profile_email.setVisibility(View.VISIBLE);
-        } else {
-            Toast.makeText(this, "email", Toast.LENGTH_SHORT).show();
-//            profile_email.setVisibility(View.GONE);
-        }
+            if (getEmail(profile.this) != null && !getEmail(profile.this).equals("null")) {
+                profile_email.setText("Email: \t" + getEmail(profile.this));
+                profile_email.setVisibility(View.VISIBLE);
+            } else {
+                profile_email.setVisibility(View.GONE);
+            }
 
-        if (getMobile(profile.this)!=null && !getMobile(profile.this).equals("null")) {
-            profile_number.setText("Mobile Number: \t"+getMobile(profile.this));
-            profile_number.setVisibility(View.VISIBLE);
-        } else {
-            Toast.makeText(this, "mobile", Toast.LENGTH_SHORT).show();
-//            profile_number.setVisibility(View.GONE);
-        }
+            if (getMobile(profile.this) != null && !getMobile(profile.this).equals("null")) {
+                profile_number.setText("Mobile Number: \t" + getMobile(profile.this));
+                profile_number.setVisibility(View.VISIBLE);
+            } else {
+                profile_number.setVisibility(View.GONE);
+            }
 
-        if (getAddress_fl(profile.this)!=null && !getAddress_fl(profile.this).equals("null")) {
-            address = getAddress_fl(profile.this);
-        }
-        if (getAddress_sl(profile.this)!=null && !getAddress_sl(profile.this).equals("null")) {
-            address = address + ", "+ getAddress_sl(profile.this);
-        }
-        if (getCity(profile.this)!=null && !getCity(profile.this).equals("null")) {
-            address = address + ",\n "+ getCity(profile.this);
-        }
-        if (getAddress_fl(profile.this)!=null && !getAddress_fl(profile.this).equals("null")) {
-            profile_name.setText("Address: \t"+address);
-            profile_name.setVisibility(View.VISIBLE);
-        } else {
-            Toast.makeText(this, "address", Toast.LENGTH_SHORT).show();
-//            profile_name.setVisibility(View.GONE);
-        }
+            if (getAddress_fl(profile.this) != null && !getAddress_fl(profile.this).equals("null")) {
+                address = getAddress_fl(profile.this);
+            }
+            if (getAddress_sl(profile.this) != null && !getAddress_sl(profile.this).equals("null")) {
+                address = address + ", " + getAddress_sl(profile.this);
+            }
+            if (getCity(profile.this) != null && !getCity(profile.this).equals("null")) {
+                address = address + ", " + getCity(profile.this);
+            }
+            if (getAddress_fl(profile.this) != null && !getAddress_fl(profile.this).equals("null")) {
+                profile_address.setText("Address: \t" + address);
+                profile_address.setVisibility(View.VISIBLE);
+            } else {
+                profile_address.setVisibility(View.GONE);
+            }
 
-        if (getZip(profile.this)!=null && !getZip(profile.this).equals("null")) {
-            profile_zip.setText("Zip: \t"+getZip(profile.this));
-            profile_zip.setVisibility(View.VISIBLE);
-        } else {
-            Toast.makeText(this, "zip", Toast.LENGTH_SHORT).show();
-//            profile_zip.setVisibility(View.GONE);
+            if (getZip(profile.this) != null && !getZip(profile.this).equals("null")) {
+                profile_zip.setText("Zip: \t" + getZip(profile.this));
+                profile_zip.setVisibility(View.VISIBLE);
+            } else {
+                profile_zip.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
