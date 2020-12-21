@@ -31,6 +31,7 @@ import com.example.biker.R;
 import com.example.biker.add_vehicles;
 import com.example.biker.list_user_service;
 import com.example.biker.login;
+import com.example.biker.profile;
 import com.example.biker.select_login_signup;
 import com.example.biker.user.user_home;
 import com.google.android.material.navigation.NavigationView;
@@ -136,6 +137,12 @@ public class home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+        profileCardViewHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), profile.class));
             }
         });
 

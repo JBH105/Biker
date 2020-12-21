@@ -19,6 +19,7 @@ import com.example.biker.R;
 import com.example.biker.bike_service;
 import com.example.biker.list_user_service;
 import com.example.biker.login;
+import com.example.biker.profile;
 import com.example.biker.select_login_signup;
 import com.google.android.material.navigation.NavigationView;
 
@@ -77,6 +78,8 @@ public class user_home extends AppCompatActivity {
                         alertDialog.show();
                         break;
 
+                    case R.id.nav_settings_profile:
+                        startActivity(new Intent(getApplicationContext(), profile.class));
                 }
                 return true;
             }
