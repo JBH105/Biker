@@ -367,8 +367,8 @@ public class add_vehicles extends AppCompatActivity {
 
                     }
                 };
-//                new Thread(runnable).start();
-                runOnUiThread(runnable);
+                new Thread(runnable).start();
+//                runOnUiThread(runnable);
 
             }
         }, new Response.ErrorListener() {

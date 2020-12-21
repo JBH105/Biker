@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="No"
-                android:textSize="22dp"
+                android:textSize="20dp"
                 android:gravity="center"/>
 
         </LinearLayout>
@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Model"
-                android:textSize="16dp"
+                android:textSize="20dp"
                 android:gravity="center"/>
 
         </LinearLayout>
@@ -76,7 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Brand"
-                android:textSize="22dp"
+                android:textSize="20dp"
                 android:gravity="center"/>
 
         </LinearLayout>
@@ -99,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Delete"
-                android:textSize="16dp"
+                android:textSize="20dp"
                 android:gravity="center"/>
 
         </LinearLayout>

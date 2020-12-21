@@ -79,7 +79,10 @@ public class user_home extends AppCompatActivity {
                         break;
 
                     case R.id.nav_settings_profile:
+                        if (drawerlayout.isDrawerOpen(navigation))
+                            drawerlayout.closeDrawer(navigation);
                         startActivity(new Intent(getApplicationContext(), profile.class));
+                        break;
                 }
                 return true;
             }
