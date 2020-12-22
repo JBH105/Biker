@@ -23,6 +23,7 @@ public class Urls {
     public static final String servicer_userdetails_url = Root_Url + "user/";
     public static final String servicer_add_vehicle_url = Root_Url + "servicer/";
     public static final String book_service_url = Root_Url + "service/";
+    public static final String servicer_vehicles_list_url = Root_Url + "findservicer/";
 
 
 

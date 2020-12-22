@@ -25,6 +25,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.biker.garageuser.MyListAddedVehiclesAdapter;
+import com.example.biker.garageuser.MyListAddedVehiclesData;
 import com.example.biker.garageuser.home;
 import com.example.biker.user.user_home;
 
@@ -44,6 +46,7 @@ import static com.example.biker.Urls.getIsServicer;
 import static com.example.biker.Urls.getUsername;
 import static com.example.biker.Urls.model_url;
 import static com.example.biker.Urls.servicer_add_vehicle_url;
+import static com.example.biker.Urls.servicer_vehicles_list_url;
 import static com.example.biker.Urls.signin_url;
 import static com.example.biker.Urls.storeIsLoggedIn;
 import static com.example.biker.Urls.storeUserInfoInSharedPref;
@@ -58,6 +61,10 @@ public class add_vehicles extends AppCompatActivity {
     Map<String, List<String>> modelmap = new HashMap<>();
     ScrollView addVehicleListScrollView;
     TextView noVehiclesTextView;
+    //
+    RecyclerView recyclerView;
+    MyListAddedVehiclesAdapter adapter;
+    List<MyListAddedVehiclesData> myList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +75,15 @@ public class add_vehicles extends AppCompatActivity {
         addbtn = findViewById(R.id.addbtn);
         addVehicleListScrollView = findViewById(R.id.addVehicleListScrollView);
         noVehiclesTextView = findViewById(R.id.noVehiclesTextView);
+        recyclerView = findViewById(R.id.recycleraddedvehicles);
 
         getModelList();
+
+        // recyclerView
+        adapter = new MyListAddedVehiclesAdapter(myList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(add_vehicles.this));
+        recyclerView.setAdapter(adapter);
+
         new Thread() {
             @Override
             public void run() {
@@ -310,18 +324,18 @@ public class add_vehicles extends AppCompatActivity {
 
     private void getVehicleListMethod() {
 
-        String servicer_vehicle_url = servicer_add_vehicle_url + getUsername(add_vehicles.this);
-        StringRequest request = new StringRequest(Request.Method.GET, servicer_vehicle_url, new Response.Listener<String>() {
+        String servicer_vehiclelist_url = servicer_vehicles_list_url + getAccountId(add_vehicles.this);
+        StringRequest request = new StringRequest(Request.Method.GET, servicer_vehiclelist_url, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
                 Toast.makeText(add_vehicles.this, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
-                    if (new JSONObject(response).getString("").equals("")) {
+                    if (new JSONArray(response).toString().trim().isEmpty() || response.trim().equals("[]")) {
                         addVehicleListScrollView.setVisibility(View.VISIBLE);
                         noVehiclesTextView.setVisibility(View.VISIBLE);
                     } else {
-                        addVehicleListScrollView.setVisibility(View.GONE);
+                        addVehicleListScrollView.setVisibility(View.VISIBLE);
                         noVehiclesTextView.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {
@@ -331,31 +345,29 @@ public class add_vehicles extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        try {
-/*
-                            List<> myList = new ArrayList<>();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
 
-                            final JSONArray jsonArray = new JSONArray(response);
-                            Log.e("Responce", jsonArray.toString());
+                                    final JSONArray jsonArray = new JSONArray(response);
+                                    Log.e("Responce", jsonArray.toString());
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                        getModeldataMethod(jsonObject);
+                                    }
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
                             }
-
-
-
-                            RecyclerView recyclerView = findViewById(R.id.recycleraddedvehicles);
-                            MyListFindServiceAdater adapter = new MyListFindServiceAdater(myList);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(add_vehicles.this));
-                            recyclerView.setAdapter(adapter);
-*/
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        }.start();
 
                     }
                 };
+//                new Thread(runnable).start();
                 runOnUiThread(runnable);
 
             }
@@ -408,6 +420,159 @@ public class add_vehicles extends AppCompatActivity {
         });
         requestQueue.add(request);
 
+    }
+
+    private void getModeldataMethod(final JSONObject jsonObject) throws JSONException {
+
+        String modeldataurl = model_url + jsonObject.getString("model_fk") +"/";
+        StringRequest request = new StringRequest(Request.Method.GET, modeldataurl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(final String response) {
+//                Toast.makeText(add_vehicles.this, ""+response, Toast.LENGTH_SHORT).show();
+//                progressBar.setVisibility(View.GONE);
+
+                try {
+
+                    final JSONObject jsonObjectmodel = new JSONObject(response);
+                    Log.e("Responce", jsonObjectmodel.toString());
+
+                    getBranddataMethod(jsonObject, jsonObjectmodel);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                progressBar.setVisibility(View.GONE);
+                if(error.networkResponse.data!=null) {
+                    try {
+                        String errorMessage = new String(error.networkResponse.data,"UTF-8");
+                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        ) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                return params;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 60000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 5;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(request);
+
+    }
+
+    private void getBranddataMethod(final JSONObject jsonObjectav, final JSONObject jsonObjectmodel) {
+
+        try {
+            String branddataurl = brand_url + jsonObjectmodel.getString("brand") + "/";
+            StringRequest request = new StringRequest(Request.Method.GET, branddataurl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(final String response) {
+                    Toast.makeText(add_vehicles.this, ""+response, Toast.LENGTH_SHORT).show();
+//                    progressBar.setVisibility(View.GONE);
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Log.e("Responce", jsonObject.toString());
+
+                        myList.add(new MyListAddedVehiclesData(jsonObjectav.getString("id"), jsonObjectmodel.getString("id"),jsonObjectmodel.getString("model_name"),jsonObject.getString("brand")));
+                        adapter.notifyDataSetChanged();
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+    //                progressBar.setVisibility(View.GONE);
+                    if(error.networkResponse.data!=null) {
+                        try {
+                            String errorMessage = new String(error.networkResponse.data,"UTF-8");
+                            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            ) {
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Content-Type", "application/json");
+                    return params;
+                }
+
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+            request.setRetryPolicy(new RetryPolicy() {
+                @Override
+                public int getCurrentTimeout() {
+                    return 60000;
+                }
+
+                @Override
+                public int getCurrentRetryCount() {
+                    return 5;
+                }
+
+                @Override
+                public void retry(VolleyError error) throws VolleyError {
+
+                }
+            });
+            requestQueue.add(request);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -93,6 +93,16 @@
                     android:layout_gravity="center_vertical"
                     android:visibility="gone"/>
 
+
+
+
+
+                <include layout="@layout/item_vehiclesadded"/>
+
+
+
+
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycleraddedvehicles"
                     android:layout_width="match_parent"
