@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    android:background="@drawable/button">
 
     <!--
         <View
@@ -154,13 +156,33 @@
                     android:layout_toRightOf="@id/tvitemDate"
                     android:textSize="15dp"/>
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llitemAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/llitemMobile">
+                <TextView
+                    android:id="@+id/tvitemAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address: "
+                    android:textSize="15dp"/>
+                <TextView
+                    android:id="@+id/itemaddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10A, Bhagvati, Bhavnagar-364002"
+                    android:layout_toRightOf="@id/tvitemAddress"
+                    android:textSize="15dp"/>
+            </LinearLayout>
 
             <View
                 android:id="@+id/itemSecondView"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"
-                android:layout_below="@+id/llitemMobile"
+                android:layout_below="@+id/llitemAddress"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"/>
 
@@ -386,12 +408,12 @@
                         android:text="Servicer Remarks: "
                         android:textSize="15dp"
                         android:layout_centerVertical="true"/>
-                    <EditText
+                    <TextView
                         android:id="@+id/itemRemarks"
-                        android:layout_width="270dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Enter Remark Here"
-                        android:textSize="8dp"
+                        android:hint="N/A"
+                        android:textSize="15dp"
                         android:layout_toRightOf="@+id/tvitemRemarks"
                         android:enabled="false"
                         android:layout_centerVertical="true"/>
@@ -426,6 +448,7 @@
                     android:id="@+id/rlitemReview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:layout_below="@+id/tvitemAfterService">
                     <TextView
                         android:id="@+id/tvitemReview"
@@ -434,12 +457,12 @@
                         android:text="Review: "
                         android:textSize="15dp"
                         android:layout_centerVertical="true"/>
-                    <EditText
+                    <TextView
                         android:id="@+id/itemReview"
-                        android:layout_width="270dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Enter Review Here"
-                        android:textSize="8dp"
+                        android:hint="N/A"
+                        android:textSize="15dp"
                         android:layout_toRightOf="@+id/tvitemReview"
                         android:enabled="false"
                         android:layout_centerVertical="true"/>

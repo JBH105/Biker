@@ -1,21 +1,27 @@
 package com.example.biker;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.biker.user.user_book_service;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
@@ -38,7 +44,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
     }
 
     @Override
-    public void onBindViewHolder(MyListServiceAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final MyListServiceAdapter.ViewHolder holder, int position) {
         final MyListServiceData myListData = listdata.get(position);
         holder.itemServiceId.setText("SERVICE ID: SVC"+myListData.getServiceId().trim());
         if (myListData.getCancelServicer()) {
@@ -72,6 +78,12 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             holder.itemServicer.setText(myListData.getServicerName());
         }
         holder.itemMobile.setText(myListData.getMobile());
+        if (getIsServicer(myListData.getContext())) {
+            holder.llitemAddress.setVisibility(View.VISIBLE);
+            holder.itemAddress.setText(myListData.getAddress());
+        } else {
+            holder.llitemAddress.setVisibility(View.GONE);
+        }
         holder.itemVehicleNumber.setText(myListData.getVehicleNumber());
         holder.itemModel.setText(myListData.getModel());
         holder.itemBrand.setText(myListData.getBrand());
@@ -79,16 +91,38 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
 
         if (getIsServicer(myListData.getContext())) {
             holder.itemAccept.setEnabled(true);
-            holder.itemAccept.setEnabled(true);
-            if (holder.itemAccept.isChecked())
+            if (holder.itemAccept.isChecked()) {
+                holder.itemSolved.setEnabled(true);
                 holder.itemRemarks.setEnabled(true);
-            holder.itemReview.setEnabled(true);
+            }
+            holder.itemReview.setEnabled(false);
+
+            holder.itemRemarks.setText("Click Here to write Remark");
+            holder.itemReview.setText("N/A");
+
         } else {
             holder.itemAccept.setEnabled(false);
-            holder.itemAccept.setEnabled(false);
+            holder.itemSolved.setEnabled(false);
             holder.itemRemarks.setEnabled(false);
             if (holder.itemSolved.isChecked())
                 holder.itemReview.setEnabled(true);
+
+            holder.itemRemarks.setText("N/A");
+            holder.itemReview.setText("Click Here to give Review");
+
+        }
+
+        holder.itemAccept.setChecked(myListData.getAccept());
+        holder.itemSolved.setChecked(myListData.getSolved());
+        if (holder.itemAccept.isChecked()) {
+            if (!myListData.getRemarks().trim().isEmpty() || (myListData.getRemarks() != null)) {
+                holder.itemRemarks.setText(myListData.getRemarks());
+            }
+        }
+        if (holder.itemSolved.isChecked()) {
+            if (!myListData.getReview().trim().isEmpty() || (myListData.getReview() != null)) {
+                holder.itemReview.setText(myListData.getReview());
+            }
         }
 
 
@@ -105,14 +139,136 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 if (getIsServicer(view.getContext()))
-                                    new MyListServiceMethods().CancelServiceMethod(view.getContext(), myListData, "servicer");
+                                    new MyListServiceMethods().CancelServiceMethod(view.getContext(), myListData, myListData.getJsonObjectFirstMethod(), "servicer");
                                 else
-                                    new MyListServiceMethods().CancelServiceMethod(view.getContext(), myListData, "user");
+                                    new MyListServiceMethods().CancelServiceMethod(view.getContext(), myListData, myListData.getJsonObjectFirstMethod(), "user");
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
+        });
+
+        holder.itemAccept.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(myListData.getContext());
+
+                    // Layout Inflator
+                    LayoutInflater layoutInflater = (LayoutInflater) myListData.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    final View view = layoutInflater.inflate(R.layout.accept_alertdialog, null);
+
+                    builder.setCancelable(true)
+                            .setTitle("Confirm Accept")
+                            .setView(view)
+                            .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    holder.itemRemarks.setEnabled(true);
+                                    String remarkToSend;
+                                    TextInputEditText acceptRemarks = view.findViewById(R.id.acceptRemarks);
+                                    if (acceptRemarks.getText().toString().trim().isEmpty())
+                                        remarkToSend = "";
+                                    else
+                                        remarkToSend = acceptRemarks.getText().toString().trim();
+                                    if (getIsServicer(myListData.getContext()))
+                                        new MyListServiceMethods().AcceptServiceMethod(myListData.getContext(), myListData, myListData.getJsonObjectFirstMethod(), remarkToSend);
+                                    holder.itemAccept.setEnabled(false);
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    holder.itemAccept.setChecked(false);
+                                    holder.itemAccept.setEnabled(true);
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                }
+            }
+        });
+
+        holder.itemRemarks.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(final View view) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(myListData.getContext());
+
+                // Layout Inflator
+                LayoutInflater layoutInflater = (LayoutInflater) myListData.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View viewll = layoutInflater.inflate(R.layout.remarks_alertdialog, null);
+
+                builder.setCancelable(true)
+                        .setTitle("Servicer Remark")
+                        .setView(viewll)
+                        .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String remarkToSend;
+                                TextInputEditText remarkRemarks = viewll.findViewById(R.id.remarkRemarks);
+                                if (remarkRemarks.getText().toString().trim().isEmpty())
+                                    remarkToSend = "";
+                                else
+                                    remarkToSend = remarkRemarks.getText().toString().trim();
+                                if (getIsServicer(myListData.getContext()))
+                                    new MyListServiceMethods().RemarkServiceMethod(myListData.getContext(), myListData, myListData.getJsonObjectFirstMethod(), remarkToSend);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
+        });
+
+        holder.itemReview.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(final View view) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(myListData.getContext());
+
+                // Layout Inflator
+                LayoutInflater layoutInflater = (LayoutInflater) myListData.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View viewll = layoutInflater.inflate(R.layout.review_alertdialog, null);
+
+                builder.setCancelable(true)
+                        .setTitle("Review")
+                        .setView(viewll)
+                        .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String reviewToSend;
+                                TextInputEditText reviewReviews = viewll.findViewById(R.id.reviewReviews);
+                                if (reviewReviews.getText().toString().trim().isEmpty())
+                                    reviewToSend = "";
+                                else
+                                    reviewToSend = reviewReviews.getText().toString().trim();
+                                if (!getIsServicer(myListData.getContext()))
+                                    new MyListServiceMethods().ReviewServiceMethod(myListData.getContext(), myListData, myListData.getJsonObjectFirstMethod(), reviewToSend);
+                                holder.itemReview.setEnabled(false);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                holder.itemReview.setEnabled(true);
                             }
                         });
                 AlertDialog dialog = builder.create();
@@ -137,13 +293,13 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView itemServiceId;
         public ImageView itemCancel;
-        public TextView itemCancelBy, itemDate, itemServicer, itemUser, itemMobile;
+        public TextView itemCancelBy, itemDate, itemServicer, itemUser, itemMobile, itemAddress;
         public TextView itemVehicleNumber, itemModel, itemBrand;
         public TextView itemProblemExplanation;
         public CheckBox itemAccept, itemSolved;
-        public EditText itemRemarks;
-        public EditText itemReview;
-        public LinearLayout llitemServicer, llitemUser;
+        public TextView itemRemarks;
+        public TextView itemReview;
+        public LinearLayout llitemServicer, llitemUser, llitemAddress;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -165,6 +321,9 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
 
             this.llitemServicer = itemView.findViewById(R.id.llitemServicer);
             this.llitemUser = itemView.findViewById(R.id.llitemUser);
+
+            this.itemAddress = itemView.findViewById(R.id.itemaddress);
+            this.llitemAddress = itemView.findViewById(R.id.llitemAddress);
         }
     }
 }

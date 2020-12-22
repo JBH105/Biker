@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/tvacceptinstruct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Do you want to Accept Service Booked??"
+        android:textSize="20dp"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/tvacceptinstruct1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="(Write Remark in below provided field if necessary..)"
+        android:textSize="20dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/tvacceptinstruct"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        android:layout_below="@+id/tvacceptinstruct1">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/acceptRemarks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Remarks"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+</RelativeLayout>

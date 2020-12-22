@@ -58,6 +58,7 @@ public class list_user_service extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerlistservice);
 
         // recyclerView
+        myList.clear();
         adapter = new MyListServiceAdapter(myList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -74,6 +75,7 @@ public class list_user_service extends AppCompatActivity {
 
     public static void getServiceListMethod(final Context context) {
 
+        myList.clear();
         String service_list_url = "";
         if (getIsServicer(context))
             service_list_url = (servicer_service_list_url + getUsername(context));
@@ -267,6 +269,7 @@ public class list_user_service extends AppCompatActivity {
                             if (getIsServicer(context)) {
                                 jsonObjectFirstMethod.put("servicerName", getUsername(context));
                                 jsonObjectFirstMethod.put("userName", jsonObject.getString("username"));
+                                jsonObjectFirstMethod.put("address", jsonObjectSecondMethod.getString("address_fl")+", "+jsonObjectSecondMethod.getString("address_sl")+",\n "+jsonObjectSecondMethod.getString("city")+"-"+jsonObjectSecondMethod.getString("zip"));
                             } else {
                                 jsonObjectFirstMethod.put("servicerName", jsonObject.getString("username"));
                                 jsonObjectFirstMethod.put("userName", getUsername(context));
@@ -505,22 +508,44 @@ public class list_user_service extends AppCompatActivity {
 
 
                             // List in RecyclerView
-                            myList.add(new MyListServiceData(context,
-                                    jsonObjectFirstMethod.getString("id"),
-                                    jsonObjectFirstMethod.getBoolean("cancel_servicer"),
-                                    jsonObjectFirstMethod.getBoolean("cancel_user"),
-                                    jsonObjectFirstMethod.getString("created_at"),
-                                    jsonObjectFirstMethod.getString("mobileNumber"),
-                                    jsonObjectFirstMethod.getString("servicerName"),
-                                    jsonObjectFirstMethod.getString("userName"),
-                                    jsonObjectFirstMethod.getString("problem"),
-                                    jsonObjectFirstMethod.getString("vehicleNumber"),
-                                    jsonObjectFirstMethod.getString("modelName"),
-                                    jsonObjectFirstMethod.getString("brandName"),
-                                    jsonObjectFirstMethod.getBoolean("accept"),
-                                    jsonObjectFirstMethod.getBoolean("solved"),
-                                    jsonObjectFirstMethod.getString("remarks"),
-                                    jsonObjectFirstMethod.getString("review")));
+                            if (getIsServicer(context)) {
+                                myList.add(new MyListServiceData(context,
+                                        jsonObjectFirstMethod.getString("id"),
+                                        jsonObjectFirstMethod.getBoolean("cancel_servicer"),
+                                        jsonObjectFirstMethod.getBoolean("cancel_user"),
+                                        jsonObjectFirstMethod.getString("created_at"),
+                                        jsonObjectFirstMethod.getString("mobileNumber"),
+                                        jsonObjectFirstMethod.getString("servicerName"),
+                                        jsonObjectFirstMethod.getString("userName"),
+                                        jsonObjectFirstMethod.getString("problem"),
+                                        jsonObjectFirstMethod.getString("vehicleNumber"),
+                                        jsonObjectFirstMethod.getString("modelName"),
+                                        jsonObjectFirstMethod.getString("brandName"),
+                                        jsonObjectFirstMethod.getBoolean("accept"),
+                                        jsonObjectFirstMethod.getBoolean("solved"),
+                                        jsonObjectFirstMethod.getString("remarks"),
+                                        jsonObjectFirstMethod.getString("review"),
+                                        jsonObjectFirstMethod.getString("address"),
+                                        jsonObjectFirstMethod));
+                            } else {
+                                myList.add(new MyListServiceData(context,
+                                        jsonObjectFirstMethod.getString("id"),
+                                        jsonObjectFirstMethod.getBoolean("cancel_servicer"),
+                                        jsonObjectFirstMethod.getBoolean("cancel_user"),
+                                        jsonObjectFirstMethod.getString("created_at"),
+                                        jsonObjectFirstMethod.getString("mobileNumber"),
+                                        jsonObjectFirstMethod.getString("servicerName"),
+                                        jsonObjectFirstMethod.getString("userName"),
+                                        jsonObjectFirstMethod.getString("problem"),
+                                        jsonObjectFirstMethod.getString("vehicleNumber"),
+                                        jsonObjectFirstMethod.getString("modelName"),
+                                        jsonObjectFirstMethod.getString("brandName"),
+                                        jsonObjectFirstMethod.getBoolean("accept"),
+                                        jsonObjectFirstMethod.getBoolean("solved"),
+                                        jsonObjectFirstMethod.getString("remarks"),
+                                        jsonObjectFirstMethod.getString("review"),
+                                        jsonObjectFirstMethod));
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
