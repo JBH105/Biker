@@ -52,6 +52,9 @@ public class Urls {
         Toast.makeText(context, "11 "+value, Toast.LENGTH_SHORT).show();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
+        if (value.equals(false)) {
+            editor.clear();
+        }
         editor.putBoolean("ISLOGGEDIN", value);
         editor.commit();
     }
@@ -74,30 +77,30 @@ public class Urls {
     }
     public static String getUsername(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString("username", "error");
+        return preferences.getString("username", "null");
     }
     public static String getEmail(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString("email", "error");
+        return preferences.getString("email", "null");
     }
     public static String getMobile(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString("mobile", "error");
+        return preferences.getString("mobile", "null");
     }
     public static String getAddress_fl(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString("address_fl", "error");
+        return preferences.getString("address_fl", "null");
     }
     public static String getAddress_sl(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString("address_sl", "error");
+        return preferences.getString("address_sl", "null");
     }
     public static String getCity(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString("city", "error");
+        return preferences.getString("city", "null");
     }
     public static String getZip(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString("zip", "error");
+        return preferences.getString("zip", "null");
     }
 }
