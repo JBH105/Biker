@@ -99,7 +99,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="DELETE"
-                android:textSize="16dp"
+                android:textSize="14dp"
+                android:backgroundTint="@color/shade7"
+                android:textColor="#ffffff"
+                android:background="@drawable/button"
                 android:gravity="center"/>
 
         </LinearLayout>
