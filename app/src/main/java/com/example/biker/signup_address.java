@@ -72,8 +72,9 @@ public class signup_address extends AppCompatActivity {
                     return;
                 }
                 if (second.isEmpty()){
-                    address_second.setError("Address is Requird");
-                    return;
+//                    address_second.setError("Address is Requird");
+                    second ="";
+//                    return;
                 }
                 if (City.isEmpty()){
                     city.setError("City is Requird");
