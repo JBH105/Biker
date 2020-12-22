@@ -22,6 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:gravity="center_horizontal"
                 android:layout_gravity="center">
 
                 <TextView
@@ -81,6 +82,16 @@
             android:backgroundTint="@color/shade7"
             android:textColor="#ffff"
             android:textSize="22dp"/>
+
+                <TextView
+                    android:id="@+id/signup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="New User? Signup"
+                    android:textSize="18dp"
+                    android:textColor="@color/shade5"/>
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

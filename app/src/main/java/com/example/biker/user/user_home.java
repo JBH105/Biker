@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.biker.R;
 import com.example.biker.bike_service;
 import com.example.biker.list_user_service;
+import com.example.biker.login;
 import com.example.biker.select_login_signup;
 import com.google.android.material.navigation.NavigationView;
 
@@ -68,7 +69,7 @@ public class user_home extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //logout
                                 storeIsLoggedIn(user_home.this, false);
-                                startActivity(new Intent(getApplicationContext(), select_login_signup.class));
+                                startActivity(new Intent(getApplicationContext(), login.class));
                                 finish();
                             }
                         });

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -37,6 +38,7 @@ public class login extends AppCompatActivity {
 TextInputEditText username,password;
 Button loginbtn;
 String name, pass;
+TextView signup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,14 @@ String name, pass;
         username=findViewById(R.id.username);
         password=findViewById(R.id.password);
         loginbtn=findViewById(R.id.loginbtn);
+        signup=findViewById(R.id.signup);
+
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),signup.class));
+            }
+        });
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +110,7 @@ String name, pass;
                         startActivity(new Intent(getApplicationContext(), home.class));
                     else
                         startActivity(new Intent(getApplicationContext(), user_home.class));
+                    finishAffinity();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -222,6 +222,7 @@ public class signup_address extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                finishAffinity();
                 startActivity(new Intent(getApplicationContext(), home.class));
 
 //                try {

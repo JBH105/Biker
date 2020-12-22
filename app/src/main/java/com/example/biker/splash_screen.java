@@ -30,7 +30,7 @@ public class splash_screen extends AppCompatActivity {
                     else
                         startActivity(new Intent(getApplicationContext(), user_home.class));
                 } else
-                    startActivity(new Intent(getApplicationContext(),select_login_signup.class));
+                    startActivity(new Intent(getApplicationContext(),login.class));
                 finish();
             }
         },4000);
