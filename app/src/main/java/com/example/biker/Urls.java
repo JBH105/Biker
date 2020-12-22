@@ -74,6 +74,30 @@ public class Urls {
     }
     public static String getUsername(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString("username", "true");
+        return preferences.getString("username", "error");
+    }
+    public static String getEmail(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString("email", "error");
+    }
+    public static String getMobile(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString("mobile", "error");
+    }
+    public static String getAddress_fl(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString("address_fl", "error");
+    }
+    public static String getAddress_sl(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString("address_sl", "error");
+    }
+    public static String getCity(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString("city", "error");
+    }
+    public static String getZip(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString("zip", "error");
     }
 }

@@ -136,12 +136,6 @@ public class home extends AppCompatActivity {
         profileCardViewHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            }
-        });
-        profileCardViewHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), profile.class));
             }
         });
