@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -135,7 +136,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView itemServiceId;
-        public Button itemCancel;
+        public ImageView itemCancel;
         public TextView itemCancelBy, itemDate, itemServicer, itemUser, itemMobile;
         public TextView itemVehicleNumber, itemModel, itemBrand;
         public TextView itemProblemExplanation;

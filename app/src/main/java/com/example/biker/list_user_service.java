@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -43,7 +44,8 @@ import static com.example.biker.Urls.vehicle_api_url;
 
 public class list_user_service extends AppCompatActivity {
 
-    RecyclerView recyclerView;
+    private static RelativeLayout relativelayoutnoservice;
+    private static RecyclerView recyclerView;
     private static MyListServiceAdapter adapter;
     private static List<MyListServiceData> myList = new ArrayList<>();
 
@@ -52,6 +54,7 @@ public class list_user_service extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_user_service);
 
+        relativelayoutnoservice = findViewById(R.id.relativelayoutnoservice);
         recyclerView = findViewById(R.id.recyclerlistservice);
 
         // recyclerView
@@ -80,14 +83,14 @@ public class list_user_service extends AppCompatActivity {
             @Override
             public void onResponse(final String response) {
 //                progressBar.setVisibility(View.GONE);
-                Toast.makeText(context, "No Details "+response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "No Details "+response, Toast.LENGTH_SHORT).show();
                 try {
                     if (new JSONArray(response).toString().trim().isEmpty() || response.trim().equals("[]")) {
-//                        addVehicleListScrollView.setVisibility(View.VISIBLE);
-//                        noVehiclesTextView.setVisibility(View.VISIBLE);
+                        relativelayoutnoservice.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
                     } else {
-//                        addVehicleListScrollView.setVisibility(View.VISIBLE);
-//                        noVehiclesTextView.setVisibility(View.GONE);
+                        relativelayoutnoservice.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -414,7 +417,7 @@ public class list_user_service extends AppCompatActivity {
             @Override
             public void onResponse(final String response) {
 //                progressBar.setVisibility(View.GONE);
-                Toast.makeText(context, ".. "+response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, ".. "+response, Toast.LENGTH_SHORT).show();
 
                 new Thread() {
                     @Override
@@ -485,12 +488,12 @@ public class list_user_service extends AppCompatActivity {
 
     private static void getModelFromFirstResult(final Context context, final JSONObject jsonObjectFirstMethod) throws JSONException {
 
-        String modelto_url = model_url + jsonObjectFirstMethod.getString("user") + "/";
+        String modelto_url = model_url + jsonObjectFirstMethod.getString("model_fk") + "/";
         StringRequest request = new StringRequest(Request.Method.GET, modelto_url, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
 //                progressBar.setVisibility(View.GONE);
-                Toast.makeText(context, ".. "+response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, ".. "+response, Toast.LENGTH_SHORT).show();
 
                 new Thread() {
                     @Override
@@ -519,14 +522,13 @@ public class list_user_service extends AppCompatActivity {
                                     jsonObjectFirstMethod.getString("remarks"),
                                     jsonObjectFirstMethod.getString("review")));
 
-                            adapter.notifyDataSetChanged();
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }.start();
+
+                adapter.notifyDataSetChanged();
 
             }
         }, new Response.ErrorListener() {

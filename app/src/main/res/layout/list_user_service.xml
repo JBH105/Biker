@@ -25,12 +25,20 @@
             android:textStyle="bold" />
 
 
+        <include layout="@layout/item_list_service_nodetails"
+            android:layout_below="@id/serviceTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerlistservice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/serviceTextView"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 </ScrollView>
