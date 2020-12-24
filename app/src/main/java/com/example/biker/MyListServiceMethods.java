@@ -490,12 +490,15 @@ public class MyListServiceMethods {
 
 
     public void ShowUpdatedServiceListMethod(final Context context) {
+/*
         new Thread() {
             @Override
             public void run() {
                 getServiceListMethod(context);
             }
         }.start();
+*/
+        getServiceListMethod(context);
     }
 
 }
