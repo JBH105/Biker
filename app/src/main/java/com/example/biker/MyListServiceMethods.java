@@ -3,6 +3,7 @@ package com.example.biker;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -24,12 +25,13 @@ import java.util.Map;
 
 import static com.example.biker.Urls.book_service_url;
 import static com.example.biker.list_user_service.getServiceListMethod;
+import static com.example.biker.list_user_service.setProgressBarVisibilityService;
 
 public class MyListServiceMethods {
 
     public void CancelServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod, String s) {
         Log.e("kk","Cancel Service......."+jsonObjectFirstMethod);
-
+        setProgressBarVisibilityService(View.VISIBLE);
 
 
         JSONObject jsonBody = new JSONObject();
@@ -56,6 +58,7 @@ public class MyListServiceMethods {
             jsonBody.put("problem", jsonObjectFirstMethod.getString("problem"));
             jsonBody.put("created_at", jsonObjectFirstMethod.getString("created_at"));
         } catch (JSONException e) {
+            setProgressBarVisibilityService(View.GONE);
             e.printStackTrace();
         }
         final String requestBody = jsonBody.toString();
@@ -64,6 +67,7 @@ public class MyListServiceMethods {
         try {
             service_update_url = book_service_url + jsonObjectFirstMethod.get("id") + "/";
         } catch (JSONException e) {
+            setProgressBarVisibilityService(View.GONE);
             e.printStackTrace();
         }
         StringRequest request = new StringRequest(Request.Method.PUT, service_update_url, new Response.Listener<String>() {
@@ -72,6 +76,7 @@ public class MyListServiceMethods {
                 //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
+                    setProgressBarVisibilityService(View.GONE);
                     Toast.makeText(context, "Service is Cancelled Successfully!!", Toast.LENGTH_SHORT).show();
                     ShowUpdatedServiceListMethod(context);
                 } catch (Exception e) {
@@ -84,6 +89,7 @@ public class MyListServiceMethods {
             @Override
             public void onErrorResponse(VolleyError error) {
 //                progressBar.setVisibility(View.GONE);
+                setProgressBarVisibilityService(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -143,7 +149,7 @@ public class MyListServiceMethods {
 
     public void AcceptServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod, String s) {
         Log.e("kk","Accept Service......."+jsonObjectFirstMethod);
-
+        setProgressBarVisibilityService(View.VISIBLE);
 
 
 
@@ -164,6 +170,7 @@ public class MyListServiceMethods {
             jsonBody.put("problem", jsonObjectFirstMethod.getString("problem"));
             jsonBody.put("created_at", jsonObjectFirstMethod.getString("created_at"));
         } catch (Exception e) {
+            setProgressBarVisibilityService(View.GONE);
             e.printStackTrace();
         }
         final String requestBody = jsonBody.toString();
@@ -172,6 +179,7 @@ public class MyListServiceMethods {
         try {
             service_update_url = book_service_url + jsonObjectFirstMethod.get("id") + "/";
         } catch (JSONException e) {
+            setProgressBarVisibilityService(View.GONE);
             e.printStackTrace();
         }
         StringRequest request = new StringRequest(Request.Method.PUT, service_update_url, new Response.Listener<String>() {
@@ -180,6 +188,7 @@ public class MyListServiceMethods {
                 //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
+                    setProgressBarVisibilityService(View.GONE);
                     Toast.makeText(context, "Service is Accepted by Servicer!!", Toast.LENGTH_SHORT).show();
                     ShowUpdatedServiceListMethod(context);
                 } catch (Exception e) {
@@ -192,6 +201,7 @@ public class MyListServiceMethods {
             @Override
             public void onErrorResponse(VolleyError error) {
 //                progressBar.setVisibility(View.GONE);
+                setProgressBarVisibilityService(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -251,6 +261,7 @@ public class MyListServiceMethods {
 
     public void RemarkServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod, String s) {
         Log.e("kk","Remark Service......."+jsonObjectFirstMethod);
+        setProgressBarVisibilityService(View.VISIBLE);
 
 
 
@@ -273,6 +284,7 @@ public class MyListServiceMethods {
             jsonBody.put("problem", jsonObjectFirstMethod.getString("problem"));
             jsonBody.put("created_at", jsonObjectFirstMethod.getString("created_at"));
         } catch (Exception e) {
+            setProgressBarVisibilityService(View.GONE);
             e.printStackTrace();
         }
         final String requestBody = jsonBody.toString();
@@ -281,6 +293,7 @@ public class MyListServiceMethods {
         try {
             service_update_url = book_service_url + jsonObjectFirstMethod.get("id") + "/";
         } catch (JSONException e) {
+            setProgressBarVisibilityService(View.GONE);
             e.printStackTrace();
         }
         StringRequest request = new StringRequest(Request.Method.PUT, service_update_url, new Response.Listener<String>() {
@@ -289,6 +302,7 @@ public class MyListServiceMethods {
                 //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
+                    setProgressBarVisibilityService(View.GONE);
                     Toast.makeText(context, "Remark is Updated Successfully!!", Toast.LENGTH_SHORT).show();
                     ShowUpdatedServiceListMethod(context);
                 } catch (Exception e) {
@@ -301,6 +315,7 @@ public class MyListServiceMethods {
             @Override
             public void onErrorResponse(VolleyError error) {
 //                progressBar.setVisibility(View.GONE);
+                setProgressBarVisibilityService(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -361,6 +376,7 @@ public class MyListServiceMethods {
 
     public void ReviewServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod, String s) {
         Log.e("kk","Review Service......."+jsonObjectFirstMethod);
+        setProgressBarVisibilityService(View.VISIBLE);
 
 
 
@@ -383,6 +399,7 @@ public class MyListServiceMethods {
             jsonBody.put("problem", jsonObjectFirstMethod.getString("problem"));
             jsonBody.put("created_at", jsonObjectFirstMethod.getString("created_at"));
         } catch (Exception e) {
+            setProgressBarVisibilityService(View.GONE);
             e.printStackTrace();
         }
         final String requestBody = jsonBody.toString();
@@ -391,6 +408,7 @@ public class MyListServiceMethods {
         try {
             service_update_url = book_service_url + jsonObjectFirstMethod.get("id") + "/";
         } catch (JSONException e) {
+            setProgressBarVisibilityService(View.GONE);
             e.printStackTrace();
         }
         StringRequest request = new StringRequest(Request.Method.PUT, service_update_url, new Response.Listener<String>() {
@@ -399,6 +417,7 @@ public class MyListServiceMethods {
                 //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
+                    setProgressBarVisibilityService(View.GONE);
                     Toast.makeText(context, "Review is Submitted Successfully!!", Toast.LENGTH_SHORT).show();
                     ShowUpdatedServiceListMethod(context);
                 } catch (Exception e) {
@@ -411,6 +430,7 @@ public class MyListServiceMethods {
             @Override
             public void onErrorResponse(VolleyError error) {
 //                progressBar.setVisibility(View.GONE);
+                setProgressBarVisibilityService(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");

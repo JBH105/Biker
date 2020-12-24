@@ -77,8 +77,13 @@ public class list_user_service extends AppCompatActivity {
 
     }
 
+    public static void setProgressBarVisibilityService(int i) {
+        progressBar.setVisibility(i);
+    }
+
     public static void getServiceListMethod(final Context context) {
 
+        progressBar.setVisibility(View.VISIBLE);
         myList.clear();
         String service_list_url = "";
         if (getIsServicer(context))
