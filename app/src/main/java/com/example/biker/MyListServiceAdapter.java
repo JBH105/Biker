@@ -63,7 +63,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
                 holder.itemCancelBy.setText("Cancelled by " + myListData.getUserName());
             else
                 holder.itemCancelBy.setText("Cancelled by You!!");
-            holder.itemCancel.setEnabled(true);
+            holder.itemCancel.setEnabled(false);
         } else {
             holder.itemCancelBy.setVisibility(View.GONE);
         }
@@ -92,6 +92,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
         if (getIsServicer(myListData.getContext())) {
             holder.itemAccept.setEnabled(true);
             if (holder.itemAccept.isChecked()) {
+                holder.itemAccept.setEnabled(false);
                 holder.itemSolved.setEnabled(true);
                 holder.itemRemarks.setEnabled(true);
             }
