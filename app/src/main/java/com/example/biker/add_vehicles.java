@@ -113,12 +113,13 @@ public class add_vehicles extends AppCompatActivity {
                 }
 
                 if (!modelmap.isEmpty()) {
-                    new Thread() {
+                    /*new Thread() {
                         @Override
                         public void run() {
                             addVehicleServicerMethod(modelmap.get(spinner.getSelectedItem()).get(0));
                         }
-                    }.start();
+                    }.start();*/
+                    addVehicleServicerMethod(modelmap.get(spinner.getSelectedItem()).get(0));
                 } else {
                     Log.e("kk", "Model Data NOT Stored!");
                 }
@@ -340,7 +341,7 @@ public class add_vehicles extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.GET, servicer_vehiclelist_url, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-                Toast.makeText(context, ""+response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
                     if (new JSONArray(response).toString().trim().isEmpty() || response.trim().equals("[]")) {
