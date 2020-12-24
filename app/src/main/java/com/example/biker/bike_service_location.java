@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +76,8 @@ public class bike_service_location extends AppCompatActivity {
     List<MyListFindServiceData> myListData = new ArrayList<>();
     RecyclerView recyclerView;
     MyListFindServiceAdater adapter;
+    static ProgressBar progressBar;
+    ProgressBar progressBarInsideRecyclerView;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -87,6 +90,8 @@ public class bike_service_location extends AppCompatActivity {
         noServicerTextView = findViewById(R.id.noServicerTextView);
         recyclerView = findViewById(R.id.recyclerfindservice);
         submit = findViewById(R.id.submit);
+        progressBar = findViewById(R.id.progressBar);
+        progressBarInsideRecyclerView = findViewById(R.id.progressBarInsideRecyclerView);
 
         // POST vehicle_api to get vehicle_api id
         getVehicleApiIdMethod();
@@ -172,6 +177,10 @@ public class bike_service_location extends AppCompatActivity {
             e.printStackTrace();
         }
         super.onDestroy();
+    }
+
+    public static void setProgressBarVisibility(int i) {
+        progressBar.setVisibility(i);
     }
 
     private void getVehicleApiIdMethod() {
@@ -367,6 +376,7 @@ public class bike_service_location extends AppCompatActivity {
     }
 
     private void findServicersMethod() throws InterruptedException {
+        progressBarInsideRecyclerView.setVisibility(View.VISIBLE);
         if (getVehicleapi_id() == null)
             wait(100);
         String zipCode = locationEditText.getText().toString().trim();
@@ -374,10 +384,11 @@ public class bike_service_location extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.GET, findservicerurl, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-                Toast.makeText(bike_service_location.this, "" + response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(bike_service_location.this, "" + response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
                     if (response.trim().equals("[]")) {
+                        progressBarInsideRecyclerView.setVisibility(View.GONE);
                         noServicerTextView.setVisibility(View.VISIBLE);
                     } else {
                         noServicerTextView.setVisibility(View.GONE);
@@ -440,7 +451,7 @@ public class bike_service_location extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBarInsideRecyclerView.setVisibility(View.GONE);
                 if (error.networkResponse.data != null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data, "UTF-8");
@@ -490,7 +501,7 @@ public class bike_service_location extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.GET, serviceuserdetailsrurl, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-                Toast.makeText(bike_service_location.this, "" + response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(bike_service_location.this, "" + response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
 
                 Runnable runnable = new Runnable() {
@@ -499,6 +510,7 @@ public class bike_service_location extends AppCompatActivity {
 
                         try {
 
+                            progressBarInsideRecyclerView.setVisibility(View.GONE);
                             JSONObject jsonObjectUserDetails = new JSONObject(response);
                             if (jsonObjectUserDetails.toString().isEmpty())
                                 return;
@@ -522,7 +534,7 @@ public class bike_service_location extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBarInsideRecyclerView.setVisibility(View.GONE);
                 if (error.networkResponse.data != null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data, "UTF-8");
@@ -569,20 +581,31 @@ public class bike_service_location extends AppCompatActivity {
 
     private void getLocationZipCodeMethod() {
         //Runtime permissions
-        if (ContextCompat.checkSelfPermission(bike_service_location.this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(bike_service_location.this, new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION
-            }, 100);
+        try {
+
+            if (ContextCompat.checkSelfPermission(bike_service_location.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(bike_service_location.this, new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                }, 100);
+            }
+            getLocation();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        getLocation();
     }
 
     private void getLocation() {
 
         try {
+            progressBar.setVisibility(View.VISIBLE);
             locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
 //            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,5,bike_service_location.this);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(bike_service_location.this, new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                }, 100);
+            }
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
@@ -599,6 +622,7 @@ public class bike_service_location extends AppCompatActivity {
                         public void onLocationChanged(@NonNull Location location) {
                             Log.i("kkkk", location.getLatitude() + "," + location.getLongitude());
                             try {
+                                progressBar.setVisibility(View.GONE);
                                 Geocoder geocoder = new Geocoder(bike_service_location.this, Locale.getDefault());
                                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ TextInputEditText username,password;
 Button loginbtn;
 String name, pass;
 TextView signup;
+ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,7 @@ TextView signup;
         password=findViewById(R.id.password);
         loginbtn=findViewById(R.id.loginbtn);
         signup=findViewById(R.id.signup);
+        progressBar = findViewById(R.id.progressBar);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +81,7 @@ TextView signup;
                     password.setError("Password must be at least 8 characters");
                     return;
                 }
+                progressBar.setVisibility(View.VISIBLE);
                 signinmethod();
 //              startActivity(new Intent(getApplicationContext(),home.class));
 
@@ -100,11 +104,12 @@ TextView signup;
         StringRequest request = new StringRequest(Request.Method.POST, signin_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
                     storeUserInfoInSharedPref(login.this, new JSONObject(response));
                     storeIsLoggedIn(login.this, true);
+                    progressBar.setVisibility(View.GONE);
                     if(getIsServicer(login.this))
 //                    if(new JSONObject(response).getJSONObject("account").getBoolean("is_servicer"))
                         startActivity(new Intent(getApplicationContext(), home.class));
@@ -147,7 +152,7 @@ TextView signup;
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");

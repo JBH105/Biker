@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -39,6 +40,7 @@ public class signup_address extends AppCompatActivity {
     TextInputEditText address_first,address_second,city,zip;
     Button adsignup;
     String name, email, pas, Number, first, second, City, Zip;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class signup_address extends AppCompatActivity {
         city=findViewById(R.id.city);
         zip=findViewById(R.id.zip);
         adsignup=findViewById(R.id.adsignup);
+        progressBar = findViewById(R.id.progressBar);
 
         Intent intent = getIntent();
         name = intent.getStringExtra("username");
@@ -88,6 +91,7 @@ public class signup_address extends AppCompatActivity {
                     zip.setError("Zip code must be at least 6 characters");
                     return;
                 }
+                progressBar.setVisibility(View.VISIBLE);
                 usermethod();
                 //startActivity(new Intent(getApplicationContext(),signup_password.class));
             }
@@ -138,7 +142,7 @@ public class signup_address extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -214,11 +218,12 @@ public class signup_address extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, signupid_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(signup_address.this, ""+response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(signup_address.this, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
                     storeUserInfoInSharedPref(signup_address.this, new JSONObject(response));
                     storeIsLoggedIn(signup_address.this, true);
+                    progressBar.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -256,7 +261,7 @@ public class signup_address extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");

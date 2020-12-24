@@ -8,6 +8,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class signup extends AppCompatActivity {
     Button next;
     Switch aSwitch;
     String name, Email, Number, pas, copas;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class signup extends AppCompatActivity {
         password=findViewById(R.id.password);
         copassword=findViewById(R.id.copassword);
         aSwitch = findViewById(R.id.signupSwitch);
+        progressBar = findViewById(R.id.progressBar);
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +105,9 @@ public class signup extends AppCompatActivity {
                     return;
                 }
 
+                progressBar.setVisibility(View.VISIBLE);
                 if (aSwitch.isChecked()) {
+                    progressBar.setVisibility(View.GONE);
                     Intent intent = new Intent(getApplicationContext(), signup_address.class);
                     intent.putExtra("username", name);
                     intent.putExtra("email", Email);
@@ -169,7 +174,7 @@ public class signup extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 //                Toast.makeText(signup.this, "/ ERROR: "+error.getMessage(), Toast.LENGTH_SHORT).show();
                 if(error.networkResponse.data!=null) {
                     try {
@@ -246,11 +251,12 @@ public class signup extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, signupid_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(signup.this, "..... "+response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(signup.this, "..... "+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
                     storeUserInfoInSharedPref(signup.this, new JSONObject(response));
                     storeIsLoggedIn(signup.this, true);
+                    progressBar.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -290,7 +296,7 @@ public class signup extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");

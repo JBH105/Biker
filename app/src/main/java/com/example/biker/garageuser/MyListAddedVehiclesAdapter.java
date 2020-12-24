@@ -11,8 +11,6 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.biker.MyListFindServiceAdater;
-import com.example.biker.MyListFindServiceData;
 import com.example.biker.R;
 import com.example.biker.user.user_book_service;
 

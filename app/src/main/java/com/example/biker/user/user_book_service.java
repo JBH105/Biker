@@ -3,6 +3,7 @@ package com.example.biker.user;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -34,6 +35,7 @@ import static com.example.biker.Urls.servicer_accountid_url;
 import static com.example.biker.Urls.signin_url;
 import static com.example.biker.Urls.storeIsLoggedIn;
 import static com.example.biker.Urls.storeUserInfoInSharedPref;
+import static com.example.biker.bike_service_location.setProgressBarVisibility;
 import static com.example.biker.user.user_service_data.getBrand_id;
 import static com.example.biker.user.user_service_data.getModel_id;
 import static com.example.biker.user.user_service_data.getProblem;
@@ -58,7 +60,7 @@ public class user_book_service {
         StringRequest request = new StringRequest(Request.Method.GET, findaccountid_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
                     final String accid = new JSONArray(response).getJSONObject(0).getString("id");
@@ -79,6 +81,7 @@ public class user_book_service {
             @Override
             public void onErrorResponse(VolleyError error) {
 //                progressBar.setVisibility(View.GONE);
+                setProgressBarVisibility(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -154,7 +157,7 @@ public class user_book_service {
                 Log.i("kk","Book Service:  "+response);
 //                progressBar.setVisibility(View.GONE);
                 try {
-
+                    setProgressBarVisibility(View.GONE);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -166,6 +169,7 @@ public class user_book_service {
             @Override
             public void onErrorResponse(VolleyError error) {
 //                progressBar.setVisibility(View.GONE);
+                setProgressBarVisibility(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");

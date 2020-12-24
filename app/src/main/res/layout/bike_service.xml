@@ -108,6 +108,9 @@
                 android:background="@drawable/button"/>
 
         </LinearLayout>
+
+        <include layout="@layout/progress_bar_layout"/>
+
     </RelativeLayout>
 
 </ScrollView>

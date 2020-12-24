@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -62,9 +63,10 @@ public class add_vehicles extends AppCompatActivity {
     private static ScrollView addVehicleListScrollView;
     private static TextView noVehiclesTextView;
     //
-    RecyclerView recyclerView;
+    private static RecyclerView recyclerView;
     private static MyListAddedVehiclesAdapter adapter;
     private static List<MyListAddedVehiclesData> myList = new ArrayList<>();
+    private static ProgressBar progressBar, progressBarInsideRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,8 @@ public class add_vehicles extends AppCompatActivity {
         addVehicleListScrollView = findViewById(R.id.addVehicleListScrollView);
         noVehiclesTextView = findViewById(R.id.noVehiclesTextView);
         recyclerView = findViewById(R.id.recycleraddedvehicles);
+        progressBar = findViewById(R.id.progressBar);
+        progressBarInsideRecyclerView = findViewById(R.id.progressBarInsideRecyclerViewAdd);
 
         getModelList();
 
@@ -127,11 +131,12 @@ public class add_vehicles extends AppCompatActivity {
     }
 
     private void getModelList() {
+        progressBar.setVisibility(View.VISIBLE);
         StringRequest request = new StringRequest(Request.Method.GET, model_url, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
 //                progressBar.setVisibility(View.GONE);
-                Toast.makeText(add_vehicles.this, ".. "+response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(add_vehicles.this, ".. "+response, Toast.LENGTH_SHORT).show();
 
                 new Thread() {
                     @Override
@@ -159,6 +164,7 @@ public class add_vehicles extends AppCompatActivity {
                     public void run() {
 
                         try {
+                            progressBar.setVisibility(View.GONE);
                             JSONArray jsonArray = new JSONArray(response);
                             Log.e("Responce", jsonArray.toString());
 
@@ -183,7 +189,7 @@ public class add_vehicles extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 //                Toast.makeText(add_vehicles.this, "/ ERROR: "+error.getMessage(), Toast.LENGTH_SHORT).show();
                 if(error.networkResponse.data!=null) {
                     try {
@@ -233,6 +239,7 @@ public class add_vehicles extends AppCompatActivity {
 
     private void addVehicleServicerMethod(String modelid) {
 
+        progressBar.setVisibility(View.VISIBLE);
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("user", getAccountId(add_vehicles.this));
@@ -246,8 +253,8 @@ public class add_vehicles extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, servicer_add_vehicle_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
-//                progressBar.setVisibility(View.GONE);
+//                Toast.makeText(add_vehicles.this, ""+response, Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
                 try {
                     Toast.makeText(add_vehicles.this, "Vehicle Successfully Added!!", Toast.LENGTH_SHORT).show();
                     new Thread() {
@@ -266,7 +273,7 @@ public class add_vehicles extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -324,6 +331,8 @@ public class add_vehicles extends AppCompatActivity {
 
     private static void getVehicleListMethod(final Context context) {
 
+        addVehicleListScrollView.setVisibility(View.VISIBLE);
+        progressBarInsideRecyclerView.setVisibility(View.VISIBLE);
         // Clear List before getting Added Vehicle List
         myList.clear();
 
@@ -336,10 +345,13 @@ public class add_vehicles extends AppCompatActivity {
                 try {
                     if (new JSONArray(response).toString().trim().isEmpty() || response.trim().equals("[]")) {
                         addVehicleListScrollView.setVisibility(View.VISIBLE);
+                        progressBarInsideRecyclerView.setVisibility(View.GONE);
                         noVehiclesTextView.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
                     } else {
                         addVehicleListScrollView.setVisibility(View.VISIBLE);
                         noVehiclesTextView.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -378,7 +390,7 @@ public class add_vehicles extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBarInsideRecyclerView.setVisibility(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -451,7 +463,7 @@ public class add_vehicles extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBarInsideRecyclerView.setVisibility(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -509,6 +521,7 @@ public class add_vehicles extends AppCompatActivity {
 //                    progressBar.setVisibility(View.GONE);
 
                     try {
+                        progressBarInsideRecyclerView.setVisibility(View.GONE);
                         JSONObject jsonObject = new JSONObject(response);
                         Log.e("Responce", jsonObject.toString());
 
@@ -528,7 +541,7 @@ public class add_vehicles extends AppCompatActivity {
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-    //                progressBar.setVisibility(View.GONE);
+                    progressBarInsideRecyclerView.setVisibility(View.GONE);
                     if(error.networkResponse.data!=null) {
                         try {
                             String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -582,7 +595,7 @@ public class add_vehicles extends AppCompatActivity {
 
 
     public static void deletevehicleAddedMethod(final Context context, MyListAddedVehiclesData addedvehicletodelete) {
-
+        progressBar.setVisibility(View.VISIBLE);
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("user", getAccountId(context));
@@ -598,7 +611,7 @@ public class add_vehicles extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 try {
                     Toast.makeText(context, "Vehicle Deleted Successfully!!", Toast.LENGTH_SHORT).show();
                     new Thread() {
@@ -617,7 +630,7 @@ public class add_vehicles extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");

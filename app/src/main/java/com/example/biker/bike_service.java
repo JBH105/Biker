@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ public class bike_service extends AppCompatActivity {
     ArrayAdapter<String> modelAdapter;
     Map<String, List<String>> modelmap = new HashMap<>();
     Map<String, String> brandmap = new HashMap<>();
+    ProgressBar progressBar;
 
     @SuppressLint("ResourceType")
     @Override
@@ -63,7 +65,9 @@ public class bike_service extends AppCompatActivity {
         remarkInputLayout=findViewById(R.id.remarkInputLayout);
         remark=findViewById(R.id.remark);
         next=findViewById(R.id.next);
+        progressBar = findViewById(R.id.progressBar);
 
+        progressBar.setVisibility(View.VISIBLE);
         getModelList();
         new Thread() {
             @Override
@@ -133,6 +137,7 @@ public class bike_service extends AppCompatActivity {
 //                getBrandItem(bike_service.this);
 //                Toast.makeText(bike_service.this, "Selected Item: "+spinner1.getSelectedItem(), Toast.LENGTH_SHORT).show();
 
+                progressBar.setVisibility(View.VISIBLE);
                 if (!modelmap.isEmpty() && !brandmap.isEmpty()) {
                     new Thread() {
                         @Override
@@ -148,6 +153,7 @@ public class bike_service extends AppCompatActivity {
                     Toast.makeText(bike_service.this, "Error Storing Vehicle Service Data", Toast.LENGTH_SHORT).show();
                 }
 
+                progressBar.setVisibility(View.GONE);
                 startActivity(new Intent(getApplicationContext(), bike_service_location.class));
         }
         });
@@ -158,8 +164,8 @@ public class bike_service extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.GET, model_url, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-//                progressBar.setVisibility(View.GONE);
-                Toast.makeText(bike_service.this, ".. "+response, Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+//                Toast.makeText(bike_service.this, ".. "+response, Toast.LENGTH_SHORT).show();
 
                 new Thread() {
                     @Override
@@ -231,7 +237,7 @@ public class bike_service extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 //                Toast.makeText(signup.this, "/ ERROR: "+error.getMessage(), Toast.LENGTH_SHORT).show();
                 if(error.networkResponse.data!=null) {
                     try {

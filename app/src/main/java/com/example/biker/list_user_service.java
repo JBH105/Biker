@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class list_user_service extends AppCompatActivity {
     private static RecyclerView recyclerView;
     private static MyListServiceAdapter adapter;
     private static List<MyListServiceData> myList = new ArrayList<>();
+    private static ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,8 @@ public class list_user_service extends AppCompatActivity {
 
         relativelayoutnoservice = findViewById(R.id.relativelayoutnoservice);
         recyclerView = findViewById(R.id.recyclerlistservice);
+        progressBar = findViewById(R.id.progressBarService);
+        progressBar.setVisibility(View.VISIBLE);
 
         // recyclerView
         myList.clear();
@@ -88,9 +92,11 @@ public class list_user_service extends AppCompatActivity {
 //                Toast.makeText(context, "No Details "+response, Toast.LENGTH_SHORT).show();
                 try {
                     if (new JSONArray(response).toString().trim().isEmpty() || response.trim().equals("[]")) {
+                        progressBar.setVisibility(View.GONE);
                         relativelayoutnoservice.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);
                     } else {
+                        progressBar.setVisibility(View.VISIBLE);
                         relativelayoutnoservice.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                     }
@@ -123,7 +129,7 @@ public class list_user_service extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 //                Toast.makeText(add_vehicles.this, "/ ERROR: "+error.getMessage(), Toast.LENGTH_SHORT).show();
                 if(error.networkResponse.data!=null) {
                     try {
@@ -203,7 +209,7 @@ public class list_user_service extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 //                Toast.makeText(add_vehicles.this, "/ ERROR: "+error.getMessage(), Toast.LENGTH_SHORT).show();
                 if(error.networkResponse.data!=null) {
                     try {
@@ -287,7 +293,7 @@ public class list_user_service extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 //                Toast.makeText(add_vehicles.this, "/ ERROR: "+error.getMessage(), Toast.LENGTH_SHORT).show();
                 if(error.networkResponse.data!=null) {
                     try {
@@ -363,7 +369,7 @@ public class list_user_service extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 //                Toast.makeText(add_vehicles.this, "/ ERROR: "+error.getMessage(), Toast.LENGTH_SHORT).show();
                 if(error.networkResponse.data!=null) {
                     try {
@@ -441,7 +447,7 @@ public class list_user_service extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 //                Toast.makeText(add_vehicles.this, "/ ERROR: "+error.getMessage(), Toast.LENGTH_SHORT).show();
                 if(error.networkResponse.data!=null) {
                     try {
@@ -495,7 +501,7 @@ public class list_user_service extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.GET, modelto_url, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 //                Toast.makeText(context, ".. "+response, Toast.LENGTH_SHORT).show();
 
                 new Thread() {
@@ -560,7 +566,7 @@ public class list_user_service extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 //                Toast.makeText(add_vehicles.this, "/ ERROR: "+error.getMessage(), Toast.LENGTH_SHORT).show();
                 if(error.networkResponse.data!=null) {
                     try {

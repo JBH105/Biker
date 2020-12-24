@@ -18,6 +18,8 @@ import com.example.biker.user.user_book_service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.biker.bike_service_location.setProgressBarVisibility;
+
 public class MyListFindServiceAdater extends RecyclerView.Adapter<MyListFindServiceAdater.ViewHolder> {
     private List<MyListFindServiceData> listdata;
 
@@ -51,6 +53,7 @@ public class MyListFindServiceAdater extends RecyclerView.Adapter<MyListFindServ
                         .setPositiveButton("Confirm Book", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                setProgressBarVisibility(View.VISIBLE);
                                 // pass selected servicer data to class which will send request to book it
                                 new user_book_service().Book_Service(view.getContext(), myListData);
                             }
