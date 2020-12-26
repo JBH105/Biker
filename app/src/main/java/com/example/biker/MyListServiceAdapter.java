@@ -154,7 +154,8 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             }
         }
         if (holder.itemSolved.isChecked()) {
-            if (!myListData.getReview().trim().isEmpty() || (myListData.getReview() != null)) {
+//            if (!myListData.getReview().trim().isEmpty() || (myListData.getReview() != null)) {
+            if (!myListData.getReview().trim().equals("")) {
                 holder.itemReview.setText(myListData.getReview());
                 holder.itemReview.setEnabled(false);
             }
