@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
     public void onBindViewHolder(final MyListServiceAdapter.ViewHolder holder, int position) {
         final MyListServiceData myListData = listdata.get(position);
         holder.itemServiceId.setText("SERVICE ID: SVC"+myListData.getServiceId().trim());
+
         if (myListData.getCancelServicer()) {
             holder.itemCancelBy.setVisibility(View.VISIBLE);
             if (getIsServicer(myListData.getContext()))
@@ -54,8 +56,11 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             else
                 holder.itemCancelBy.setText("Cancelled by " + myListData.getServicerName());
             holder.itemCancel.setEnabled(false);
+            holder.rlitemShowIfNotCancel.setVisibility(View.GONE);
         } else {
             holder.itemCancelBy.setVisibility(View.GONE);
+            holder.itemCancel.setEnabled(true);
+            holder.rlitemShowIfNotCancel.setVisibility(View.VISIBLE);
         }
         if (myListData.getCancelUser()) {
             holder.itemCancelBy.setVisibility(View.VISIBLE);
@@ -64,9 +69,13 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             else
                 holder.itemCancelBy.setText("Cancelled by You!!");
             holder.itemCancel.setEnabled(false);
+            holder.rlitemShowIfNotCancel.setVisibility(View.GONE);
         } else {
             holder.itemCancelBy.setVisibility(View.GONE);
+            holder.itemCancel.setEnabled(true);
+            holder.rlitemShowIfNotCancel.setVisibility(View.VISIBLE);
         }
+
         holder.itemDate.setText(myListData.getDate());
         if (getIsServicer(myListData.getContext())) {
             holder.llitemServicer.setVisibility(View.GONE);
@@ -123,6 +132,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
         if (holder.itemSolved.isChecked()) {
             if (!myListData.getReview().trim().isEmpty() || (myListData.getReview() != null)) {
                 holder.itemReview.setText(myListData.getReview());
+                holder.itemReview.setEnabled(false);
             }
         }
 
@@ -139,6 +149,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
                         .setPositiveButton("Confirm Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                holder.itemCancel.setEnabled(false);
                                 if (getIsServicer(view.getContext()))
                                     new MyListServiceMethods().CancelServiceMethod(view.getContext(), myListData, myListData.getJsonObjectFirstMethod(), "servicer");
                                 else
@@ -148,6 +159,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                holder.itemCancel.setEnabled(true);
                             }
                         });
                 AlertDialog dialog = builder.create();
@@ -333,6 +345,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
         public TextView itemRemarks;
         public TextView itemReview;
         public LinearLayout llitemServicer, llitemUser, llitemAddress;
+        public RelativeLayout rlitemShowIfNotCancel;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -357,6 +370,8 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
 
             this.itemAddress = itemView.findViewById(R.id.itemaddress);
             this.llitemAddress = itemView.findViewById(R.id.llitemAddress);
+
+            this.rlitemShowIfNotCancel = itemView.findViewById(R.id.rlitemShowIfNotCancel);
         }
     }
 }

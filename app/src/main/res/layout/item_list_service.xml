@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -92,12 +93,20 @@
                     android:layout_toRightOf="@id/tvitemDate"
                     android:textSize="15dp"/>
             </LinearLayout>
+
+
             <RelativeLayout
-                android:id="@+id/rlitemServicerUser"
-                android:layout_width="wrap_content"
+                android:id="@+id/rlitemShowIfNotCancel"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/llitemDate">
+
+
+            <RelativeLayout
+                android:id="@+id/rlitemServicerUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
                 <LinearLayout
                     android:id="@+id/llitemServicer"
                     android:layout_width="wrap_content"
@@ -470,7 +479,7 @@
 
             </RelativeLayout>
 
-
+            </RelativeLayout>
 
 
 
