@@ -67,12 +67,21 @@ public class list_user_service extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+/*
         new Thread() {
             @Override
             public void run() {
                 getServiceListMethod(list_user_service.this);
             }
         }.start();
+*/
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                getServiceListMethod(list_user_service.this);
+            }
+        };
+        runOnUiThread(runnable);
 
 
     }

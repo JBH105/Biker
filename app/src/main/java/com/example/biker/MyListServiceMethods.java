@@ -259,6 +259,118 @@ public class MyListServiceMethods {
 
     }
 
+    public void SolvedServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod) {
+        Log.e("kk","Solved Service......."+jsonObjectFirstMethod);
+        setProgressBarVisibilityService(View.VISIBLE);
+
+
+
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("servicer", jsonObjectFirstMethod.getInt("servicer"));
+            jsonBody.put("user", jsonObjectFirstMethod.getInt("user"));
+            jsonBody.put("brand", jsonObjectFirstMethod.getInt("brand"));
+            jsonBody.put("vehicle_fk", jsonObjectFirstMethod.getInt("vehicle_fk"));
+            jsonBody.put("model_fk", jsonObjectFirstMethod.getInt("model_fk"));
+            jsonBody.put("solved", true);
+            jsonBody.put("accept", jsonObjectFirstMethod.getBoolean("accept"));
+            jsonBody.put("remarks", jsonObjectFirstMethod.getBoolean("remarks"));
+            jsonBody.put("review", jsonObjectFirstMethod.getString("review"));
+            jsonBody.put("cancel_user", jsonObjectFirstMethod.getBoolean("cancel_user"));
+            jsonBody.put("cancel_servicer", jsonObjectFirstMethod.getBoolean("cancel_servicer"));
+            jsonBody.put("problem", jsonObjectFirstMethod.getString("problem"));
+            jsonBody.put("created_at", jsonObjectFirstMethod.getString("created_at"));
+        } catch (Exception e) {
+            setProgressBarVisibilityService(View.GONE);
+            e.printStackTrace();
+        }
+        final String requestBody = jsonBody.toString();
+
+        String service_update_url = "";
+        try {
+            service_update_url = book_service_url + jsonObjectFirstMethod.get("id") + "/";
+        } catch (JSONException e) {
+            setProgressBarVisibilityService(View.GONE);
+            e.printStackTrace();
+        }
+        StringRequest request = new StringRequest(Request.Method.PUT, service_update_url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
+//                progressBar.setVisibility(View.GONE);
+                try {
+                    setProgressBarVisibilityService(View.GONE);
+                    Toast.makeText(context, "Service is Updated!!", Toast.LENGTH_SHORT).show();
+                    ShowUpdatedServiceListMethod(context);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                progressBar.setVisibility(View.GONE);
+                setProgressBarVisibilityService(View.GONE);
+                if(error.networkResponse.data!=null) {
+                    try {
+                        String errorMessage = new String(error.networkResponse.data,"UTF-8");
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Toast.makeText(context, "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        ) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 60000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 5;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(request);
+
+
+
+    }
+
     public void RemarkServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod, String s) {
         Log.e("kk","Remark Service......."+jsonObjectFirstMethod);
         setProgressBarVisibilityService(View.VISIBLE);

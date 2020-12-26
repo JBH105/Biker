@@ -60,7 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:hint="Plate Number"
+                    android:hint="Vehicle Number"
                     android:maxLength="10"/>
             </com.google.android.material.textfield.TextInputLayout>
 

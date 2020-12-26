@@ -3,6 +3,7 @@ package com.example.biker.garageuser;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -16,7 +17,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import android.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;

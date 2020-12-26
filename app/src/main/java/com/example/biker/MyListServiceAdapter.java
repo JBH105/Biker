@@ -200,6 +200,38 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             }
         });
 
+        holder.itemSolved.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(myListData.getContext())
+                            .setCancelable(true)
+                            .setTitle("Confirm Solved")
+                            .setMessage("Is Service Solved" + " ??")
+                            .setPositiveButton("Solved", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    holder.itemSolved.setEnabled(false);
+                                    if (getIsServicer(myListData.getContext()))
+                                        new MyListServiceMethods().SolvedServiceMethod(myListData.getContext(), myListData, myListData.getJsonObjectFirstMethod());
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    holder.itemSolved.setChecked(false);
+                                    holder.itemSolved.setEnabled(true);
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                }
+            }
+        });
+
         holder.itemRemarks.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override

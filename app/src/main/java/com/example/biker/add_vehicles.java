@@ -88,12 +88,21 @@ public class add_vehicles extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(add_vehicles.this));
         recyclerView.setAdapter(adapter);
 
+/*
         new Thread() {
             @Override
             public void run() {
                 getVehicleListMethod(add_vehicles.this);
             }
         }.start();
+*/
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                getVehicleListMethod(add_vehicles.this);
+            }
+        };
+        runOnUiThread(runnable);
 
         // Model SpinnerArrayAdapter
         ArrayList<String> molist = new ArrayList<String>();
@@ -113,13 +122,13 @@ public class add_vehicles extends AppCompatActivity {
                 }
 
                 if (!modelmap.isEmpty()) {
-                    /*new Thread() {
+                    progressBar.setVisibility(View.VISIBLE);
+                    new Thread() {
                         @Override
                         public void run() {
                             addVehicleServicerMethod(modelmap.get(spinner.getSelectedItem()).get(0));
                         }
-                    }.start();*/
-                    addVehicleServicerMethod(modelmap.get(spinner.getSelectedItem()).get(0));
+                    }.start();
                 } else {
                     Log.e("kk", "Model Data NOT Stored!");
                 }
@@ -240,7 +249,6 @@ public class add_vehicles extends AppCompatActivity {
 
     private void addVehicleServicerMethod(String modelid) {
 
-        progressBar.setVisibility(View.VISIBLE);
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("user", getAccountId(add_vehicles.this));
@@ -255,15 +263,23 @@ public class add_vehicles extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 //                Toast.makeText(add_vehicles.this, ""+response, Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
                 try {
-                    Toast.makeText(add_vehicles.this, "Vehicle Successfully Added!!", Toast.LENGTH_SHORT).show();
-                    new Thread() {
+/*                    new Thread() {
                         @Override
                         public void run() {
                             getVehicleListMethod(add_vehicles.this);
                         }
-                    }.start();
+                    }.start();*/
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            spinner.setSelection(0);
+                            Toast.makeText(add_vehicles.this, "Vehicle Successfully Added!!", Toast.LENGTH_SHORT).show();
+                            getVehicleListMethod(add_vehicles.this);
+                        }
+                    };
+                    runOnUiThread(runnable);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -274,7 +290,14 @@ public class add_vehicles extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                };
+                runOnUiThread(runnable);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -357,6 +380,7 @@ public class add_vehicles extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+/*
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
@@ -384,7 +408,21 @@ public class add_vehicles extends AppCompatActivity {
                     }
                 };
                 new Thread(runnable).start();
+*/
 //                runOnUiThread(runnable);
+                try {
+
+                    final JSONArray jsonArray = new JSONArray(response);
+                    Log.e("Responce", jsonArray.toString());
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        getModeldataMethod(context, jsonObject);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         }, new Response.ErrorListener() {
@@ -615,12 +653,13 @@ public class add_vehicles extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 try {
                     Toast.makeText(context, "Vehicle Deleted Successfully!!", Toast.LENGTH_SHORT).show();
-                    new Thread() {
+/*                    new Thread() {
                         @Override
                         public void run() {
                             getVehicleListMethod(context);
                         }
-                    }.start();
+                    }.start();*/
+                    getVehicleListMethod(context);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
