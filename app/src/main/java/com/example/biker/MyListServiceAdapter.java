@@ -58,10 +58,28 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             holder.itemCancel.setEnabled(false);
             holder.rlitemShowIfNotCancel.setVisibility(View.GONE);
         } else {
+/*
             holder.itemCancelBy.setVisibility(View.GONE);
             holder.itemCancel.setEnabled(true);
             holder.rlitemShowIfNotCancel.setVisibility(View.VISIBLE);
+*/
+
+            if (myListData.getCancelUser()) {
+                holder.itemCancelBy.setVisibility(View.VISIBLE);
+                if (getIsServicer(myListData.getContext()))
+                    holder.itemCancelBy.setText("Cancelled by " + myListData.getUserName());
+                else
+                    holder.itemCancelBy.setText("Cancelled by You!!");
+                holder.itemCancel.setEnabled(false);
+                holder.rlitemShowIfNotCancel.setVisibility(View.GONE);
+            } else {
+                holder.itemCancelBy.setVisibility(View.GONE);
+                holder.itemCancel.setEnabled(true);
+                holder.rlitemShowIfNotCancel.setVisibility(View.VISIBLE);
+            }
+
         }
+/*
         if (myListData.getCancelUser()) {
             holder.itemCancelBy.setVisibility(View.VISIBLE);
             if (getIsServicer(myListData.getContext()))
@@ -75,6 +93,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             holder.itemCancel.setEnabled(true);
             holder.rlitemShowIfNotCancel.setVisibility(View.VISIBLE);
         }
+*/
 
         holder.itemDate.setText(myListData.getDate());
         if (getIsServicer(myListData.getContext())) {

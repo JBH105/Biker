@@ -90,6 +90,7 @@ public class MyListServiceMethods {
             public void onErrorResponse(VolleyError error) {
 //                progressBar.setVisibility(View.GONE);
                 setProgressBarVisibilityService(View.GONE);
+                ShowUpdatedServiceListMethod(context);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -202,6 +203,7 @@ public class MyListServiceMethods {
             public void onErrorResponse(VolleyError error) {
 //                progressBar.setVisibility(View.GONE);
                 setProgressBarVisibilityService(View.GONE);
+                ShowUpdatedServiceListMethod(context);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -314,6 +316,7 @@ public class MyListServiceMethods {
             public void onErrorResponse(VolleyError error) {
 //                progressBar.setVisibility(View.GONE);
                 setProgressBarVisibilityService(View.GONE);
+                ShowUpdatedServiceListMethod(context);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -428,6 +431,7 @@ public class MyListServiceMethods {
             public void onErrorResponse(VolleyError error) {
 //                progressBar.setVisibility(View.GONE);
                 setProgressBarVisibilityService(View.GONE);
+                ShowUpdatedServiceListMethod(context);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
@@ -543,6 +547,7 @@ public class MyListServiceMethods {
             public void onErrorResponse(VolleyError error) {
 //                progressBar.setVisibility(View.GONE);
                 setProgressBarVisibilityService(View.GONE);
+                ShowUpdatedServiceListMethod(context);
                 if(error.networkResponse.data!=null) {
                     try {
                         String errorMessage = new String(error.networkResponse.data,"UTF-8");
