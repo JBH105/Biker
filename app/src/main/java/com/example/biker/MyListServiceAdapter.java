@@ -117,6 +117,9 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
         holder.itemBrand.setText(myListData.getBrand());
         holder.itemProblemExplanation.setText(myListData.getProblemExplanation());
 
+        holder.itemAccept.setChecked(myListData.getAccept());
+        holder.itemSolved.setChecked(myListData.getSolved());
+
         if (getIsServicer(myListData.getContext())) {
 //            holder.itemAccept.setEnabled(true);
             if (holder.itemAccept.isChecked()) {
@@ -145,8 +148,6 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
 
         }
 
-        holder.itemAccept.setChecked(myListData.getAccept());
-        holder.itemSolved.setChecked(myListData.getSolved());
         if (holder.itemAccept.isChecked()) {
             if (!myListData.getRemarks().trim().isEmpty() || (myListData.getRemarks() != null)) {
                 holder.itemRemarks.setText(myListData.getRemarks());
