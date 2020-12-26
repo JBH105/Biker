@@ -118,12 +118,13 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
         holder.itemProblemExplanation.setText(myListData.getProblemExplanation());
 
         if (getIsServicer(myListData.getContext())) {
-            holder.itemAccept.setEnabled(true);
+//            holder.itemAccept.setEnabled(true);
             if (holder.itemAccept.isChecked()) {
                 holder.itemAccept.setEnabled(false);
                 holder.itemSolved.setEnabled(true);
                 holder.itemRemarks.setEnabled(true);
-            }
+            } else
+                holder.itemAccept.setEnabled(true);
             if (holder.itemSolved.isChecked())
                 holder.itemSolved.setEnabled(false);
 
