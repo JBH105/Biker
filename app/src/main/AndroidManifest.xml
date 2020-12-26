@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".profile"></activity>
+        <activity android:name=".upload_image"></activity>
+        <activity android:name=".profile" />
         <activity android:name=".list_user_service" />
         <activity android:name=".add_vehicles" />
         <activity android:name=".bike_service_location" />

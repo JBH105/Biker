@@ -142,7 +142,6 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             holder.itemRemarks.setEnabled(false);
             if (holder.itemSolved.isChecked())
                 holder.itemReview.setEnabled(true);
-
             holder.itemRemarks.setText("N/A");
             holder.itemReview.setText("Click Here to give Review");
 
@@ -157,6 +156,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
 //            if (!myListData.getReview().trim().isEmpty() || (myListData.getReview() != null)) {
             if (!myListData.getReview().trim().equals("")) {
                 holder.itemReview.setText(myListData.getReview());
+                Log.e("jb", "Review");
                 holder.itemReview.setEnabled(false);
             }
         }

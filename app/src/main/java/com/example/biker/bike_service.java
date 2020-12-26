@@ -157,7 +157,7 @@ public class bike_service extends AppCompatActivity {
                 }
 
                 progressBar.setVisibility(View.GONE);
-                startActivity(new Intent(getApplicationContext(), bike_service_location.class));
+                startActivity(new Intent(getApplicationContext(), upload_image.class));
         }
         });
 
