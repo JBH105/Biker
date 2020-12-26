@@ -124,6 +124,9 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
                 holder.itemSolved.setEnabled(true);
                 holder.itemRemarks.setEnabled(true);
             }
+            if (holder.itemSolved.isChecked())
+                holder.itemSolved.setEnabled(false);
+
             holder.itemReview.setEnabled(false);
 
             holder.itemRemarks.setText("Click Here to write Remark");
