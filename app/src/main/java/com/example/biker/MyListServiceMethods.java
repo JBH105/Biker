@@ -277,7 +277,7 @@ public class MyListServiceMethods {
             jsonBody.put("model_fk", jsonObjectFirstMethod.getInt("model_fk"));
             jsonBody.put("solved", true);
             jsonBody.put("accept", jsonObjectFirstMethod.getBoolean("accept"));
-            jsonBody.put("remarks", jsonObjectFirstMethod.getBoolean("remarks"));
+            jsonBody.put("remarks", jsonObjectFirstMethod.getString("remarks"));
             jsonBody.put("review", jsonObjectFirstMethod.getString("review"));
             jsonBody.put("cancel_user", jsonObjectFirstMethod.getBoolean("cancel_user"));
             jsonBody.put("cancel_servicer", jsonObjectFirstMethod.getBoolean("cancel_servicer"));
