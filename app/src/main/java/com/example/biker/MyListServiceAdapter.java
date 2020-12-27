@@ -1,13 +1,17 @@
 package com.example.biker;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -22,7 +26,9 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.biker.user.user_book_service;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -54,9 +60,10 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             if (getIsServicer(myListData.getContext()))
                 holder.itemCancelBy.setText("Cancelled by You!!");
             else
-                holder.itemCancelBy.setText("Cancelled by " + myListData.getServicerName());
+                holder.itemCancelBy.setText("Cancelled by " + myListData.getServicerName() + "!!");
             holder.itemCancel.setEnabled(false);
             holder.rlitemShowIfNotCancel.setVisibility(View.GONE);
+            return;
         } else {
 /*
             holder.itemCancelBy.setVisibility(View.GONE);
@@ -67,11 +74,12 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             if (myListData.getCancelUser()) {
                 holder.itemCancelBy.setVisibility(View.VISIBLE);
                 if (getIsServicer(myListData.getContext()))
-                    holder.itemCancelBy.setText("Cancelled by " + myListData.getUserName());
+                    holder.itemCancelBy.setText("Cancelled by " + myListData.getUserName() + "!!");
                 else
                     holder.itemCancelBy.setText("Cancelled by You!!");
                 holder.itemCancel.setEnabled(false);
                 holder.rlitemShowIfNotCancel.setVisibility(View.GONE);
+                return;
             } else {
                 holder.itemCancelBy.setVisibility(View.GONE);
                 holder.itemCancel.setEnabled(true);
@@ -116,6 +124,11 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
         holder.itemModel.setText(myListData.getModel());
         holder.itemBrand.setText(myListData.getBrand());
         holder.itemProblemExplanation.setText(myListData.getProblemExplanation());
+        if (myListData.getProblemImage().trim().equals("null")) {
+            holder.rlitemProblemImage.setVisibility(View.GONE);
+        } else {
+            holder.rlitemProblemImage.setVisibility(View.VISIBLE);
+        }
 
         holder.itemAccept.setChecked(myListData.getAccept());
         holder.itemSolved.setChecked(myListData.getSolved());
@@ -159,6 +172,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
                 Log.e("jb", "Review");
                 holder.itemReview.setEnabled(false);
             }
+            holder.itemCancel.setEnabled(false);
         }
 
 
@@ -168,7 +182,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
 //                Toast.makeText(view.getContext(), "click on item: " + myListData.getUser_id(), Toast.LENGTH_LONG).show();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
-                        .setCancelable(true)
+                        .setCancelable(false)
                         .setTitle("Confirm")
                         .setMessage("Cancel Service" + " ??")
                         .setPositiveButton("Confirm Cancel", new DialogInterface.OnClickListener() {
@@ -193,6 +207,38 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             }
         });
 
+        holder.itemProblemImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Layout Inflator
+                LayoutInflater layoutInflater = (LayoutInflater) myListData.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View viewproblemimage = layoutInflater.inflate(R.layout.uploaded_image_layout, null);
+                Dialog builder = new Dialog(myListData.getContext());
+                builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                builder.getWindow().setBackgroundDrawable(
+                        new ColorDrawable(Color.TRANSPARENT)
+                );
+                builder.setCanceledOnTouchOutside(false);
+                builder.setContentView(viewproblemimage);
+                PhotoView photoView = viewproblemimage.findViewById(R.id.imageViewUploadedImage);
+//                PhotoView photoView = new PhotoView(myListData.getContext());
+//                photoView.setZoomable(true);
+//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+//                photoView.setLayoutParams(layoutParams);
+                try {
+                    Picasso.get().load(myListData.getProblemImage().trim())
+                            .into(photoView);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+//                builder.addContentView(photoView, new RelativeLayout.LayoutParams(
+//                        ViewGroup.LayoutParams.MATCH_PARENT,
+//                        ViewGroup.LayoutParams.MATCH_PARENT
+//                ));
+                builder.show();
+            }
+        });
+
         holder.itemAccept.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -205,7 +251,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
                     LayoutInflater layoutInflater = (LayoutInflater) myListData.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     final View view = layoutInflater.inflate(R.layout.accept_alertdialog, null);
 
-                    builder.setCancelable(true)
+                    builder.setCancelable(false)
                             .setTitle("Confirm Accept")
                             .setView(view)
                             .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
@@ -244,7 +290,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
                 if (b) {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(myListData.getContext())
-                            .setCancelable(true)
+                            .setCancelable(false)
                             .setTitle("Confirm Solved")
                             .setMessage("Is Service Solved" + " ??")
                             .setPositiveButton("Solved", new DialogInterface.OnClickListener() {
@@ -280,7 +326,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
                 LayoutInflater layoutInflater = (LayoutInflater) myListData.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View viewll = layoutInflater.inflate(R.layout.remarks_alertdialog, null);
 
-                builder.setCancelable(true)
+                builder.setCancelable(false)
                         .setTitle("Servicer Remark")
                         .setView(viewll)
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
@@ -318,7 +364,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
                 LayoutInflater layoutInflater = (LayoutInflater) myListData.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View viewll = layoutInflater.inflate(R.layout.review_alertdialog, null);
 
-                builder.setCancelable(true)
+                builder.setCancelable(false)
                         .setTitle("Review")
                         .setView(viewll)
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
@@ -370,7 +416,8 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
         public TextView itemRemarks;
         public TextView itemReview;
         public LinearLayout llitemServicer, llitemUser, llitemAddress;
-        public RelativeLayout rlitemShowIfNotCancel;
+        public RelativeLayout rlitemShowIfNotCancel, rlitemProblemImage;
+        public TextView itemProblemImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -397,6 +444,9 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             this.llitemAddress = itemView.findViewById(R.id.llitemAddress);
 
             this.rlitemShowIfNotCancel = itemView.findViewById(R.id.rlitemShowIfNotCancel);
+
+            this.itemProblemImage = itemView.findViewById(R.id.itemProblemImage);
+            this.rlitemProblemImage = itemView.findViewById(R.id.rlitemProblemImage);
         }
     }
 }

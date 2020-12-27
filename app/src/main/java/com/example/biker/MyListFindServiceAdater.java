@@ -44,7 +44,7 @@ public class MyListFindServiceAdater extends RecyclerView.Adapter<MyListFindServ
         holder.itemBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                Toast.makeText(view.getContext(), "click on item: " + myListData.getUser_id(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(view.getContext(), "click on item: " + myListData.getUser_id(), Toast.LENGTH_LONG).show();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
                         .setCancelable(true)

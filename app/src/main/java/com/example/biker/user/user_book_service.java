@@ -2,11 +2,13 @@ package com.example.biker.user;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,7 +26,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,9 +42,12 @@ import static com.example.biker.Urls.storeUserInfoInSharedPref;
 import static com.example.biker.bike_service.bike_service_activity;
 import static com.example.biker.bike_service_location.bike_service_location_activity;
 import static com.example.biker.bike_service_location.setProgressBarVisibility;
+import static com.example.biker.upload_image.upload_image_activity;
 import static com.example.biker.user.user_service_data.getBrand_id;
 import static com.example.biker.user.user_service_data.getModel_id;
 import static com.example.biker.user.user_service_data.getProblem;
+import static com.example.biker.user.user_service_data.getProblem_image;
+import static com.example.biker.user.user_service_data.getProblem_image_flag;
 import static com.example.biker.user.user_service_data.getVehicleapi_id;
 
 public class user_book_service {
@@ -70,7 +77,10 @@ public class user_book_service {
                         @Override
                         public void run() {
                             selelectedServicerData.setAccount_id(accid);
-                            bookServiceMethod();
+                            if (getProblem_image_flag())
+                                bookServiceMethodWithProblemImage(getProblem_image());
+                            else
+                                bookServiceMethod();
                         }
                     }.start();
                 } catch (Exception e) {
@@ -161,6 +171,7 @@ public class user_book_service {
                 try {
                     setProgressBarVisibility(View.GONE);
                     bike_service_activity.finish();
+                    upload_image_activity.finish();
                     bike_service_location_activity.finish();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -228,4 +239,136 @@ public class user_book_service {
         requestQueue.add(request);
 
     }
+
+    private void bookServiceMethodWithProblemImage(final Bitmap bitmap) {
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, book_service_url,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        try {
+                            final JSONObject obj = new JSONObject(new String(response.data));
+                            Log.e("kk", "Success JsonObject: "+obj.toString());
+
+                            Toast.makeText(context, "Service Booked Successfully!!", Toast.LENGTH_SHORT).show();
+                            Log.i("kk","Book Service:  "+response);
+                            try {
+                                setProgressBarVisibility(View.GONE);
+                                bike_service_activity.finish();
+                                upload_image_activity.finish();
+                                bike_service_location_activity.finish();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            context.startActivity(new Intent(context, list_user_service.class));
+
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("kk",error.toString());
+                        setProgressBarVisibility(View.GONE);
+                        if(error.networkResponse.data!=null) {
+                            try {
+                                String errorMessage = new String(error.networkResponse.data,"UTF-8");
+                                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else {
+                            Toast.makeText(context, "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                }) {
+
+/*
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+*/
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("servicer", selelectedServicerData.getAccount_id());
+                params.put("user", String.valueOf(getAccountId(context)));
+                params.put("brand", getBrand_id());
+                params.put("vehicle_fk", getVehicleapi_id());
+                params.put("model_fk", getModel_id());
+                params.put("solved", String.valueOf(false));
+                params.put("accept", String.valueOf(false));
+                params.put("remarks", "");
+                params.put("review", "");
+                params.put("cancel_user", String.valueOf(false));
+                params.put("cancel_servicer", String.valueOf(false));
+//            jsonBody.put("problem_image", "");
+                params.put("problem", getProblem());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                long imagename = System.currentTimeMillis();
+                params.put("problem_image", new DataPart(imagename + ".png", getFileDataFromDrawable(bitmap)));
+                return params;
+            }
+        };
+
+        //adding the request to volley
+//        Volley.newRequestQueue(this).add(volleyMultipartRequest);
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        volleyMultipartRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 60000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 5;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(volleyMultipartRequest);
+
+    }
+
+    public byte[] getFileDataFromDrawable(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
 }

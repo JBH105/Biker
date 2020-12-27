@@ -315,10 +315,11 @@
                         android:textSize="15dp"/>
                 </RelativeLayout>
                 <RelativeLayout
+                    android:id="@+id/rlitemProblemImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_below="@+id/rlitemProblemInformation">
                     <TextView
                         android:id="@+id/tvitemProblemImage"
@@ -326,10 +327,14 @@
                         android:layout_height="wrap_content"
                         android:text="Problem Image: "
                         android:textSize="15dp"/>
-                    <ImageView
+                    <TextView
                         android:id="@+id/itemProblemImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="  Click Here To View Image  "
+                        android:textSize="17dp"
+                        android:background="@drawable/button"
+                        android:backgroundTint="#74AAAAAA"
                         android:layout_toRightOf="@id/tvitemProblemImage"/>
                 </RelativeLayout>
             </RelativeLayout>

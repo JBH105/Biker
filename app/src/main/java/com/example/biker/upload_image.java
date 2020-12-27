@@ -25,9 +25,15 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 
+import static com.example.biker.user.user_service_data.setProblem_image;
+import static com.example.biker.user.user_service_data.setProblem_image_flag;
+
 public class upload_image extends AppCompatActivity {
+    public static Activity upload_image_activity;
     ImageView upload_image;
     Button next;
+    Boolean profile_image_flag_this = false;
+    Bitmap bitmap;
 
     private static final int FILECHOOSER_RESULTCODE = 2888;
     private static final int MULTI_PERMISSION_REQUEST_CODE = 1111;
@@ -37,6 +43,7 @@ public class upload_image extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload_image);
 
+        upload_image_activity = upload_image.this;
         upload_image=findViewById(R.id.upload_image);
         next=findViewById(R.id.next);
 
@@ -50,6 +57,19 @@ public class upload_image extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                new Thread() {
+                    @Override
+                    public void run() {
+                        if (profile_image_flag_this) {
+                            setProblem_image_flag(true);
+                            setProblem_image(bitmap);
+                        } else {
+                            setProblem_image_flag(false);
+                        }
+                    }
+                }.start();
+
                 startActivity(new Intent(upload_image.this, bike_service_location.class));
             }
         });
@@ -74,44 +94,24 @@ public class upload_image extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ///if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-        if (requestCode == FILECHOOSER_RESULTCODE && resultCode == Activity.RESULT_OK) {
-            Bitmap photo;
-            if (data.getData() == null) {
-                photo = (Bitmap) data.getExtras().get("data");
-            } else {
-                Uri galleryImageUri = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-                Cursor cursor = getContentResolver().query(galleryImageUri, filePathColumn, null, null, null);
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String picturePath = cursor.getString(columnIndex);
-                cursor.close();
-
-                photo = BitmapFactory.decodeFile(picturePath);
+        try {
+            if (requestCode == FILECHOOSER_RESULTCODE && resultCode == Activity.RESULT_OK) {
+                final Bitmap photo;
+                if (data.getData() == null) {
+                    photo = (Bitmap) data.getExtras().get("data");
+                } else {
+                    Uri galleryImageUri = data.getData();
+                    photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), galleryImageUri);
+                }
+                upload_image.setImageBitmap(photo);
+                profile_image_flag_this = true;
+                bitmap = photo;
             }
-            upload_image.setImageBitmap(photo);
-
+        } catch (Exception e) {
+            profile_image_flag_this = false;
+            e.printStackTrace();
         }
     }
-
-    public String encodeTobase64(Bitmap image) {
-        Bitmap immage = image;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immage.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-        Toast.makeText(this, "Profile Image Updated Successfully!", Toast.LENGTH_SHORT).show();
-        return imageEncoded;
-    }
-
-    public Bitmap decodeBase64(String input) {
-        byte[] decodedByte = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
-    }
-
 
     // used for multiple permission in a single request
     @Override
