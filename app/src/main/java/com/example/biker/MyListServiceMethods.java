@@ -628,11 +628,15 @@ public class MyListServiceMethods {
             // Starting Whatsapp
             context.startActivity(intent);
         */
-            PackageManager pm = context.getPackageManager();
 
+/*
             Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + "" + toNumber + "?body=" + finalAcceptMessageToSend));
             sendIntent.setPackage("com.whatsapp");
             context.startActivity(sendIntent);
+*/
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + finalAcceptMessageToSend));
+            context.startActivity(intent);
 
         }
         catch (Exception e){
