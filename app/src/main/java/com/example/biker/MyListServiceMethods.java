@@ -29,8 +29,11 @@ import static com.example.biker.list_user_service.setProgressBarVisibilityServic
 
 public class MyListServiceMethods {
 
+    private static String acceptMessage = " Service booked by you is accepted by ";
+
+
     public void CancelServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod, String s) {
-        Log.e("kk","Cancel Service......."+jsonObjectFirstMethod);
+        Log.e("kk", "Cancel Service......." + jsonObjectFirstMethod);
         setProgressBarVisibilityService(View.VISIBLE);
 
 
@@ -91,16 +94,15 @@ public class MyListServiceMethods {
 //                progressBar.setVisibility(View.GONE);
                 setProgressBarVisibilityService(View.GONE);
                 ShowUpdatedServiceListMethod(context);
-                if(error.networkResponse.data!=null) {
+                if (error.networkResponse.data != null) {
                     try {
-                        String errorMessage = new String(error.networkResponse.data,"UTF-8");
+                        String errorMessage = new String(error.networkResponse.data, "UTF-8");
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
-                    Toast.makeText(context, "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "ERROR: " + error.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -145,14 +147,11 @@ public class MyListServiceMethods {
         requestQueue.add(request);
 
 
-
     }
 
-    public void AcceptServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod, String s) {
-        Log.e("kk","Accept Service......."+jsonObjectFirstMethod);
+    public void AcceptServiceMethod(final Context context, final MyListServiceData myListServiceData, final JSONObject jsonObjectFirstMethod, String s) {
+        Log.e("kk", "Accept Service......." + jsonObjectFirstMethod);
         setProgressBarVisibilityService(View.VISIBLE);
-
-
 
 
         JSONObject jsonBody = new JSONObject();
@@ -192,6 +191,8 @@ public class MyListServiceMethods {
                     setProgressBarVisibilityService(View.GONE);
                     Toast.makeText(context, "Service is Accepted by Servicer!!", Toast.LENGTH_SHORT).show();
                     ShowUpdatedServiceListMethod(context);
+                    String finalAcceptMessageToSend = "SVC" + jsonObjectFirstMethod.getString("id") + acceptMessage + myListServiceData.getServicerName() + " Servicer" + "\nServicer Contact No.  " + myListServiceData.getMobile();
+                    sendWhatsappMessage(context, finalAcceptMessageToSend);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -204,16 +205,15 @@ public class MyListServiceMethods {
 //                progressBar.setVisibility(View.GONE);
                 setProgressBarVisibilityService(View.GONE);
                 ShowUpdatedServiceListMethod(context);
-                if(error.networkResponse.data!=null) {
+                if (error.networkResponse.data != null) {
                     try {
-                        String errorMessage = new String(error.networkResponse.data,"UTF-8");
+                        String errorMessage = new String(error.networkResponse.data, "UTF-8");
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
-                    Toast.makeText(context, "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "ERROR: " + error.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -258,14 +258,11 @@ public class MyListServiceMethods {
         requestQueue.add(request);
 
 
-
     }
 
     public void SolvedServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod) {
-        Log.e("kk","Solved Service......."+jsonObjectFirstMethod);
+        Log.e("kk", "Solved Service......." + jsonObjectFirstMethod);
         setProgressBarVisibilityService(View.VISIBLE);
-
-
 
 
         JSONObject jsonBody = new JSONObject();
@@ -317,16 +314,15 @@ public class MyListServiceMethods {
 //                progressBar.setVisibility(View.GONE);
                 setProgressBarVisibilityService(View.GONE);
                 ShowUpdatedServiceListMethod(context);
-                if(error.networkResponse.data!=null) {
+                if (error.networkResponse.data != null) {
                     try {
-                        String errorMessage = new String(error.networkResponse.data,"UTF-8");
+                        String errorMessage = new String(error.networkResponse.data, "UTF-8");
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
-                    Toast.makeText(context, "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "ERROR: " + error.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -371,16 +367,11 @@ public class MyListServiceMethods {
         requestQueue.add(request);
 
 
-
     }
 
     public void RemarkServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod, String s) {
-        Log.e("kk","Remark Service......."+jsonObjectFirstMethod);
+        Log.e("kk", "Remark Service......." + jsonObjectFirstMethod);
         setProgressBarVisibilityService(View.VISIBLE);
-
-
-
-
 
 
         JSONObject jsonBody = new JSONObject();
@@ -432,16 +423,15 @@ public class MyListServiceMethods {
 //                progressBar.setVisibility(View.GONE);
                 setProgressBarVisibilityService(View.GONE);
                 ShowUpdatedServiceListMethod(context);
-                if(error.networkResponse.data!=null) {
+                if (error.networkResponse.data != null) {
                     try {
-                        String errorMessage = new String(error.networkResponse.data,"UTF-8");
+                        String errorMessage = new String(error.networkResponse.data, "UTF-8");
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
-                    Toast.makeText(context, "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "ERROR: " + error.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -486,17 +476,11 @@ public class MyListServiceMethods {
         requestQueue.add(request);
 
 
-
-
     }
 
     public void ReviewServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod, String s) {
-        Log.e("kk","Review Service......."+jsonObjectFirstMethod);
+        Log.e("kk", "Review Service......." + jsonObjectFirstMethod);
         setProgressBarVisibilityService(View.VISIBLE);
-
-
-
-
 
 
         JSONObject jsonBody = new JSONObject();
@@ -548,16 +532,15 @@ public class MyListServiceMethods {
 //                progressBar.setVisibility(View.GONE);
                 setProgressBarVisibilityService(View.GONE);
                 ShowUpdatedServiceListMethod(context);
-                if(error.networkResponse.data!=null) {
+                if (error.networkResponse.data != null) {
                     try {
-                        String errorMessage = new String(error.networkResponse.data,"UTF-8");
+                        String errorMessage = new String(error.networkResponse.data, "UTF-8");
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
-                    Toast.makeText(context, "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "ERROR: " + error.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -602,7 +585,6 @@ public class MyListServiceMethods {
         requestQueue.add(request);
 
 
-
     }
 
 
@@ -616,6 +598,30 @@ public class MyListServiceMethods {
         }.start();
 */
         getServiceListMethod(context);
+    }
+
+
+    private void sendWhatsappMessage(Context context, String finalAcceptMessageToSend) {
+
+        // Creating new intent
+        Intent intent = new Intent(Intent.ACTION_SEND);
+
+        intent.setType("text/plain");
+        intent.setPackage("com.whatsapp");
+
+        // Give your message here
+        intent.putExtra(Intent.EXTRA_TEXT, finalAcceptMessageToSend);
+
+        // Checking whether Whatsapp
+        // is installed or not
+        if (intent.resolveActivity(context.getPackageManager()) == null) {
+            Toast.makeText(context, "Please install WhatsApp first.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Starting Whatsapp
+        context.startActivity(intent);
+
     }
 
 }
