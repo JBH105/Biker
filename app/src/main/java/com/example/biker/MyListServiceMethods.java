@@ -33,6 +33,7 @@ import static com.example.biker.list_user_service.setProgressBarVisibilityServic
 public class MyListServiceMethods {
 
     private static String acceptMessage = " Service booked by you is accepted by ";
+    private static String solvedMessage = " Service booked by you is solved by ";
 
 
     public void CancelServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod, String s) {
@@ -263,7 +264,7 @@ public class MyListServiceMethods {
 
     }
 
-    public void SolvedServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod) {
+    public void SolvedServiceMethod(final Context context, final MyListServiceData myListServiceData, final JSONObject jsonObjectFirstMethod) {
         Log.e("kk", "Solved Service......." + jsonObjectFirstMethod);
         setProgressBarVisibilityService(View.VISIBLE);
 
@@ -305,6 +306,8 @@ public class MyListServiceMethods {
                     setProgressBarVisibilityService(View.GONE);
                     Toast.makeText(context, "Service is Updated!!", Toast.LENGTH_SHORT).show();
                     ShowUpdatedServiceListMethod(context);
+                    String finalSolvedMessageToSend = "SVC" + jsonObjectFirstMethod.getString("id") + solvedMessage + myListServiceData.getServicerName() + " Servicer.\nPlease give review, ignore this message if given.";
+                    sendWhatsappMessage(context, finalSolvedMessageToSend, "91" + myListServiceData.getMobile());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -642,6 +645,7 @@ public class MyListServiceMethods {
         }
         catch (Exception e){
             e.printStackTrace();
+            Log.e("kkk", "Error: "+e.toString());
             Toast.makeText(context,"Please install WhatsApp first.",Toast.LENGTH_SHORT).show();
 
         }
