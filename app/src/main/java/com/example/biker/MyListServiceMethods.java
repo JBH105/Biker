@@ -33,7 +33,7 @@ import static com.example.biker.list_user_service.setProgressBarVisibilityServic
 public class MyListServiceMethods {
 
     private static String acceptMessage = " Service booked by you is accepted by ";
-    private static String solvedMessage = " Service booked by you is solved by ";
+    private static String solvedMessage = " Service is solved by ";
 
 
     public void CancelServiceMethod(final Context context, MyListServiceData myListServiceData, JSONObject jsonObjectFirstMethod, String s) {
@@ -306,7 +306,7 @@ public class MyListServiceMethods {
                     setProgressBarVisibilityService(View.GONE);
                     Toast.makeText(context, "Service is Updated!!", Toast.LENGTH_SHORT).show();
                     ShowUpdatedServiceListMethod(context);
-                    String finalSolvedMessageToSend = "SVC" + jsonObjectFirstMethod.getString("id") + solvedMessage + myListServiceData.getServicerName() + " Servicer.\nPlease give review, ignore this message if given.";
+                    String finalSolvedMessageToSend = "SVC" + jsonObjectFirstMethod.getString("id") + solvedMessage + myListServiceData.getServicerName() + " Servicer.\nPlease give Review, ignore this message if given.";
                     sendWhatsappMessage(context, finalSolvedMessageToSend, "91" + myListServiceData.getMobile());
                 } catch (Exception e) {
                     e.printStackTrace();
