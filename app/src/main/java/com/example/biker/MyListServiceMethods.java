@@ -639,6 +639,8 @@ public class MyListServiceMethods {
 */
             Intent intent = new Intent(Intent.ACTION_VIEW);
 //            Intent intent = new Intent(Intent.ACTION_SEND);  OR (Intent.ACTION_SENDTO)  -> BOTH NOT WORKING FOR BELOW URL or URI
+            intent.setPackage("com.whatsapp");
+            Log.e("kkk","Uri.... "+ Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + finalMessageToSend));
             intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + finalMessageToSend));
             context.startActivity(intent);
 
