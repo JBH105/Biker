@@ -35,6 +35,8 @@ import static com.example.biker.Urls.servicer_accountid_url;
 import static com.example.biker.Urls.signin_url;
 import static com.example.biker.Urls.storeIsLoggedIn;
 import static com.example.biker.Urls.storeUserInfoInSharedPref;
+import static com.example.biker.bike_service.bike_service_activity;
+import static com.example.biker.bike_service_location.bike_service_location_activity;
 import static com.example.biker.bike_service_location.setProgressBarVisibility;
 import static com.example.biker.user.user_service_data.getBrand_id;
 import static com.example.biker.user.user_service_data.getModel_id;
@@ -158,6 +160,8 @@ public class user_book_service {
 //                progressBar.setVisibility(View.GONE);
                 try {
                     setProgressBarVisibility(View.GONE);
+                    bike_service_activity.finish();
+                    bike_service_location_activity.finish();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

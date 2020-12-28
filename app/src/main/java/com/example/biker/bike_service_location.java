@@ -2,6 +2,7 @@ package com.example.biker;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -68,6 +69,7 @@ import static com.example.biker.user.user_service_data.getVehicleapi_id;
 import static com.example.biker.user.user_service_data.storeVehicleApiId;
 
 public class bike_service_location extends AppCompatActivity {
+    public static Activity bike_service_location_activity;
     TextInputEditText locationEditText;
     TextView current_location, noServicerTextView;
     Button submit;
@@ -85,6 +87,7 @@ public class bike_service_location extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bike_service_location);
 
+        bike_service_location_activity = bike_service_location.this;
         locationEditText = findViewById(R.id.location);
         current_location = findViewById(R.id.current_location);
         noServicerTextView = findViewById(R.id.noServicerTextView);

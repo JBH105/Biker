@@ -3,6 +3,7 @@ package com.example.biker;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ import static com.example.biker.user.user_service_data.storeModelBrandData;
 import static com.example.biker.user.user_service_data.storeVehicleData;
 
 public class bike_service extends AppCompatActivity {
+    public static Activity bike_service_activity;
     Spinner spinner, spinner1;
     TextInputLayout remarkInputLayout;
     TextInputEditText plate_number,remark;
@@ -59,6 +61,7 @@ public class bike_service extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bike_service);
 
+        bike_service_activity = bike_service.this;
         spinner=findViewById(R.id.spinner);
         plate_number=findViewById(R.id.plate_number);
         spinner1=findViewById(R.id.spinner1);
