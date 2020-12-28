@@ -195,7 +195,7 @@ public class MyListServiceMethods {
                     Toast.makeText(context, "Service is Accepted by Servicer!!", Toast.LENGTH_SHORT).show();
                     ShowUpdatedServiceListMethod(context);
                     String finalAcceptMessageToSend = "SVC" + jsonObjectFirstMethod.getString("id") + acceptMessage + myListServiceData.getServicerName() + " Servicer" + "\nServicer Contact No.  " + getMobile(context);
-                    sendWhatsappMessage(context, finalAcceptMessageToSend, myListServiceData.getMobile());
+                    sendWhatsappMessage(context, finalAcceptMessageToSend, "91" + myListServiceData.getMobile());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
