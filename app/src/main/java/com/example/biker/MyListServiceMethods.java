@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.biker.Urls.book_service_url;
+import static com.example.biker.Urls.getMobile;
 import static com.example.biker.list_user_service.getServiceListMethod;
 import static com.example.biker.list_user_service.setProgressBarVisibilityService;
 
@@ -191,7 +192,7 @@ public class MyListServiceMethods {
                     setProgressBarVisibilityService(View.GONE);
                     Toast.makeText(context, "Service is Accepted by Servicer!!", Toast.LENGTH_SHORT).show();
                     ShowUpdatedServiceListMethod(context);
-                    String finalAcceptMessageToSend = "SVC" + jsonObjectFirstMethod.getString("id") + acceptMessage + myListServiceData.getServicerName() + " Servicer" + "\nServicer Contact No.  " + myListServiceData.getMobile();
+                    String finalAcceptMessageToSend = "SVC" + jsonObjectFirstMethod.getString("id") + acceptMessage + myListServiceData.getServicerName() + " Servicer" + "\nServicer Contact No.  " + getMobile(context);
                     sendWhatsappMessage(context, finalAcceptMessageToSend);
                 } catch (Exception e) {
                     e.printStackTrace();
