@@ -56,12 +56,6 @@ public class upload_image extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        ActivityCompat.finishAffinity(upload_image.this);
-        //super.onBackPressed();
-    }
-
 
     // Task Related to PROFILE IMAGE
     Intent cameraIntent, chooserIntent;
