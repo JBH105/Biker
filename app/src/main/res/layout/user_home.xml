@@ -50,7 +50,7 @@
             android:layout_height="150dp"
             android:foregroundGravity="center"
             app:cardCornerRadius="10dp"
-            android:layout_margin="15dp"
+            android:layout_margin="25dp"
             android:backgroundTint="@color/shade7">
 
             <ImageView

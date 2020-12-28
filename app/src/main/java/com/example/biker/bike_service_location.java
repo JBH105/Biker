@@ -635,6 +635,7 @@ public class bike_service_location extends AppCompatActivity {
                                 Geocoder geocoder = new Geocoder(bike_service_location.this, Locale.getDefault());
                                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 
+
                                 if (addresses.size() > 0) {
                                     Address address1 = addresses.get(0);
                                     String fullAdd = address1.getAddressLine(0); // full address

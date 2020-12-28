@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_margin="10dp"
     android:background="@drawable/button">
@@ -19,7 +20,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="5dp"
+        app:cardCornerRadius="5dp">
 
         <RelativeLayout
             android:id="@+id/relativelayout"
@@ -38,6 +40,7 @@
                     android:layout_height="wrap_content"
                     android:text="SERVICE ID: SVC1"
                     android:textSize="20dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_centerVertical="true"/>
 
                 <ImageView
@@ -84,6 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Date: "
+                    android:layout_marginLeft="5dp"
                     android:textSize="15dp"/>
                 <TextView
                     android:id="@+id/itemDate"
@@ -117,6 +121,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Servicer: "
+                        android:layout_marginLeft="5dp"
                         android:textSize="15dp"/>
                     <TextView
                         android:id="@+id/itemServicer"
@@ -135,6 +140,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="User: "
+                        android:layout_marginLeft="5dp"
                         android:textSize="15dp"/>
                     <TextView
                         android:id="@+id/itemUser"
@@ -156,6 +162,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mobile: "
+                    android:layout_marginLeft="5dp"
                     android:textSize="15dp"/>
                 <TextView
                     android:id="@+id/itemMobile"
@@ -176,6 +183,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Address: "
+                    android:layout_marginLeft="5dp"
                     android:textSize="15dp"/>
                 <TextView
                     android:id="@+id/itemaddress"
@@ -207,7 +215,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Vehicle Information"
-                    android:textSize="15dp"/>
+                    android:textSize="15dp"
+                    android:layout_marginLeft="5dp"/>
 
                 <RelativeLayout
                     android:id="@+id/rlitemVehicleNumber"
@@ -220,7 +229,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Vehicle Number: "
-                        android:textSize="15dp"/>
+                        android:textSize="15dp"
+                        android:layout_marginLeft="5dp"/>
                     <TextView
                         android:id="@+id/itemVehicleNumber"
                         android:layout_width="wrap_content"
@@ -240,6 +250,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Model: "
+                        android:layout_marginLeft="5dp"
                         android:textSize="15dp"/>
                     <TextView
                         android:id="@+id/itemModel"
@@ -260,6 +271,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Brand: "
+                        android:layout_marginLeft="5dp"
                         android:textSize="15dp"/>
                     <TextView
                         android:id="@+id/itemBrand"
@@ -292,6 +304,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Problem"
+                    android:layout_marginLeft="5dp"
                     android:textSize="15dp"/>
 
                 <RelativeLayout
@@ -305,7 +318,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Problem Explanation: "
-                        android:textSize="15dp"/>
+                        android:textSize="15dp"
+                        android:layout_marginLeft="5dp"/>
                     <TextView
                         android:id="@+id/itemProblemExplanation"
                         android:layout_width="wrap_content"
@@ -326,6 +340,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Problem Image: "
+                        android:layout_marginLeft="5dp"
                         android:textSize="15dp"/>
                     <TextView
                         android:id="@+id/itemProblemImage"
@@ -348,14 +363,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"/>
 
-
-
-
-
-
-
-
-
             <RelativeLayout
                 android:id="@+id/rlitemServicerStatus"
                 android:layout_width="wrap_content"
@@ -367,6 +374,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Servicer Status"
+                    android:layout_marginLeft="5dp"
                     android:textSize="15dp"/>
 
                 <RelativeLayout
@@ -380,6 +388,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Accept: "
+                        android:layout_marginLeft="5dp"
                         android:textSize="15dp"
                         android:layout_centerVertical="true"/>
                     <CheckBox
@@ -400,6 +409,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Solved: "
+                        android:layout_marginLeft="5dp"
                         android:textSize="15dp"
                         android:layout_centerVertical="true"/>
                     <CheckBox
@@ -421,6 +431,7 @@
                         android:layout_height="wrap_content"
                         android:text="Servicer Remarks: "
                         android:textSize="15dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_centerVertical="true"/>
                     <TextView
                         android:id="@+id/itemRemarks"
@@ -456,7 +467,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="After Service Provide Review here"
-                    android:textSize="15dp"/>
+                    android:textSize="15dp"
+                    android:layout_marginLeft="5dp"/>
 
                 <RelativeLayout
                     android:id="@+id/rlitemReview"
@@ -469,6 +481,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Review: "
+                        android:layout_marginLeft="5dp"
                         android:textSize="15dp"
                         android:layout_centerVertical="true"/>
                     <TextView
