@@ -2,6 +2,8 @@ package com.example.biker;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -193,7 +195,7 @@ public class MyListServiceMethods {
                     Toast.makeText(context, "Service is Accepted by Servicer!!", Toast.LENGTH_SHORT).show();
                     ShowUpdatedServiceListMethod(context);
                     String finalAcceptMessageToSend = "SVC" + jsonObjectFirstMethod.getString("id") + acceptMessage + myListServiceData.getServicerName() + " Servicer" + "\nServicer Contact No.  " + getMobile(context);
-                    sendWhatsappMessage(context, finalAcceptMessageToSend);
+                    sendWhatsappMessage(context, finalAcceptMessageToSend, myListServiceData.getMobile());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -602,27 +604,42 @@ public class MyListServiceMethods {
     }
 
 
-    private void sendWhatsappMessage(Context context, String finalAcceptMessageToSend) {
+    private void sendWhatsappMessage(Context context, String finalAcceptMessageToSend, String toNumber) {
+        try {
 
-        // Creating new intent
-        Intent intent = new Intent(Intent.ACTION_SEND);
+            /*
 
-        intent.setType("text/plain");
-        intent.setPackage("com.whatsapp");
+            // Creating new intent
+            Intent intent = new Intent(Intent.ACTION_SEND);
 
-        // Give your message here
-        intent.putExtra(Intent.EXTRA_TEXT, finalAcceptMessageToSend);
+            intent.setType("text/plain");
+            intent.setPackage("com.whatsapp");
 
-        // Checking whether Whatsapp
-        // is installed or not
-        if (intent.resolveActivity(context.getPackageManager()) == null) {
-            Toast.makeText(context, "Please install WhatsApp first.", Toast.LENGTH_SHORT).show();
-            return;
+            // Give your message here
+            intent.putExtra(Intent.EXTRA_TEXT, finalAcceptMessageToSend);
+
+            // Checking whether Whatsapp
+            // is installed or not
+            if (intent.resolveActivity(context.getPackageManager()) == null) {
+                Toast.makeText(context, "Please install WhatsApp first.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Starting Whatsapp
+            context.startActivity(intent);
+        */
+            PackageManager pm = context.getPackageManager();
+
+            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + "" + toNumber + "?body=" + finalAcceptMessageToSend));
+            sendIntent.setPackage("com.whatsapp");
+            context.startActivity(sendIntent);
+
         }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(context,"Please install WhatsApp first.",Toast.LENGTH_SHORT).show();
 
-        // Starting Whatsapp
-        context.startActivity(intent);
-
+        }
     }
 
 }
