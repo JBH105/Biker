@@ -607,7 +607,7 @@ public class MyListServiceMethods {
     }
 
 
-    private void sendWhatsappMessage(Context context, String finalAcceptMessageToSend, String toNumber) {
+    private void sendWhatsappMessage(Context context, String finalMessageToSend, String toNumber) {
         try {
 
             /*
@@ -619,7 +619,7 @@ public class MyListServiceMethods {
             intent.setPackage("com.whatsapp");
 
             // Give your message here
-            intent.putExtra(Intent.EXTRA_TEXT, finalAcceptMessageToSend);
+            intent.putExtra(Intent.EXTRA_TEXT, finalMessageToSend);
 
             // Checking whether Whatsapp
             // is installed or not
@@ -633,13 +633,13 @@ public class MyListServiceMethods {
         */
 
 /*
-            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + "" + toNumber + "?body=" + finalAcceptMessageToSend));
+            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + "" + toNumber + "?body=" + finalMessageToSend));
             sendIntent.setPackage("com.whatsapp");
             context.startActivity(sendIntent);
 */
             Intent intent = new Intent(Intent.ACTION_VIEW);
 //            Intent intent = new Intent(Intent.ACTION_SEND);  OR (Intent.ACTION_SENDTO)  -> BOTH NOT WORKING FOR BELOW URL or URI
-            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + finalAcceptMessageToSend));
+            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + finalMessageToSend));
             context.startActivity(intent);
 
         }
