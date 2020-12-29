@@ -73,8 +73,9 @@
                     android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="Enter your location" />
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:hint="Enter your Zip code" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ScrollView

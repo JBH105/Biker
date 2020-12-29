@@ -34,12 +34,12 @@ public class Nav_header extends AppCompatActivity {
         try {
             if (getUsername(Nav_header.this) != null && !getUsername(Nav_header.this).equals("null")) {
                 profile_name.setText("Username: \t" + getUsername(Nav_header.this));
-                Log.e("123" ,"Username");
+                Log.e("jb", "Username");
                 profile_name.setVisibility(View.VISIBLE);
             } else {
                 profile_name.setVisibility(View.GONE);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
