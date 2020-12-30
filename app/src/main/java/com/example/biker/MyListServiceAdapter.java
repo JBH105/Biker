@@ -104,7 +104,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
 */
 
         String dateTime = myListData.getDate();
-        String dateTimeFormatted = dateTime.replace("T", ", ").substring(0, dateTime.indexOf("."));
+        String dateTimeFormatted = dateTime.replace("T", ", ").substring(0, dateTime.indexOf(".")-2);
         holder.itemDate.setText(dateTimeFormatted);
         if (getIsServicer(myListData.getContext())) {
             holder.llitemServicer.setVisibility(View.GONE);
@@ -132,8 +132,14 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             holder.rlitemProblemImage.setVisibility(View.VISIBLE);
         }
 
-        holder.itemAccept.setChecked(myListData.getAccept());
-        holder.itemSolved.setChecked(myListData.getSolved());
+        if (myListData.getAccept()) {
+            holder.itemAccept.setOnCheckedChangeListener(null);
+            holder.itemAccept.setChecked(myListData.getAccept());
+        }
+        if (myListData.getSolved()) {
+            holder.itemSolved.setOnCheckedChangeListener(null);
+            holder.itemSolved.setChecked(myListData.getSolved());
+        }
 
         if (getIsServicer(myListData.getContext())) {
 //            holder.itemAccept.setEnabled(true);
@@ -242,6 +248,7 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
         });
 
         if (!holder.itemAccept.isChecked()) {
+            Log.i("kkkk", "Confirm Accept.  "+myListData.getServiceId());
             holder.itemAccept.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
@@ -285,9 +292,12 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
                     }
                 }
             });
+        } else {
+            holder.itemAccept.setOnCheckedChangeListener(null);
         }
 
         if (!holder.itemSolved.isChecked()) {
+            Log.i("kkkk", "Confirm Solved.  "+myListData.getServiceId());
             holder.itemSolved.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
@@ -319,6 +329,8 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
                     }
                 }
             });
+        } else {
+            holder.itemSolved.setOnCheckedChangeListener(null);
         }
 
         holder.itemRemarks.setOnClickListener(new View.OnClickListener() {

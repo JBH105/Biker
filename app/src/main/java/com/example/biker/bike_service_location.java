@@ -586,15 +586,32 @@ public class bike_service_location extends AppCompatActivity {
         //Runtime permissions
         try {
 
-            if (ContextCompat.checkSelfPermission(bike_service_location.this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(bike_service_location.this, new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                }, 100);
+            if (ContextCompat.checkSelfPermission(bike_service_location.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(bike_service_location.this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    ActivityCompat.requestPermissions(bike_service_location.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+                } else {
+                    ActivityCompat.requestPermissions(bike_service_location.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+                }
             }
-            getLocation();
+//            getLocation();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 100: {
+                if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(bike_service_location.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        getLocation();
+                    }
+                } else {
+                    Toast.makeText(bike_service_location.this, "Permission Denied!!", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
         }
     }
 
@@ -605,18 +622,6 @@ public class bike_service_location extends AppCompatActivity {
             locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
 //            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,5,bike_service_location.this);
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(bike_service_location.this, new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                }, 100);
-            }
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 return;
             }
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5,
