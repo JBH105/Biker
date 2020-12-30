@@ -103,7 +103,9 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
         }
 */
 
-        holder.itemDate.setText(myListData.getDate());
+        String dateTime = myListData.getDate();
+        String dateTimeFormatted = dateTime.replace("T", ", ").substring(0, dateTime.indexOf("."));
+        holder.itemDate.setText(dateTimeFormatted);
         if (getIsServicer(myListData.getContext())) {
             holder.llitemServicer.setVisibility(View.GONE);
             holder.llitemUser.setVisibility(View.VISIBLE);
@@ -239,81 +241,85 @@ public class MyListServiceAdapter extends RecyclerView.Adapter<MyListServiceAdap
             }
         });
 
-        holder.itemAccept.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
+        if (!holder.itemAccept.isChecked()) {
+            holder.itemAccept.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (b) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(myListData.getContext());
+                        AlertDialog.Builder builder = new AlertDialog.Builder(myListData.getContext());
 
-                    // Layout Inflator
-                    LayoutInflater layoutInflater = (LayoutInflater) myListData.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    final View view = layoutInflater.inflate(R.layout.accept_alertdialog, null);
+                        // Layout Inflator
+                        LayoutInflater layoutInflater = (LayoutInflater) myListData.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        final View view = layoutInflater.inflate(R.layout.accept_alertdialog, null);
 
-                    builder.setCancelable(false)
-                            .setTitle("Confirm Accept")
-                            .setView(view)
-                            .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    holder.itemRemarks.setEnabled(true);
-                                    String remarkToSend;
-                                    TextInputEditText acceptRemarks = view.findViewById(R.id.acceptRemarks);
-                                    if (acceptRemarks.getText().toString().trim().isEmpty())
-                                        remarkToSend = "";
-                                    else
-                                        remarkToSend = acceptRemarks.getText().toString().trim();
-                                    if (getIsServicer(myListData.getContext()))
-                                        new MyListServiceMethods().AcceptServiceMethod(myListData.getContext(), myListData, myListData.getJsonObjectFirstMethod(), remarkToSend);
-                                    holder.itemAccept.setEnabled(false);
-                                }
-                            })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    holder.itemAccept.setChecked(false);
-                                    holder.itemAccept.setEnabled(true);
-                                }
-                            });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                        builder.setCancelable(false)
+                                .setTitle("Confirm Accept")
+                                .setView(view)
+                                .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        holder.itemRemarks.setEnabled(true);
+                                        String remarkToSend;
+                                        TextInputEditText acceptRemarks = view.findViewById(R.id.acceptRemarks);
+                                        if (acceptRemarks.getText().toString().trim().isEmpty())
+                                            remarkToSend = "";
+                                        else
+                                            remarkToSend = acceptRemarks.getText().toString().trim();
+                                        if (getIsServicer(myListData.getContext()))
+                                            new MyListServiceMethods().AcceptServiceMethod(myListData.getContext(), myListData, myListData.getJsonObjectFirstMethod(), remarkToSend);
+                                        holder.itemAccept.setEnabled(false);
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        holder.itemAccept.setChecked(false);
+                                        holder.itemAccept.setEnabled(true);
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
 
+                    }
                 }
-            }
-        });
+            });
+        }
 
-        holder.itemSolved.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
+        if (!holder.itemSolved.isChecked()) {
+            holder.itemSolved.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (b) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(myListData.getContext())
-                            .setCancelable(false)
-                            .setTitle("Confirm Solved")
-                            .setMessage("Is Service Solved" + " ??")
-                            .setPositiveButton("Solved", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    holder.itemSolved.setEnabled(false);
-                                    if (getIsServicer(myListData.getContext()))
-                                        new MyListServiceMethods().SolvedServiceMethod(myListData.getContext(), myListData, myListData.getJsonObjectFirstMethod());
-                                }
-                            })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    holder.itemSolved.setChecked(false);
-                                    holder.itemSolved.setEnabled(true);
-                                }
-                            });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(myListData.getContext())
+                                .setCancelable(false)
+                                .setTitle("Confirm Solved")
+                                .setMessage("Is Service Solved" + " ??")
+                                .setPositiveButton("Solved", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        holder.itemSolved.setEnabled(false);
+                                        if (getIsServicer(myListData.getContext()))
+                                            new MyListServiceMethods().SolvedServiceMethod(myListData.getContext(), myListData, myListData.getJsonObjectFirstMethod());
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        holder.itemSolved.setChecked(false);
+                                        holder.itemSolved.setEnabled(true);
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
 
+                    }
                 }
-            }
-        });
+            });
+        }
 
         holder.itemRemarks.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
