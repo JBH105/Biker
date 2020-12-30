@@ -75,6 +75,7 @@ public class bike_service_location extends AppCompatActivity {
     Button submit;
     LocationManager locationManager;
     //
+    Boolean nearestLocationFlag = true;
     List<MyListFindServiceData> myListData = new ArrayList<>();
     RecyclerView recyclerView;
     MyListFindServiceAdater adapter;
@@ -391,6 +392,10 @@ public class bike_service_location extends AppCompatActivity {
 //                progressBar.setVisibility(View.GONE);
                 try {
                     if (response.trim().equals("[]")) {
+                        if (nearestLocationFlag) {
+                            getLocationNearest();
+                            nearestLocationFlag = false;
+                        }
                         progressBarInsideRecyclerView.setVisibility(View.GONE);
                         noServicerTextView.setVisibility(View.VISIBLE);
                     } else {
