@@ -592,8 +592,9 @@ public class bike_service_location extends AppCompatActivity {
                 } else {
                     ActivityCompat.requestPermissions(bike_service_location.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
                 }
+            } else {
+                getLocation();
             }
-//            getLocation();
         } catch (Exception e) {
             e.printStackTrace();
         }
