@@ -10,11 +10,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 
 
+import com.example.biker.Nav_header;
 import com.example.biker.R;
 import com.example.biker.bike_service;
 import com.example.biker.list_user_service;
@@ -23,6 +27,7 @@ import com.example.biker.profile;
 import com.example.biker.select_login_signup;
 import com.google.android.material.navigation.NavigationView;
 
+import static com.example.biker.Urls.getUsername;
 import static com.example.biker.Urls.storeIsLoggedIn;
 
 public class user_home extends AppCompatActivity {
@@ -48,6 +53,20 @@ public class user_home extends AppCompatActivity {
         actionBarDrawerToggle=new ActionBarDrawerToggle(this,drawerlayout,toolbar,R.string.app_name,R.string.app_name);
         drawerlayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+        View headerView = navigation.getHeaderView(0);
+        TextView profile_name = headerView.findViewById(R.id.profile_name_header);
+        try {
+            if (getUsername(user_home.this) != null && !getUsername(user_home.this).equals("null")) {
+                profile_name.setText("Username: \t" + getUsername(user_home.this));
+                Log.e("123" ,"Username");
+                profile_name.setVisibility(View.VISIBLE);
+            } else {
+                profile_name.setVisibility(View.GONE);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
         navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

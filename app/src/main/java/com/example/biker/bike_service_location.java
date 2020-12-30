@@ -659,4 +659,47 @@ public class bike_service_location extends AppCompatActivity {
 
     }
 
+    private void getLocationNearest() {
+
+        try {
+            progressBar.setVisibility(View.VISIBLE);
+            locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,5,bike_service_location.this);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(bike_service_location.this, "Permission Denied!!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10000,
+                    new LocationListener() {
+                        @Override
+                        public void onLocationChanged(@NonNull Location location) {
+                            Log.i("kkkk", location.getLatitude() + "," + location.getLongitude());
+                            try {
+                                progressBar.setVisibility(View.GONE);
+                                Geocoder geocoder = new Geocoder(bike_service_location.this, Locale.getDefault());
+                                List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+
+
+                                if (addresses.size() > 0) {
+                                    Address address1 = addresses.get(0);
+                                    String fullAdd = address1.getAddressLine(0); // full address
+                                    String locality = address1.getLocality();
+                                    String zip = address1.getPostalCode();
+                                    String country = address1.getCountryName();
+                                    Log.i("kkkk", "Zip: " + zip);
+                                    locationEditText.setText(zip);
+                                }
+                                // To get Location only once and then removeUpdates() use following line
+                                locationManager.removeUpdates(this);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
 }
