@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="BIKER"
+                android:text="Doorstep Bike Service"
                 android:textColor="@color/shade7"
                 android:textStyle="bold"
                 android:gravity="center_horizontal"

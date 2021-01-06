@@ -39,7 +39,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="BIKER"
+                    android:text="Doorstep Bike Service"
                     android:gravity="center_horizontal"
                     android:textStyle="bold"
                     android:textSize="25dp"
@@ -60,7 +60,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_directions_car_24"
+                    android:src="@drawable/ic_baseline_directions_bike_24"
                     android:layout_gravity="start|center"
                     android:layout_marginLeft="10dp"/>
 

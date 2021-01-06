@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Biker</string>
+    <string name="app_name">Doorstep Bike Service</string>
 
     <string-array name="bike">
         <item>Select Model</item>
