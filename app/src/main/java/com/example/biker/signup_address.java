@@ -34,6 +34,8 @@ import static com.example.biker.Urls.signup_url;
 import static com.example.biker.Urls.signupid_url;
 import static com.example.biker.Urls.storeIsLoggedIn;
 import static com.example.biker.Urls.storeUserInfoInSharedPref;
+import static com.example.biker.Urls.storeUserInfoInSharedPrefWhileRegister1;
+import static com.example.biker.Urls.storeUserInfoInSharedPrefWhileRegister2;
 
 public class signup_address extends AppCompatActivity {
 
@@ -71,7 +73,7 @@ public class signup_address extends AppCompatActivity {
                 Zip = zip.getText().toString().trim();
 
                 if (first.isEmpty()){
-                    address_first.setError("Address is Requird");
+                    address_first.setError("Address is Required");
                     return;
                 }
                 if (second.isEmpty()){
@@ -80,11 +82,11 @@ public class signup_address extends AppCompatActivity {
 //                    return;
                 }
                 if (City.isEmpty()){
-                    city.setError("City is Requird");
+                    city.setError("City is Required");
                     return;
                 }
                 if (Zip.isEmpty()){
-                    zip.setError("Zip code is Requird");
+                    zip.setError("Zip code is Required");
                     return;
                 }
                 if (Zip.length()<6){
@@ -129,7 +131,12 @@ public class signup_address extends AppCompatActivity {
 
                     String user_id = jsonObj.getJSONObject("user").getString("id");
                     Log.e("Responce22", user_id);
-                    Toast.makeText(signup_address.this, ""+user_id, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(signup_address.this, ""+user_id, Toast.LENGTH_SHORT).show();
+                    try {
+                        storeUserInfoInSharedPrefWhileRegister1(signup_address.this, new JSONObject(response));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     signupidmethod(user_id);
 
                 } catch (JSONException e) {
@@ -204,7 +211,8 @@ public class signup_address extends AppCompatActivity {
         try {
             jsonBody.put("user", user_id);
             jsonBody.put("address_fl", first);
-            jsonBody.put("address_sl", second);
+            if (!second.isEmpty())
+                jsonBody.put("address_sl", second);
             jsonBody.put("city", City);
             jsonBody.put("zip", Zip);
             jsonBody.put("mobile", Number);
@@ -221,14 +229,15 @@ public class signup_address extends AppCompatActivity {
 //                Toast.makeText(signup_address.this, ""+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
-                    storeUserInfoInSharedPref(signup_address.this, new JSONObject(response));
+                    storeUserInfoInSharedPrefWhileRegister2(signup_address.this, new JSONObject(response));
                     storeIsLoggedIn(signup_address.this, true);
                     progressBar.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                finishAffinity();
+                Toast.makeText(signup_address.this, "Signup Successful!!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), home.class));
+                finishAffinity();
 
 //                try {
 //                    JSONObject jsonObj = new JSONObject(response.toString());

@@ -103,26 +103,33 @@ public class profile extends AppCompatActivity {
             }
 
             if (getAddress_fl(profile.this) != null && !getAddress_fl(profile.this).equals("null")) {
-                address = getAddress_fl(profile.this);
+                if (!getAddress_fl(profile.this).equals(""))
+                    address = getAddress_fl(profile.this);
             }
             if (getAddress_sl(profile.this) != null && !getAddress_sl(profile.this).equals("null")) {
-                address = address + ", " + getAddress_sl(profile.this);
+                if (!getAddress_sl(profile.this).equals(""))
+                    address = address + ", " + getAddress_sl(profile.this);
             }
             if (getCity(profile.this) != null && !getCity(profile.this).equals("null")) {
-                address = address + ", " + getCity(profile.this);
+                if (!getCity(profile.this).equals(""))
+                    address = address + ", " + getCity(profile.this);
             }
-            if (getAddress_fl(profile.this) != null && !getAddress_fl(profile.this).equals("null")) {
+            if (!address.equals("")) {
                 profile_address.setText("Address: \t" + address);
                 profile_address.setVisibility(View.VISIBLE);
             } else {
-                profile_address.setVisibility(View.GONE);
+//                profile_address.setVisibility(View.GONE);
+                profile_address.setText("Address: \tN/A");
+                profile_address.setVisibility(View.VISIBLE);
             }
 
-            if (getZip(profile.this) != null && !getZip(profile.this).equals("null")) {
+            if (getZip(profile.this) != null && !getZip(profile.this).equals("null") && !getZip(profile.this).equals("")) {
                 profile_zip.setText("Zip: \t" + getZip(profile.this));
                 profile_zip.setVisibility(View.VISIBLE);
             } else {
-                profile_zip.setVisibility(View.GONE);
+//                profile_zip.setVisibility(View.GONE);
+                profile_zip.setText("Zip: \tN/A");
+                profile_zip.setVisibility(View.VISIBLE);
             }
         } catch (Exception e) {
             e.printStackTrace();

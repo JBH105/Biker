@@ -36,6 +36,8 @@ import static com.example.biker.Urls.signup_url;
 import static com.example.biker.Urls.signupid_url;
 import static com.example.biker.Urls.storeIsLoggedIn;
 import static com.example.biker.Urls.storeUserInfoInSharedPref;
+import static com.example.biker.Urls.storeUserInfoInSharedPrefWhileRegister1;
+import static com.example.biker.Urls.storeUserInfoInSharedPrefWhileRegister2;
 
 public class signup extends AppCompatActivity {
     TextInputEditText username,email,number;
@@ -149,6 +151,11 @@ public class signup extends AppCompatActivity {
 
                     String user_id = jsonObj.getJSONObject("user").getString("id");
                     Log.e("Responce22", user_id);
+                    try {
+                        storeUserInfoInSharedPrefWhileRegister1(signup.this, new JSONObject(response));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     signupidmethod(user_id);
 
 //                    Intent i = new Intent(getApplicationContext(), OTP.class);
@@ -254,14 +261,15 @@ public class signup extends AppCompatActivity {
 //                Toast.makeText(signup.this, "..... "+response, Toast.LENGTH_SHORT).show();
 //                progressBar.setVisibility(View.GONE);
                 try {
-                    storeUserInfoInSharedPref(signup.this, new JSONObject(response));
+                    storeUserInfoInSharedPrefWhileRegister2(signup.this, new JSONObject(response));
                     storeIsLoggedIn(signup.this, true);
                     progressBar.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                finishAffinity();
+                Toast.makeText(signup.this, "Signup Successful!!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), user_home.class));
+                finishAffinity();
 
 /*
                 try {

@@ -18,13 +18,34 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.example.biker.Urls.getAccountId;
+import static com.example.biker.Urls.vehicle_api_url;
+import static com.example.biker.user.user_service_data.getModel_id;
+import static com.example.biker.user.user_service_data.getVehicle_number;
+import static com.example.biker.user.user_service_data.getVehicleapi_id;
 import static com.example.biker.user.user_service_data.setProblem_image;
 import static com.example.biker.user.user_service_data.setProblem_image_flag;
 
@@ -75,6 +96,39 @@ public class upload_image extends AppCompatActivity {
         });
 
     }
+
+
+    @Override
+    public void onBackPressed() {
+        try {
+            new Thread() {
+                @Override
+                public void run() {
+                    deleteVehicleApiIdMethod();
+                }
+            }.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            new Thread() {
+                @Override
+                public void run() {
+                    deleteVehicleApiIdMethod();
+                }
+            }.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onDestroy();
+    }
+
+
 
 
     // Task Related to PROFILE IMAGE
@@ -148,12 +202,113 @@ public class upload_image extends AppCompatActivity {
 
                 } else if (grantResults[0] == PackageManager.PERMISSION_DENIED && grantResults[1] == PackageManager.PERMISSION_DENIED) {
                     //Snackbar.make(MainActivity.this,"Required Permissions DENIED",Snackbar.LENGTH_SHORT).show(); // Showing ERROR
-                    Toast.makeText(this, "Required Permissions DENIED, You can't set Profile Image until you grant required permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Required Permissions DENIED, You can't set Problem Image until you grant required permission", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
                 Toast.makeText(this, "Something went wrong..........", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    private void deleteVehicleApiIdMethod() {
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            if (getVehicle_number() == null || getModel_id() == null || getVehicleapi_id() == null)
+                wait(100);
+            if (getVehicleapi_id() == null)
+                return;
+            jsonBody.put("vehicle_number", getVehicle_number());
+            jsonBody.put("model_fk", getModel_id());
+            jsonBody.put("user",getAccountId(this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        final String requestBody = jsonBody.toString();
+
+        String delete_vehicle_api_url = vehicle_api_url + getVehicleapi_id();
+        StringRequest request = new StringRequest(Request.Method.DELETE, delete_vehicle_api_url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
+                Log.e("kk",getVehicleapi_id()+" ID Vehicle_Id is Deleted..");
+//                progressBar.setVisibility(View.GONE);
+/*
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    final String vehicle_api_id = jsonObject.getString("id");
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            storeVehicleApiId(vehicle_api_id);
+                        }
+                    }.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+*/
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                progressBar.setVisibility(View.GONE);
+                if(error.networkResponse.data!=null) {
+                    try {
+                        String errorMessage = new String(error.networkResponse.data,"UTF-8");
+//                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+//                    Toast.makeText(getApplicationContext(), "ERROR: "+error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        ) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 60000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 5;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(request);
+
+    }
+
 
 }

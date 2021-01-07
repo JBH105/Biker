@@ -356,7 +356,8 @@ public class add_vehicles extends AppCompatActivity {
     private static void getVehicleListMethod(final Context context) {
 
         addVehicleListScrollView.setVisibility(View.VISIBLE);
-        progressBarInsideRecyclerView.setVisibility(View.VISIBLE);
+        if (progressBar.getVisibility() != View.VISIBLE)
+            progressBarInsideRecyclerView.setVisibility(View.VISIBLE);
         // Clear List before getting Added Vehicle List
         myList.clear();
 

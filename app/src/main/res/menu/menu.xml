@@ -5,7 +5,7 @@
     tools:showIn="navigation_view">
 
     <group
-        android:checkableBehavior="single"
+        android:checkableBehavior="none"
         android:id="@+id/menu_top">
 
         <item

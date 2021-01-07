@@ -121,4 +121,12 @@ public class user_home extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerlayout.isDrawerOpen(navigation))
+            drawerlayout.closeDrawer(navigation);
+        else
+            super.onBackPressed();
+    }
 }

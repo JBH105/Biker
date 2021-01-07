@@ -110,6 +110,7 @@ ProgressBar progressBar;
                     storeUserInfoInSharedPref(login.this, new JSONObject(response));
                     storeIsLoggedIn(login.this, true);
                     progressBar.setVisibility(View.GONE);
+                    Toast.makeText(login.this, "Login Successful!!", Toast.LENGTH_SHORT).show();
                     if(getIsServicer(login.this))
 //                    if(new JSONObject(response).getJSONObject("account").getBoolean("is_servicer"))
                         startActivity(new Intent(getApplicationContext(), home.class));

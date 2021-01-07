@@ -44,7 +44,7 @@ public class MyListAddedVehiclesAdapter extends RecyclerView.Adapter<MyListAdded
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                Toast.makeText(view.getContext(), "click on item: " + myListData.getId(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(view.getContext(), "click on item: " + myListData.getId(), Toast.LENGTH_LONG).show();
 
                 // send delete request
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())

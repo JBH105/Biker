@@ -75,7 +75,7 @@ public class bike_service_location extends AppCompatActivity {
     Button submit;
     LocationManager locationManager;
     //
-    Boolean nearestLocationFlag = true;
+    Boolean nearestLocationFlag = false;
     List<MyListFindServiceData> myListData = new ArrayList<>();
     RecyclerView recyclerView;
     MyListFindServiceAdater adapter;
@@ -153,6 +153,7 @@ public class bike_service_location extends AppCompatActivity {
 
     }
 
+/*
     @Override
     public void onBackPressed() {
         try {
@@ -182,6 +183,7 @@ public class bike_service_location extends AppCompatActivity {
         }
         super.onDestroy();
     }
+*/
 
     public static void setProgressBarVisibility(int i) {
         progressBar.setVisibility(i);
@@ -280,6 +282,7 @@ public class bike_service_location extends AppCompatActivity {
 
     }
 
+/*
     private void deleteVehicleApiIdMethod() {
 
         JSONObject jsonBody = new JSONObject();
@@ -303,6 +306,7 @@ public class bike_service_location extends AppCompatActivity {
                 //Toast.makeText(login.this, ""+response, Toast.LENGTH_SHORT).show();
                 Log.e("kk",getVehicleapi_id()+" ID Vehicle_Id is Deleted..");
 //                progressBar.setVisibility(View.GONE);
+*/
 /*
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -316,7 +320,8 @@ public class bike_service_location extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-*/
+*//*
+
 
             }
         }, new Response.ErrorListener() {
@@ -378,8 +383,11 @@ public class bike_service_location extends AppCompatActivity {
         requestQueue.add(request);
 
     }
+*/
 
     private void findServicersMethod() throws InterruptedException {
+        noServicerTextView.setVisibility(View.GONE);
+        myListData.clear();
         progressBarInsideRecyclerView.setVisibility(View.VISIBLE);
         if (getVehicleapi_id() == null)
             wait(100);
@@ -394,13 +402,14 @@ public class bike_service_location extends AppCompatActivity {
                     if (response.trim().equals("[]")) {
                         if (nearestLocationFlag) {
                             getLocationNearest();
-                            nearestLocationFlag = false;
+//                            nearestLocationFlag = false;
                         }
                         progressBarInsideRecyclerView.setVisibility(View.GONE);
                         noServicerTextView.setVisibility(View.VISIBLE);
                     } else {
                         noServicerTextView.setVisibility(View.GONE);
                     }
+                    nearestLocationFlag = false;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -637,6 +646,7 @@ public class bike_service_location extends AppCompatActivity {
                         public void onLocationChanged(@NonNull Location location) {
                             Log.i("kkkk", location.getLatitude() + "," + location.getLongitude());
                             try {
+                                nearestLocationFlag = true;
                                 progressBar.setVisibility(View.GONE);
                                 Geocoder geocoder = new Geocoder(bike_service_location.this, Locale.getDefault());
                                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);

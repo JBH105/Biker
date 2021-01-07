@@ -50,6 +50,35 @@ public class Urls {
             e.printStackTrace();
         }
     }
+    public static void storeUserInfoInSharedPrefWhileRegister1(Context context, JSONObject jsonObject) {
+        try {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = preferences.edit();
+            JSONObject jsonObjectUser = jsonObject.getJSONObject("user");
+            editor.putInt("user_id", jsonObjectUser.getInt("id"));
+            editor.putString("email", jsonObjectUser.getString("email"));
+            editor.putString("username", jsonObjectUser.getString("username"));
+            editor.commit();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void storeUserInfoInSharedPrefWhileRegister2(Context context, JSONObject jsonObject) {
+        try {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("account_id", jsonObject.getInt("id"));
+            editor.putString("address_fl", jsonObject.getString("address_fl"));
+            editor.putString("address_sl", jsonObject.getString("address_sl"));
+            editor.putString("city", jsonObject.getString("city"));
+            editor.putString("zip", jsonObject.getString("zip"));
+            editor.putString("mobile", jsonObject.getString("mobile"));
+            editor.putBoolean("is_servicer", jsonObject.getBoolean("is_servicer"));
+            editor.commit();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     public static void storeIsLoggedIn(Context context, Boolean value) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
